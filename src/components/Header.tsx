@@ -1,7 +1,8 @@
 
 import React from 'react';
-import { Search, Bell, Menu, Sparkles } from 'lucide-react';
+import { Bell, Menu, Sparkles } from 'lucide-react';
 import { useLanguage } from '../hooks/useLanguage';
+import SearchBar from './SearchBar';
 
 const Header = () => {
   const { t, isRTL } = useLanguage();
@@ -42,28 +43,7 @@ const Header = () => {
         </div>
         
         {/* Enhanced search bar */}
-        <div className="relative group">
-          <div className="absolute inset-0 bg-gradient-to-r from-white/20 to-white/10 rounded-3xl blur-sm group-hover:blur-none transition-all duration-300"></div>
-          <div className="relative glass-card rounded-3xl p-1 shadow-xl">
-            <div className="flex items-center">
-              <div className={`p-4 ${isRTL ? 'mr-2' : 'ml-2'}`}>
-                <Search className="w-5 h-5 text-gray-500 group-hover:text-blue-600 transition-colors duration-200" />
-              </div>
-              <input
-                type="text"
-                placeholder={t('searchPlaceholder')}
-                className={`flex-1 bg-transparent border-0 py-4 text-gray-700 placeholder-gray-500 focus:outline-none font-medium ${
-                  isRTL ? 'pr-4 text-right' : 'pl-0 text-left'
-                }`}
-              />
-              <div className={`p-2 ${isRTL ? 'ml-3' : 'mr-3'}`}>
-                <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-xl flex items-center justify-center shadow-md">
-                  <Search className="w-4 h-4 text-white" />
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+        <SearchBar />
       </div>
     </div>
   );

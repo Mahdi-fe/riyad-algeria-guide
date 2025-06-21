@@ -10,6 +10,8 @@ import EmergencyModal from '../components/EmergencyModal';
 import SettingsModal from '../components/SettingsModal';
 import SectorDetail from '../components/SectorDetail';
 import LegalConsultationPayment from '../components/LegalConsultationPayment';
+import LocationSearch from '../components/LocationSearch';
+import DocumentTemplates from '../components/DocumentTemplates';
 
 const Index = () => {
   const [userType, setUserType] = useState<string | null>(null);
@@ -18,6 +20,8 @@ const Index = () => {
   const [isEmergencyModalOpen, setIsEmergencyModalOpen] = useState(false);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
   const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
+  const [isLocationSearchOpen, setIsLocationSearchOpen] = useState(false);
+  const [isDocumentTemplatesOpen, setIsDocumentTemplatesOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
 
   const handleSectorClick = (sector: string) => {
@@ -33,10 +37,13 @@ const Index = () => {
         setIsPaymentModalOpen(true);
         break;
       case 'templates':
-        console.log('Opening document templates');
+        setIsDocumentTemplatesOpen(true);
+        break;
+      case 'location':
+        setIsLocationSearchOpen(true);
         break;
       default:
-        console.log(`Action clicked: ${action}`);
+        console.log(`Action clicke: ${action}`);
     }
   };
 
@@ -81,10 +88,40 @@ const Index = () => {
                     <h2 className="text-2xl font-bold text-gray-800 mb-2">ملفاتي</h2>
                     <div className="w-16 h-1 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full"></div>
                   </div>
-                  <div className="text-center text-gray-500 mt-12 card-enhanced p-8">
-                    <div className="text-6xl mb-4 animate-float">📁</div>
-                    <p className="font-semibold text-lg mb-2">لا توجد ملفات حتى الآن</p>
-                    <p className="text-sm text-gray-400">ابدأ بتحديد قطاع حكومي لإدارة ملفاتك</p>
+                  
+                  {/* إضافة محتوى تفاعلي لقسم الملفات */}
+                  <div className="space-y-4">
+                    <div className="card-enhanced p-6">
+                      <div className="flex items-start gap-4">
+                        <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-500 rounded-xl flex items-center justify-center">
+                          <span className="text-white font-bold">01</span>
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="font-bold text-gray-800 mb-1">طلب شهادة الميلاد</h3>
+                          <p className="text-sm text-gray-600 mb-3">مقدم إلى بلدية الجزائر الوسطى</p>
+                          <div className="flex items-center gap-4 text-xs">
+                            <span className="px-3 py-1 bg-yellow-100 text-yellow-700 rounded-full">قيد المعالجة</span>
+                            <span className="text-gray-500">باقي يومين</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div className="card-enhanced p-6">
+                      <div className="flex items-start gap-4">
+                        <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-xl flex items-center justify-center">
+                          <span className="text-white font-bold">02</span>
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="font-bold text-gray-800 mb-1">طلب صحيفة السوابق</h3>
+                          <p className="text-sm text-gray-600 mb-3">مقدم إلى المحكمة الابتدائية</p>
+                          <div className="flex items-center gap-4 text-xs">
+                            <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full">جاهز للاستلام</span>
+                            <span className="text-gray-500">منذ 3 أيام</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               )}
@@ -110,6 +147,22 @@ const Index = () => {
                           {userType === 'officer' && 'موظف إداري'}
                           {userType === 'business' && 'صاحب مؤسسة'}
                         </p>
+                      </div>
+                      
+                      {/* إضافة أزرار تفاعلية */}
+                      <div className="space-y-3">
+                        <button 
+                          onClick={() => setIsLocationSearchOpen(true)}
+                          className="w-full btn-primary py-3"
+                        >
+                          البحث عن أقرب إدارة
+                        </button>
+                        <button 
+                          onClick={() => setIsDocumentTemplatesOpen(true)}
+                          className="w-full btn-secondary py-3"
+                        >
+                          تحميل النماذج
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -137,6 +190,16 @@ const Index = () => {
           isOpen={isPaymentModalOpen}
           onClose={() => setIsPaymentModalOpen(false)}
           serviceType="general"
+        />
+
+        <LocationSearch
+          isOpen={isLocationSearchOpen}
+          onClose={() => setIsLocationSearchOpen(false)}
+        />
+
+        <DocumentTemplates
+          isOpen={isDocumentTemplatesOpen}
+          onClose={() => setIsDocumentTemplatesOpen(false)}
         />
       </div>
     </LanguageProvider>

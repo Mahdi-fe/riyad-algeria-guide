@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { ArrowLeft, ArrowRight, Clock, FileText, MapPin, Phone, AlertCircle, Download, Calendar } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Clock, FileText, MapPin, Phone, AlertCircle, Download, Calendar, Star, Users } from 'lucide-react';
 import { useLanguage } from '../hooks/useLanguage';
 
 interface SectorDetailProps {
@@ -23,10 +23,12 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, onBack }) => {
           name: 'شهادة الميلاد',
           nameFr: 'Acte de Naissance',
           description: 'استخراج نسخة من شهادة الميلاد',
-          requirements: ['بطاقة التعريف الوطنية', 'صورة شمسية', 'دفع الرسوم'],
+          requirements: ['بطاقة التعريف الوطنية', 'صورة شمسية', 'دفع الرسوم (200 دج)'],
           deadline: '24 ساعة',
           fee: '200 دج',
-          location: 'مكتب الحالة المدنية - البلدية'
+          location: 'مكتب الحالة المدنية - البلدية',
+          rating: 4.5,
+          completionRate: 95
         },
         {
           id: 'residence_certificate',
@@ -36,7 +38,21 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, onBack }) => {
           requirements: ['بطاقة التعريف', 'فاتورة كهرباء حديثة', 'شاهدين'],
           deadline: '48 ساعة',
           fee: '150 دج',
-          location: 'مصلحة الشؤون الإدارية'
+          location: 'مصلحة الشؤون الإدارية',
+          rating: 4.3,
+          completionRate: 92
+        },
+        {
+          id: 'building_permit',
+          name: 'رخصة البناء',
+          nameFr: 'Permis de Construire',
+          description: 'رخصة للبناء والتشييد',
+          requirements: ['سند الملكية', 'مخطط البناء', 'دراسة فنية', 'رسوم التسجيل'],
+          deadline: '30 يوم',
+          fee: '5000 دج',
+          location: 'مصلحة التعمير والبناء',
+          rating: 4.1,
+          completionRate: 87
         }
       ]
     },
@@ -53,7 +69,9 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, onBack }) => {
           requirements: ['بطاقة التعريف', 'صورة شمسية', 'طابع جبائي'],
           deadline: '7 أيام',
           fee: '300 دج',
-          location: 'المحكمة الابتدائية'
+          location: 'المحكمة الابتدائية',
+          rating: 4.4,
+          completionRate: 89
         },
         {
           id: 'legal_consultation',
@@ -64,7 +82,21 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, onBack }) => {
           deadline: 'فوري',
           fee: 'حسب نوع الخدمة',
           location: 'عبر التطبيق أو مكتب المحامي',
-          isPaid: true
+          isPaid: true,
+          rating: 4.7,
+          completionRate: 96
+        },
+        {
+          id: 'notarization',
+          name: 'التوثيق',
+          nameFr: 'Authentification',
+          description: 'توثيق الوثائق والعقود',
+          requirements: ['الوثائق الأصلية', 'بطاقة التعريف', 'رسوم التوثيق'],
+          deadline: '1-3 أيام',
+          fee: '500-2000 دج',
+          location: 'مكتب الكاتب العمومي',
+          rating: 4.2,
+          completionRate: 94
         }
       ]
     },
@@ -81,7 +113,9 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, onBack }) => {
           requirements: ['بطاقة التأمين الصحي', 'بطاقة التعريف'],
           deadline: 'حسب التوفر',
           fee: 'مجاني للمؤمنين',
-          location: 'المستشفى أو العيادة المختارة'
+          location: 'المستشفى أو العيادة المختارة',
+          rating: 4.0,
+          completionRate: 78
         },
         {
           id: 'health_certificate',
@@ -91,7 +125,21 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, onBack }) => {
           requirements: ['بطاقة التعريف', 'فحص طبي'],
           deadline: '2-3 أيام',
           fee: '500 دج',
-          location: 'المستشفى العمومي'
+          location: 'المستشفى العمومي',
+          rating: 4.3,
+          completionRate: 91
+        },
+        {
+          id: 'health_card',
+          name: 'بطاقة الشفاء',
+          nameFr: 'Carte Chifa',
+          description: 'استخراج أو تجديد بطاقة الشفاء',
+          requirements: ['استمارة التأمين', 'صورة شمسية', 'إثبات العمل'],
+          deadline: '10 أيام',
+          fee: '200 دج',
+          location: 'صندوق الضمان الاجتماعي',
+          rating: 3.9,
+          completionRate: 85
         }
       ]
     }
@@ -104,7 +152,6 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, onBack }) => {
   }
 
   const handlePaymentForLegalConsultation = (serviceType: string) => {
-    // This would open payment modal for legal consultation only
     console.log(`Opening payment for legal consultation: ${serviceType}`);
   };
 
@@ -148,13 +195,16 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, onBack }) => {
                   <p className="text-gray-500 text-sm mb-2">{service.nameFr}</p>
                   <p className="text-gray-600 text-sm">{service.description}</p>
                 </div>
-                {service.isPaid && (
-                  <div className="px-3 py-1 bg-gradient-to-r from-green-500 to-emerald-500 text-white text-xs rounded-full font-semibold">
-                    مدفوع
-                  </div>
-                )}
+                <div className="flex items-center gap-2">
+                  {service.isPaid && (
+                    <div className="px-3 py-1 bg-gradient-to-r from-green-500 to-emerald-500 text-white text-xs rounded-full font-semibold">
+                      مدفوع
+                    </div>
+                  )}
+                </div>
               </div>
 
+              {/* معلومات إضافية */}
               <div className="grid grid-cols-2 gap-4 mb-4">
                 <div className="flex items-center gap-2">
                   <Clock className="w-4 h-4 text-blue-600" />
@@ -169,6 +219,18 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, onBack }) => {
               <div className="flex items-center gap-2 mb-4">
                 <MapPin className="w-4 h-4 text-red-600" />
                 <span className="text-sm text-gray-600">{service.location}</span>
+              </div>
+
+              {/* إحصائيات الخدمة */}
+              <div className="flex items-center gap-6 mb-4 p-3 bg-gray-50 rounded-xl">
+                <div className="flex items-center gap-2">
+                  <Star className="w-4 h-4 text-yellow-500 fill-current" />
+                  <span className="text-sm font-medium">{service.rating}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Users className="w-4 h-4 text-blue-500" />
+                  <span className="text-sm text-gray-600">معدل الإنجاز {service.completionRate}%</span>
+                </div>
               </div>
 
               <button

@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { MessageCircle, Phone, Download, Zap } from 'lucide-react';
+import { MessageCircle, Phone, Download, Zap, MapPin } from 'lucide-react';
 import { useLanguage } from '../hooks/useLanguage';
 
 interface QuickActionsProps {
@@ -31,6 +31,13 @@ const QuickActions: React.FC<QuickActionsProps> = ({ onActionClick }) => {
       icon: <Download className="w-6 h-6" />, 
       gradient: 'from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700',
       shadowColor: 'shadow-blue-500/25 hover:shadow-blue-500/40'
+    },
+    { 
+      id: 'location', 
+      title: 'البحث عن أقرب إدارة', 
+      icon: <MapPin className="w-6 h-6" />, 
+      gradient: 'from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700',
+      shadowColor: 'shadow-purple-500/25 hover:shadow-purple-500/40'
     },
   ];
 
