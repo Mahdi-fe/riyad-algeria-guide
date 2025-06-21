@@ -52,8 +52,8 @@ const Index = () => {
 
   return (
     <LanguageProvider>
-      <div className={`min-h-screen bg-gray-50 ${darkMode ? 'dark' : ''}`}>
-        <div className="max-w-md mx-auto bg-white shadow-lg min-h-screen flex flex-col">
+      <div className={`min-h-screen bg-gradient-to-br from-gray-50 via-blue-50/30 to-indigo-50/20 ${darkMode ? 'dark' : ''}`}>
+        <div className="max-w-md mx-auto bg-white/80 backdrop-blur-lg shadow-2xl min-h-screen flex flex-col">
           <Header />
           
           <div className="flex-1 overflow-y-auto">
@@ -65,24 +65,28 @@ const Index = () => {
             )}
             
             {activeTab === 'files' && (
-              <div className="p-4">
-                <h2 className="text-lg font-semibold text-gray-800 mb-4">My Files</h2>
-                <div className="text-center text-gray-500 mt-8">
-                  <p>No files yet. Start by selecting a government sector.</p>
+              <div className="p-6">
+                <h2 className="text-2xl font-bold text-gray-800 mb-6">My Files</h2>
+                <div className="text-center text-gray-500 mt-12 bg-white rounded-2xl p-8 shadow-lg">
+                  <div className="text-6xl mb-4">📁</div>
+                  <p className="font-semibold">No files yet. Start by selecting a government sector.</p>
                 </div>
               </div>
             )}
             
             {activeTab === 'profile' && (
-              <div className="p-4">
-                <h2 className="text-lg font-semibold text-gray-800 mb-4">Profile</h2>
-                <div className="bg-white rounded-xl p-4 border border-gray-200">
+              <div className="p-6">
+                <h2 className="text-2xl font-bold text-gray-800 mb-6">Profile</h2>
+                <div className="bg-white rounded-3xl p-8 shadow-xl border border-gray-100">
                   <div className="text-center">
-                    <div className="w-20 h-20 bg-blue-500 rounded-full mx-auto mb-4 flex items-center justify-center text-white text-2xl font-bold">
+                    <div className="w-24 h-24 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full mx-auto mb-6 flex items-center justify-center text-white text-3xl font-bold shadow-lg">
                       A
                     </div>
-                    <h3 className="font-semibold text-gray-800">Ahmed Benali</h3>
-                    <p className="text-gray-500">ahmed.benali@email.com</p>
+                    <h3 className="text-xl font-bold text-gray-800 mb-2">Ahmed Benali</h3>
+                    <p className="text-gray-500 text-lg">ahmed.benali@email.com</p>
+                    <div className="mt-6 p-4 bg-blue-50 rounded-2xl">
+                      <p className="text-blue-700 font-semibold">مواطن جزائري</p>
+                    </div>
                   </div>
                 </div>
               </div>
