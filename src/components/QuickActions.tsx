@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { MessageCircle, Phone, Download, CreditCard, Zap } from 'lucide-react';
+import { MessageCircle, Phone, Download, Zap } from 'lucide-react';
 import { useLanguage } from '../hooks/useLanguage';
 
 interface QuickActionsProps {
@@ -13,31 +13,24 @@ const QuickActions: React.FC<QuickActionsProps> = ({ onActionClick }) => {
   const actions = [
     { 
       id: 'consultation', 
-      title: t('legalConsultation'), 
+      title: 'الاستشارة القانونية المدفوعة', 
       icon: <MessageCircle className="w-6 h-6" />, 
-      gradient: 'from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700',
-      shadowColor: 'shadow-blue-500/25 hover:shadow-blue-500/40'
+      gradient: 'from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700',
+      shadowColor: 'shadow-green-500/25 hover:shadow-green-500/40'
     },
     { 
       id: 'emergency', 
-      title: t('emergency'), 
+      title: 'حالات الطوارئ', 
       icon: <Phone className="w-6 h-6" />, 
       gradient: 'from-red-500 to-red-600 hover:from-red-600 hover:to-red-700',
       shadowColor: 'shadow-red-500/25 hover:shadow-red-500/40'
     },
     { 
       id: 'templates', 
-      title: t('downloadTemplates'), 
+      title: 'تحميل النماذج', 
       icon: <Download className="w-6 h-6" />, 
-      gradient: 'from-emerald-500 to-emerald-600 hover:from-emerald-600 hover:to-emerald-700',
-      shadowColor: 'shadow-emerald-500/25 hover:shadow-emerald-500/40'
-    },
-    { 
-      id: 'payment', 
-      title: t('onlinePayment'), 
-      icon: <CreditCard className="w-6 h-6" />, 
-      gradient: 'from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700',
-      shadowColor: 'shadow-purple-500/25 hover:shadow-purple-500/40'
+      gradient: 'from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700',
+      shadowColor: 'shadow-blue-500/25 hover:shadow-blue-500/40'
     },
   ];
 
@@ -50,14 +43,14 @@ const QuickActions: React.FC<QuickActionsProps> = ({ onActionClick }) => {
             <Zap className="w-5 h-5 text-white" />
           </div>
           <h2 className={`text-2xl font-bold text-gray-800 ${isRTL ? 'text-right' : 'text-left'}`}>
-            {t('quickActions')}
+            الإجراءات السريعة
           </h2>
         </div>
         <div className="w-16 h-1 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full"></div>
       </div>
       
       {/* Enhanced action grid */}
-      <div className="grid grid-cols-2 gap-5">
+      <div className="grid grid-cols-1 gap-5">
         {actions.map((action, index) => (
           <div
             key={action.id}
@@ -68,13 +61,15 @@ const QuickActions: React.FC<QuickActionsProps> = ({ onActionClick }) => {
             {/* Background decoration */}
             <div className="absolute top-0 right-0 w-16 h-16 bg-white/10 rounded-full -translate-y-6 translate-x-6 group-hover:scale-150 transition-transform duration-500"></div>
             
-            <div className="relative z-10 flex flex-col items-start gap-4">
+            <div className="relative z-10 flex items-center gap-4">
               <div className="p-3 bg-white/20 rounded-xl backdrop-blur-sm group-hover:bg-white/30 transition-colors duration-300 group-hover:scale-110 transform transition-transform duration-300">
                 {action.icon}
               </div>
-              <span className={`font-semibold text-sm leading-tight ${isRTL ? 'text-right' : 'text-left'} group-hover:text-white/90 transition-colors duration-200`}>
-                {action.title}
-              </span>
+              <div className="flex-1">
+                <span className={`font-semibold text-base leading-tight ${isRTL ? 'text-right' : 'text-left'} group-hover:text-white/90 transition-colors duration-200`}>
+                  {action.title}
+                </span>
+              </div>
             </div>
             
             {/* Shimmer effect on hover */}

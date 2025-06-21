@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState } from 'react';
 
 type Language = 'ar' | 'fr' | 'en';
@@ -23,10 +22,9 @@ const translations = {
     employment: 'التشغيل',
     civilStatus: 'الحالة المدنية',
     quickActions: 'الإجراءات السريعة',
-    legalConsultation: 'الاستشارة القانونية',
-    emergency: 'الطوارئ',
+    legalConsultation: 'الاستشارة القانونية المدفوعة',
+    emergency: 'حالات الطوارئ',
     downloadTemplates: 'تحميل النماذج',
-    onlinePayment: 'الدفع الإلكتروني',
     home: 'الرئيسية',
     myFiles: 'ملفاتي',
     profile: 'الملف الشخصي',
@@ -39,10 +37,10 @@ const translations = {
     darkMode: 'الوضع الداكن',
     notifications: 'الإشعارات',
     emergencyNumbers: 'أرقام الطوارئ',
-    police: 'الشرطة: 17',
-    gendarmerie: 'الدرك الوطني: 1055',
-    ambulance: 'الإسعاف: 14',
-    civilProtection: 'الحماية المدنية: 14'
+    police: 'الشرطة',
+    gendarmerie: 'الدرك الوطني',
+    ambulance: 'الإسعاف',
+    civilProtection: 'الحماية المدنية'
   },
   fr: {
     searchPlaceholder: 'Rechercher des dossiers, délais et services...',
@@ -56,10 +54,9 @@ const translations = {
     employment: 'Emploi',
     civilStatus: 'État Civil',
     quickActions: 'Actions Rapides',
-    legalConsultation: 'Consultation Juridique',
+    legalConsultation: 'Consultation Juridique Payante',
     emergency: 'Urgence',
     downloadTemplates: 'Télécharger Modèles',
-    onlinePayment: 'Paiement en Ligne',
     home: 'Accueil',
     myFiles: 'Mes Dossiers',
     profile: 'Profil',
@@ -72,10 +69,10 @@ const translations = {
     darkMode: 'Mode Sombre',
     notifications: 'Notifications',
     emergencyNumbers: 'Numéros d\'Urgence',
-    police: 'Police: 17',
-    gendarmerie: 'Gendarmerie: 1055',
-    ambulance: 'Ambulance: 14',
-    civilProtection: 'Protection Civile: 14'
+    police: 'Police',
+    gendarmerie: 'Gendarmerie',
+    ambulance: 'Ambulance',
+    civilProtection: 'Protection Civile'
   },
   en: {
     searchPlaceholder: 'Search for files, deadlines and services...',
@@ -89,10 +86,9 @@ const translations = {
     employment: 'Employment',
     civilStatus: 'Civil Status',
     quickActions: 'Quick Actions',
-    legalConsultation: 'Legal Consultation',
+    legalConsultation: 'Paid Legal Consultation',
     emergency: 'Emergency',
     downloadTemplates: 'Download Templates',
-    onlinePayment: 'Online Payment',
     home: 'Home',
     myFiles: 'My Files',
     profile: 'Profile',
@@ -105,10 +101,10 @@ const translations = {
     darkMode: 'Dark Mode',
     notifications: 'Notifications',
     emergencyNumbers: 'Emergency Numbers',
-    police: 'Police: 17',
-    gendarmerie: 'Gendarmerie: 1055',
-    ambulance: 'Ambulance: 14',
-    civilProtection: 'Civil Protection: 14'
+    police: 'Police',
+    gendarmerie: 'Gendarmerie',
+    ambulance: 'Ambulance',
+    civilProtection: 'Civil Protection'
   }
 };
 
