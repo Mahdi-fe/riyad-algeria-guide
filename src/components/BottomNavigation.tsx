@@ -19,9 +19,12 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({ activeTab, onTabCha
   ];
 
   return (
-    <div className={`bg-white/95 backdrop-blur-md border-t border-gray-200/50 px-4 py-3 shadow-2xl ${isRTL ? 'rtl' : 'ltr'}`}>
-      <div className="flex justify-around">
-        {tabs.map((tab) => {
+    <div className={`glass-card border-t-0 px-6 py-4 ${isRTL ? 'rtl' : 'ltr'}`}>
+      {/* Indicator bar */}
+      <div className="w-12 h-1 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full mx-auto mb-4 opacity-30"></div>
+      
+      <div className="flex justify-around items-center">
+        {tabs.map((tab, index) => {
           const Icon = tab.icon;
           const isActive = activeTab === tab.id;
           
@@ -29,14 +32,29 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({ activeTab, onTabCha
             <button
               key={tab.id}
               onClick={() => onTabChange(tab.id)}
-              className={`flex flex-col items-center py-2 px-4 rounded-2xl transition-all duration-300 ${
+              className={`flex flex-col items-center py-3 px-5 rounded-2xl transition-all duration-300 relative group ${
                 isActive 
-                  ? 'text-blue-600 bg-blue-50 transform scale-105 shadow-lg' 
-                  : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50'
+                  ? 'text-blue-600 bg-blue-50/80 shadow-lg scale-105' 
+                  : 'text-gray-500 hover:text-gray-700 hover:bg-gray-50/80'
               }`}
             >
-              <Icon className={`w-6 h-6 mb-1 ${isActive ? 'animate-bounce' : ''}`} />
-              <span className="text-xs font-semibold">{tab.title}</span>
+              {/* Active indicator */}
+              {isActive && (
+                <div className="absolute -top-1 left-1/2 transform -translate-x-1/2 w-2 h-2 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full shadow-lg animate-pulse-soft"></div>
+              )}
+              
+              {/* Icon with enhanced animation */}
+              <div className={`mb-1 transition-transform duration-300 ${isActive ? 'animate-bounce' : 'group-hover:scale-110'}`}>
+                <Icon className="w-6 h-6" />
+              </div>
+              
+              {/* Label with better typography */}
+              <span className={`text-xs font-semibold tracking-wide ${isActive ? 'text-blue-700' : ''}`}>
+                {tab.title}
+              </span>
+              
+              {/* Hover effect background */}
+              <div className={`absolute inset-0 rounded-2xl bg-gradient-to-r from-blue-500/0 to-indigo-500/0 group-hover:from-blue-500/5 group-hover:to-indigo-500/5 transition-all duration-300 ${isActive ? 'from-blue-500/10 to-indigo-500/10' : ''}`}></div>
             </button>
           );
         })}
