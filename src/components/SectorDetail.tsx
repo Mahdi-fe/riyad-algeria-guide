@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { ArrowLeft, ArrowRight, Clock, FileText, MapPin, Phone, AlertCircle, Download, Calendar, Star, Users, Building, CreditCard } from 'lucide-react';
 import { useLanguage } from '../hooks/useLanguage';
@@ -7,11 +8,46 @@ interface SectorDetailProps {
   onBack: () => void;
 }
 
+interface Service {
+  id: string;
+  name: string;
+  description: string;
+  requirements: string[];
+  deadline: string;
+  fee: string;
+  location: string;
+  rating: number;
+  completionRate: number;
+  isPaid?: boolean;
+}
+
+interface Subsection {
+  id: string;
+  name: string;
+  services: Service[];
+}
+
+interface SectorWithSubsections {
+  title: string;
+  titleFr: string;
+  icon: string;
+  subsections: Subsection[];
+}
+
+interface SectorWithServices {
+  title: string;
+  titleFr: string;
+  icon: string;
+  services: Service[];
+}
+
+type SectorData = SectorWithSubsections | SectorWithServices;
+
 const SectorDetail: React.FC<SectorDetailProps> = ({ sector, onBack }) => {
   const { t, isRTL } = useLanguage();
   const [activeService, setActiveService] = useState<string | null>(null);
 
-  const sectorData = {
+  const sectorData: Record<string, SectorData> = {
     local: {
       title: 'الإدارة المحلية',
       titleFr: 'Administration Locale',
@@ -457,11 +493,105 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, onBack }) => {
     }
   };
 
-  const currentSector = sectorData[sector as keyof typeof sectorData];
+  const currentSector = sectorData[sector];
 
   if (!currentSector) {
     return <div>قطاع غير موجود</div>;
   }
+
+  // Type guard functions
+  const hasSubsections = (sector: SectorData): sector is SectorWithSubsections => {
+    return 'subsections' in sector;
+  };
+
+  const hasServices = (sector: SectorData): sector is SectorWithServices => {
+    return 'services' in sector;
+  };
+
+  const renderService = (service: Service, index: number) => (
+    <div
+      key={service.id}
+      className="card-enhanced p-6 animate-slide-up"
+      style={{animationDelay: `${index * 0.1}s`}}
+    >
+      <div className="flex items-start justify-between mb-4">
+        <div className="flex-1">
+          <h3 className="text-lg font-bold text-gray-800 mb-1">{service.name}</h3>
+          <p className="text-gray-600 text-sm">{service.description}</p>
+        </div>
+        {service.isPaid && (
+          <div className="px-3 py-1 bg-gradient-to-r from-green-500 to-emerald-500 text-white text-xs rounded-full font-semibold">
+            مدفوع
+          </div>
+        )}
+      </div>
+
+      <div className="grid grid-cols-2 gap-4 mb-4">
+        <div className="flex items-center gap-2">
+          <Clock className="w-4 h-4 text-blue-600" />
+          <span className="text-sm text-gray-600">{service.deadline}</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <CreditCard className="w-4 h-4 text-green-600" />
+          <span className="text-sm text-gray-600">{service.fee}</span>
+        </div>
+      </div>
+
+      <div className="flex items-center gap-2 mb-4">
+        <MapPin className="w-4 h-4 text-red-600" />
+        <span className="text-sm text-gray-600">{service.location}</span>
+      </div>
+
+      <div className="flex items-center gap-6 mb-4 p-3 bg-gray-50 rounded-xl">
+        <div className="flex items-center gap-2">
+          <Star className="w-4 h-4 text-yellow-500 fill-current" />
+          <span className="text-sm font-medium">{service.rating}</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <Users className="w-4 h-4 text-blue-500" />
+          <span className="text-sm text-gray-600">معدل الإنجاز {service.completionRate}%</span>
+        </div>
+      </div>
+
+      <button
+        onClick={() => setActiveService(activeService === service.id ? null : service.id)}
+        className="w-full btn-primary text-sm py-3"
+      >
+        {activeService === service.id ? 'إخفاء التفاصيل' : 'عرض المتطلبات والتفاصيل'}
+      </button>
+
+      {activeService === service.id && (
+        <div className="mt-4 p-4 bg-gray-50 rounded-2xl animate-slide-up">
+          <h4 className="font-semibold text-gray-800 mb-3">المتطلبات:</h4>
+          <ul className="space-y-2 mb-4">
+            {service.requirements.map((req, i) => (
+              <li key={i} className="flex items-center gap-2">
+                <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
+                <span className="text-sm text-gray-700">{req}</span>
+              </li>
+            ))}
+          </ul>
+          
+          <div className="flex gap-3">
+            <button className="flex-1 btn-secondary text-sm py-3">
+              <Calendar className="w-4 h-4 mr-2" />
+              حجز موعد
+            </button>
+            {service.isPaid ? (
+              <button className="flex-1 bg-gradient-to-r from-green-500 to-emerald-500 text-white font-semibold px-6 py-3 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 ease-out text-sm">
+                دفع وحجز
+              </button>
+            ) : (
+              <button className="flex-1 btn-primary text-sm py-3">
+                <Download className="w-4 h-4 mr-2" />
+                تحميل النموذج
+              </button>
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  );
 
   return (
     <div className={`min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/20 ${isRTL ? 'rtl' : 'ltr'}`}>
@@ -489,7 +619,7 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, onBack }) => {
 
         <div className="p-6 space-y-6">
           {/* للإدارة المحلية - عرض الأقسام الفرعية */}
-          {currentSector.subsections ? (
+          {hasSubsections(currentSector) ? (
             currentSector.subsections.map((subsection) => (
               <div key={subsection.id} className="space-y-4">
                 <div className="flex items-center gap-3 mb-4">
@@ -497,178 +627,16 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, onBack }) => {
                   <h2 className="text-xl font-bold text-gray-800">{subsection.name}</h2>
                 </div>
                 
-                {subsection.services.map((service, index) => (
-                  <div
-                    key={service.id}
-                    className="card-enhanced p-6 animate-slide-up"
-                    style={{animationDelay: `${index * 0.1}s`}}
-                  >
-                    {/* ... keep existing service rendering code */}
-                    <div className="flex items-start justify-between mb-4">
-                      <div className="flex-1">
-                        <h3 className="text-lg font-bold text-gray-800 mb-1">{service.name}</h3>
-                        <p className="text-gray-600 text-sm">{service.description}</p>
-                      </div>
-                      {service.isPaid && (
-                        <div className="px-3 py-1 bg-gradient-to-r from-green-500 to-emerald-500 text-white text-xs rounded-full font-semibold">
-                          مدفوع
-                        </div>
-                      )}
-                    </div>
-
-                    <div className="grid grid-cols-2 gap-4 mb-4">
-                      <div className="flex items-center gap-2">
-                        <Clock className="w-4 h-4 text-blue-600" />
-                        <span className="text-sm text-gray-600">{service.deadline}</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <CreditCard className="w-4 h-4 text-green-600" />
-                        <span className="text-sm text-gray-600">{service.fee}</span>
-                      </div>
-                    </div>
-
-                    <div className="flex items-center gap-2 mb-4">
-                      <MapPin className="w-4 h-4 text-red-600" />
-                      <span className="text-sm text-gray-600">{service.location}</span>
-                    </div>
-
-                    <div className="flex items-center gap-6 mb-4 p-3 bg-gray-50 rounded-xl">
-                      <div className="flex items-center gap-2">
-                        <Star className="w-4 h-4 text-yellow-500 fill-current" />
-                        <span className="text-sm font-medium">{service.rating}</span>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <Users className="w-4 h-4 text-blue-500" />
-                        <span className="text-sm text-gray-600">معدل الإنجاز {service.completionRate}%</span>
-                      </div>
-                    </div>
-
-                    <button
-                      onClick={() => setActiveService(activeService === service.id ? null : service.id)}
-                      className="w-full btn-primary text-sm py-3"
-                    >
-                      {activeService === service.id ? 'إخفاء التفاصيل' : 'عرض المتطلبات والتفاصيل'}
-                    </button>
-
-                    {activeService === service.id && (
-                      <div className="mt-4 p-4 bg-gray-50 rounded-2xl animate-slide-up">
-                        <h4 className="font-semibold text-gray-800 mb-3">المتطلبات:</h4>
-                        <ul className="space-y-2 mb-4">
-                          {service.requirements.map((req, i) => (
-                            <li key={i} className="flex items-center gap-2">
-                              <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
-                              <span className="text-sm text-gray-700">{req}</span>
-                            </li>
-                          ))}
-                        </ul>
-                        
-                        <div className="flex gap-3">
-                          <button className="flex-1 btn-secondary text-sm py-3">
-                            <Calendar className="w-4 h-4 mr-2" />
-                            حجز موعد
-                          </button>
-                          <button className="flex-1 btn-primary text-sm py-3">
-                            <Download className="w-4 h-4 mr-2" />
-                            تحميل النموذج
-                          </button>
-                        </div>
-                      </div>
-                    )}
-                  </div>
-                ))}
+                {subsection.services.map((service, index) => renderService(service, index))}
               </div>
             ))
-          ) : (
+          ) : hasServices(currentSector) ? (
             /* للقطاعات الأخرى - عرض الخدمات مباشرة */
             <>
               <h2 className="text-xl font-bold text-gray-800 mb-4">الخدمات المتاحة</h2>
-              {currentSector.services.map((service, index) => (
-                <div
-                  key={service.id}
-                  className="card-enhanced p-6 animate-slide-up"
-                  style={{animationDelay: `${index * 0.1}s`}}
-                >
-                  {/* ... keep existing service rendering code */}
-                  <div className="flex items-start justify-between mb-4">
-                    <div className="flex-1">
-                      <h3 className="text-lg font-bold text-gray-800 mb-1">{service.name}</h3>
-                      <p className="text-gray-600 text-sm">{service.description}</p>
-                    </div>
-                    {service.isPaid && (
-                      <div className="px-3 py-1 bg-gradient-to-r from-green-500 to-emerald-500 text-white text-xs rounded-full font-semibold">
-                        مدفوع
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-4 mb-4">
-                    <div className="flex items-center gap-2">
-                      <Clock className="w-4 h-4 text-blue-600" />
-                      <span className="text-sm text-gray-600">{service.deadline}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <CreditCard className="w-4 h-4 text-green-600" />
-                      <span className="text-sm text-gray-600">{service.fee}</span>
-                    </div>
-                  </div>
-
-                  <div className="flex items-center gap-2 mb-4">
-                    <MapPin className="w-4 h-4 text-red-600" />
-                    <span className="text-sm text-gray-600">{service.location}</span>
-                  </div>
-
-                  <div className="flex items-center gap-6 mb-4 p-3 bg-gray-50 rounded-xl">
-                    <div className="flex items-center gap-2">
-                      <Star className="w-4 h-4 text-yellow-500 fill-current" />
-                      <span className="text-sm font-medium">{service.rating}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <Users className="w-4 h-4 text-blue-500" />
-                      <span className="text-sm text-gray-600">معدل الإنجاز {service.completionRate}%</span>
-                    </div>
-                  </div>
-
-                  <button
-                    onClick={() => setActiveService(activeService === service.id ? null : service.id)}
-                    className="w-full btn-primary text-sm py-3"
-                  >
-                    {activeService === service.id ? 'إخفاء التفاصيل' : 'عرض المتطلبات والتفاصيل'}
-                  </button>
-
-                  {activeService === service.id && (
-                    <div className="mt-4 p-4 bg-gray-50 rounded-2xl animate-slide-up">
-                      <h4 className="font-semibold text-gray-800 mb-3">المتطلبات:</h4>
-                      <ul className="space-y-2 mb-4">
-                        {service.requirements.map((req, i) => (
-                          <li key={i} className="flex items-center gap-2">
-                            <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
-                            <span className="text-sm text-gray-700">{req}</span>
-                          </li>
-                        ))}
-                      </ul>
-                      
-                      <div className="flex gap-3">
-                        <button className="flex-1 btn-secondary text-sm py-3">
-                          <Calendar className="w-4 h-4 mr-2" />
-                          حجز موعد
-                        </button>
-                        {service.isPaid ? (
-                          <button className="flex-1 bg-gradient-to-r from-green-500 to-emerald-500 text-white font-semibold px-6 py-3 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 ease-out text-sm">
-                            دفع وحجز
-                          </button>
-                        ) : (
-                          <button className="flex-1 btn-primary text-sm py-3">
-                            <Download className="w-4 h-4 mr-2" />
-                            تحميل النموذج
-                          </button>
-                        )}
-                      </div>
-                    </div>
-                  )}
-                </div>
-              ))}
+              {currentSector.services.map((service, index) => renderService(service, index))}
             </>
-          )}
+          ) : null}
         </div>
 
         {/* Emergency Contact */}
