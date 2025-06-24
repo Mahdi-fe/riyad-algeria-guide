@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { LanguageProvider } from '../hooks/useLanguage';
 import UserTypeSelection from '../components/UserTypeSelection';
+import ServiceTypeSelection from '../components/ServiceTypeSelection';
 import Header from '../components/Header';
 import SectorGrid from '../components/SectorGrid';
 import QuickActions from '../components/QuickActions';
@@ -14,6 +15,7 @@ import LocationSearch from '../components/LocationSearch';
 import DocumentTemplates from '../components/DocumentTemplates';
 
 const Index = () => {
+  const [serviceType, setServiceType] = useState<string | null>(null);
   const [userType, setUserType] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState('home');
   const [activeSector, setActiveSector] = useState<string | null>(null);
@@ -43,7 +45,7 @@ const Index = () => {
         setIsLocationSearchOpen(true);
         break;
       default:
-        console.log(`Action clicke: ${action}`);
+        console.log(`Action clicked: ${action}`);
     }
   };
 
@@ -63,7 +65,9 @@ const Index = () => {
   return (
     <LanguageProvider>
       <div className={`min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/20 ${darkMode ? 'dark' : ''}`}>
-        {!userType ? (
+        {!serviceType ? (
+          <ServiceTypeSelection onServiceTypeSelect={setServiceType} />
+        ) : !userType ? (
           <UserTypeSelection onUserTypeSelect={setUserType} />
         ) : activeSector ? (
           <SectorDetail 
@@ -77,7 +81,9 @@ const Index = () => {
             <div className="flex-1 overflow-y-auto scrollbar-thin">
               {activeTab === 'home' && (
                 <>
-                  <SectorGrid onSectorClick={handleSectorClick} />
+                  {serviceType === 'government' && (
+                    <SectorGrid onSectorClick={handleSectorClick} />
+                  )}
                   <QuickActions onActionClick={handleActionClick} />
                 </>
               )}
