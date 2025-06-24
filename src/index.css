@@ -247,7 +247,7 @@
 /* Professional sector styling */
 .sector-card-professional {
   @apply bg-white backdrop-blur-md rounded-2xl shadow-lg border;
-  @apply hover:shadow-2xl transition-all duration-400 ease-out;
+  @apply hover:shadow-2xl transition-all duration-300 ease-out;
   background: rgba(255, 255, 255, 0.96);
   border-color: rgba(59, 130, 246, 0.15);
 }
