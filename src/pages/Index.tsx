@@ -134,10 +134,10 @@ const Index = () => {
                 onBack={() => setActiveSector(null)} 
               />
             ) : (
-              <div className="max-w-md mx-auto glass-card min-h-screen flex flex-col shadow-2xl bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/20">
+              <div className="w-full glass-card min-h-screen flex flex-col shadow-2xl bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/20 safe-area-padding">
                 <Header />
                 
-                <div className="flex-1 overflow-y-auto scrollbar-thin">
+                <div className="flex-1 overflow-y-auto mobile-scroll scrollbar-professional">
                   {activeTab === 'home' && (
                     <>
                       {serviceType === 'government' && (
@@ -148,20 +148,20 @@ const Index = () => {
                   )}
                   
                   {activeTab === 'files' && (
-                    <div className="p-6 animate-slide-in-up">
+                    <div className="p-4 animate-slide-in-up">
                       <div className="mb-6">
-                        <h2 className="text-2xl font-bold text-gray-800 mb-2">ملفاتي</h2>
+                        <h2 className="text-xl font-bold text-gray-800 mb-2">ملفاتي</h2>
                         <div className="w-16 h-1 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full"></div>
                       </div>
                       
                       <div className="space-y-4">
-                        <div className="professional-card p-6">
+                        <div className="professional-card p-5">
                           <div className="flex items-start gap-4">
                             <div className="w-12 h-12 bg-gradient-to-r from-green-500 to-emerald-500 rounded-xl flex items-center justify-center">
-                              <span className="text-white font-bold">01</span>
+                              <span className="text-white font-bold text-sm">01</span>
                             </div>
                             <div className="flex-1">
-                              <h3 className="font-bold text-gray-800 mb-1">طلب شهادة الميلاد</h3>
+                              <h3 className="font-bold text-gray-800 mb-1 text-base">طلب شهادة الميلاد</h3>
                               <p className="text-sm text-gray-600 mb-3">مقدم إلى بلدية الجزائر الوسطى</p>
                               <div className="flex items-center gap-4 text-xs">
                                 <span className="px-3 py-1 bg-yellow-100 text-yellow-700 rounded-full">قيد المعالجة</span>
@@ -171,13 +171,13 @@ const Index = () => {
                           </div>
                         </div>
 
-                        <div className="professional-card p-6">
+                        <div className="professional-card p-5">
                           <div className="flex items-start gap-4">
                             <div className="w-12 h-12 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-xl flex items-center justify-center">
-                              <span className="text-white font-bold">02</span>
+                              <span className="text-white font-bold text-sm">02</span>
                             </div>
                             <div className="flex-1">
-                              <h3 className="font-bold text-gray-800 mb-1">طلب صحيفة السوابق</h3>
+                              <h3 className="font-bold text-gray-800 mb-1 text-base">طلب صحيفة السوابق</h3>
                               <p className="text-sm text-gray-600 mb-3">مقدم إلى المحكمة الابتدائية</p>
                               <div className="flex items-center gap-4 text-xs">
                                 <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full">جاهز للاستلام</span>
@@ -191,20 +191,20 @@ const Index = () => {
                   )}
                   
                   {activeTab === 'profile' && (
-                    <div className="p-6 animate-slide-in-up">
+                    <div className="p-4 animate-slide-in-up">
                       <div className="mb-6">
-                        <h2 className="text-2xl font-bold text-gray-800 mb-2">الملف الشخصي</h2>
+                        <h2 className="text-xl font-bold text-gray-800 mb-2">الملف الشخصي</h2>
                         <div className="w-16 h-1 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full"></div>
                       </div>
-                      <div className="professional-card p-8">
+                      <div className="professional-card p-6">
                         <div className="text-center">
-                          <div className="w-28 h-28 bg-gradient-to-br from-blue-500 via-indigo-600 to-purple-600 rounded-full mx-auto mb-6 flex items-center justify-center text-white text-4xl font-bold shadow-xl animate-professional-pulse">
+                          <div className="w-24 h-24 bg-gradient-to-br from-blue-500 via-indigo-600 to-purple-600 rounded-full mx-auto mb-4 flex items-center justify-center text-white text-2xl font-bold shadow-xl animate-professional-pulse">
                             أ
                           </div>
-                          <h3 className="text-2xl font-bold text-gray-800 mb-2">أحمد بن علي</h3>
-                          <p className="text-gray-500 text-lg mb-6">ahmed.benali@email.com</p>
-                          <div className="p-6 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-2xl border border-blue-100 mb-4">
-                            <p className="text-blue-700 font-semibold text-lg">مواطن جزائري</p>
+                          <h3 className="text-xl font-bold text-gray-800 mb-2">أحمد بن علي</h3>
+                          <p className="text-gray-500 text-base mb-4">ahmed.benali@email.com</p>
+                          <div className="p-4 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-xl border border-blue-100 mb-4">
+                            <p className="text-blue-700 font-semibold text-base">مواطن جزائري</p>
                             <p className="text-blue-600 text-sm mt-1">
                               {userType === 'citizen' && 'مواطن عادي'}
                               {userType === 'lawyer' && 'محامي'}
@@ -216,13 +216,13 @@ const Index = () => {
                           <div className="space-y-3">
                             <button 
                               onClick={() => setIsLocationSearchOpen(true)}
-                              className="w-full government-button py-3"
+                              className="w-full government-button mobile-button"
                             >
                               البحث عن أقرب إدارة
                             </button>
                             <button 
                               onClick={() => setIsDocumentTemplatesOpen(true)}
-                              className="w-full secondary-button py-3"
+                              className="w-full secondary-button mobile-button"
                             >
                               تحميل النماذج
                             </button>
