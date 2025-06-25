@@ -15,182 +15,143 @@ const SectorGrid: React.FC<SectorGridProps> = ({ onSectorClick }) => {
     { 
       id: 'local', 
       title: 'الإدارة المحلية', 
-      icon: <Landmark className="text-blue-700" />, 
-      color: 'hover:shadow-blue-200/50', 
+      icon: <Landmark className="w-8 h-8" />, 
+      color: 'hover:shadow-lg', 
       notifications: 3,
       subtitle: 'البلدية، الولاية، والدائرة',
-      gradientBg: 'from-blue-50/95 to-indigo-50/80',
-      iconBg: 'from-blue-600 to-indigo-700',
-      borderColor: 'border-blue-200/40'
+      bgColor: 'bg-blue-50',
+      iconBg: 'bg-gradient-to-br from-blue-600 to-blue-700',
+      borderColor: 'border-blue-200'
     },
     { 
       id: 'justice', 
       title: 'قطاع العدالة', 
-      icon: <Scale className="text-amber-700" />, 
-      color: 'hover:shadow-amber-200/50', 
+      icon: <Scale className="w-8 h-8" />, 
+      color: 'hover:shadow-lg', 
       notifications: 1,
       subtitle: 'المحاكم والنيابة العامة',
-      gradientBg: 'from-amber-50/95 to-yellow-50/80',
-      iconBg: 'from-amber-600 to-yellow-700',
-      borderColor: 'border-amber-200/40'
+      bgColor: 'bg-amber-50',
+      iconBg: 'bg-gradient-to-br from-amber-600 to-amber-700',
+      borderColor: 'border-amber-200'
     },
     { 
       id: 'health', 
       title: 'قطاع الصحة', 
-      icon: <Hospital className="text-rose-600" />, 
-      color: 'hover:shadow-rose-200/50',
+      icon: <Hospital className="w-8 h-8" />, 
+      color: 'hover:shadow-lg',
       notifications: 2,
       subtitle: 'بطاقة الشفاء والمستشفيات',
-      gradientBg: 'from-rose-50/95 to-pink-50/80',
-      iconBg: 'from-rose-600 to-pink-700',
-      borderColor: 'border-rose-200/40'
+      bgColor: 'bg-rose-50',
+      iconBg: 'bg-gradient-to-br from-rose-600 to-rose-700',
+      borderColor: 'border-rose-200'
     },
     { 
       id: 'education', 
       title: 'قطاع التعليم', 
-      icon: <University className="text-violet-600" />, 
-      color: 'hover:shadow-violet-200/50',
+      icon: <University className="w-8 h-8" />, 
+      color: 'hover:shadow-lg',
       subtitle: 'المدارس والجامعات',
-      gradientBg: 'from-violet-50/95 to-purple-50/80',
-      iconBg: 'from-violet-600 to-purple-700',
-      borderColor: 'border-violet-200/40'
+      bgColor: 'bg-violet-50',
+      iconBg: 'bg-gradient-to-br from-violet-600 to-violet-700',
+      borderColor: 'border-violet-200'
     },
     { 
       id: 'employment', 
       title: 'قطاع التشغيل', 
-      icon: <Briefcase className="text-emerald-600" />, 
-      color: 'hover:shadow-emerald-200/50',
+      icon: <Briefcase className="w-8 h-8" />, 
+      color: 'hover:shadow-lg',
       notifications: 1,
       subtitle: 'وكالة التشغيل ANEM',
-      gradientBg: 'from-emerald-50/95 to-teal-50/80',
-      iconBg: 'from-emerald-600 to-teal-700',
-      borderColor: 'border-emerald-200/40'
+      bgColor: 'bg-emerald-50',
+      iconBg: 'bg-gradient-to-br from-emerald-600 to-emerald-700',
+      borderColor: 'border-emerald-200'
     },
     { 
       id: 'social', 
       title: 'الضمان الاجتماعي', 
-      icon: <Shield className="text-indigo-600" />, 
-      color: 'hover:shadow-indigo-200/50',
+      icon: <Shield className="w-8 h-8" />, 
+      color: 'hover:shadow-lg',
       subtitle: 'CNAS و CASNOS',
-      gradientBg: 'from-indigo-50/95 to-blue-50/80',
-      iconBg: 'from-indigo-600 to-blue-700',
-      borderColor: 'border-indigo-200/40'
+      bgColor: 'bg-indigo-50',
+      iconBg: 'bg-gradient-to-br from-indigo-600 to-indigo-700',
+      borderColor: 'border-indigo-200'
     },
     { 
       id: 'postal', 
       title: 'البريد الجزائري', 
-      icon: <Mail className="text-orange-600" />, 
-      color: 'hover:shadow-orange-200/50',
+      icon: <Mail className="w-8 h-8" />, 
+      color: 'hover:shadow-lg',
       subtitle: 'الحسابات البريدية والخدمات',
-      gradientBg: 'from-orange-50/95 to-amber-50/80',
-      iconBg: 'from-orange-600 to-amber-700',
-      borderColor: 'border-orange-200/40'
+      bgColor: 'bg-orange-50',
+      iconBg: 'bg-gradient-to-br from-orange-600 to-orange-700',
+      borderColor: 'border-orange-200'
     },
     { 
       id: 'civil', 
       title: 'الحالة المدنية', 
-      icon: <Users className="text-pink-600" />, 
-      color: 'hover:shadow-pink-200/50',
+      icon: <Users className="w-8 h-8" />, 
+      color: 'hover:shadow-lg',
       subtitle: 'شهادات الحالة المدنية',
-      gradientBg: 'from-pink-50/95 to-rose-50/80',
-      iconBg: 'from-pink-600 to-rose-700',
-      borderColor: 'border-pink-200/40'
+      bgColor: 'bg-pink-50',
+      iconBg: 'bg-gradient-to-br from-pink-600 to-pink-700',
+      borderColor: 'border-pink-200'
     },
     { 
       id: 'transport', 
       title: 'النقل والمرور', 
-      icon: <Car className="text-cyan-600" />, 
-      color: 'hover:shadow-cyan-200/50',
+      icon: <Car className="w-8 h-8" />, 
+      color: 'hover:shadow-lg',
       subtitle: 'رخص السياقة والمركبات',
-      gradientBg: 'from-cyan-50/95 to-blue-50/80',
-      iconBg: 'from-cyan-600 to-blue-700',
-      borderColor: 'border-cyan-200/40'
+      bgColor: 'bg-cyan-50',
+      iconBg: 'bg-gradient-to-br from-cyan-600 to-cyan-700',
+      borderColor: 'border-cyan-200'
     },
   ];
 
   return (
-    <div className="px-6 py-8 bg-gradient-to-b from-white/80 to-blue-50/30">
-      <div className="mb-10">
-        <div className="flex items-center gap-3 mb-4">
-          <div className="w-2 h-10 gradient-government rounded-full shadow-lg"></div>
+    <div className="px-6 py-8 bg-gradient-to-b from-white to-gray-50">
+      <div className="mb-8">
+        <div className="flex items-center gap-4 mb-4">
+          <div className="w-2 h-12 bg-blue-600 rounded-full"></div>
           <div>
-            <h2 className={`title-government mb-1 ${isRTL ? 'text-right' : 'text-left'}`}>
+            <h2 className="text-2xl font-bold text-gray-900 mb-1">
               القطاعات الحكومية الرسمية
             </h2>
-            <p className="text-xs text-blue-600 font-medium">الخدمات الإدارية المعتمدة</p>
+            <p className="text-blue-600 font-semibold">الخدمات الإدارية المعتمدة</p>
           </div>
         </div>
-        <p className="text-muted-government text-sm mb-4 leading-relaxed">
+        <p className="text-gray-600 text-base mb-4 leading-relaxed">
           اختر القطاع المناسب للحصول على الخدمات المطلوبة والوثائق الرسمية
         </p>
-        <div className="w-24 h-1 gradient-government rounded-full shadow-sm"></div>
       </div>
       
-      <div className="space-y-6">
-        <div className={`flex gap-4 overflow-x-auto pb-4 ${isRTL ? 'flex-row-reverse' : ''} scrollbar-professional`}>
-          {sectors.slice(0, 3).map((sector, index) => (
-            <div key={sector.id} className="animate-slide-in-up" style={{animationDelay: `${index * 0.1}s`}}>
-              <SectorCard
-                title={sector.title}
-                subtitle={sector.subtitle}
-                icon={sector.icon}
-                color={sector.color}
-                notifications={sector.notifications}
-                gradientBg={sector.gradientBg}
-                iconBg={sector.iconBg}
-                borderColor={sector.borderColor}
-                onClick={() => onSectorClick(sector.id)}
-              />
-            </div>
-          ))}
-        </div>
-        
-        <div className={`flex gap-4 overflow-x-auto pb-4 ${isRTL ? 'flex-row-reverse' : ''} scrollbar-professional`}>
-          {sectors.slice(3, 6).map((sector, index) => (
-            <div key={sector.id} className="animate-slide-in-up" style={{animationDelay: `${(index + 3) * 0.1}s`}}>
-              <SectorCard
-                title={sector.title}
-                subtitle={sector.subtitle}
-                icon={sector.icon}
-                color={sector.color}
-                notifications={sector.notifications}
-                gradientBg={sector.gradientBg}
-                iconBg={sector.iconBg}
-                borderColor={sector.borderColor}
-                onClick={() => onSectorClick(sector.id)}
-              />
-            </div>
-          ))}
-        </div>
-
-        <div className={`flex gap-4 overflow-x-auto pb-4 ${isRTL ? 'flex-row-reverse' : ''} scrollbar-professional`}>
-          {sectors.slice(6).map((sector, index) => (
-            <div key={sector.id} className="animate-slide-in-up" style={{animationDelay: `${(index + 6) * 0.1}s`}}>
-              <SectorCard
-                title={sector.title}
-                subtitle={sector.subtitle}
-                icon={sector.icon}
-                color={sector.color}
-                notifications={sector.notifications}
-                gradientBg={sector.gradientBg}
-                iconBg={sector.iconBg}
-                borderColor={sector.borderColor}
-                onClick={() => onSectorClick(sector.id)}
-              />
-            </div>
-          ))}
-        </div>
+      <div className="grid grid-cols-1 gap-4 mb-8">
+        {sectors.map((sector, index) => (
+          <div key={sector.id} className="animate-fade-in" style={{animationDelay: `${index * 0.1}s`}}>
+            <SectorCard
+              title={sector.title}
+              subtitle={sector.subtitle}
+              icon={sector.icon}
+              color={sector.color}
+              notifications={sector.notifications}
+              bgColor={sector.bgColor}
+              iconBg={sector.iconBg}
+              borderColor={sector.borderColor}
+              onClick={() => onSectorClick(sector.id)}
+            />
+          </div>
+        ))}
       </div>
 
-      {/* Professional footer section */}
-      <div className="mt-10 p-6 glass-government rounded-2xl border border-blue-100/50">
+      {/* Status footer */}
+      <div className="p-6 bg-green-50 rounded-2xl border border-green-200">
         <div className="text-center">
           <div className="flex items-center justify-center gap-2 mb-3">
-            <div className="w-2 h-2 bg-green-500 rounded-full animate-professional-pulse"></div>
-            <p className="text-blue-800 font-semibold text-sm">جميع الخدمات متاحة ومحدثة</p>
-            <div className="w-2 h-2 bg-green-500 rounded-full animate-professional-pulse"></div>
+            <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+            <p className="text-green-800 font-bold text-base">جميع الخدمات متاحة ومحدثة</p>
+            <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
           </div>
-          <p className="text-slate-600 text-xs leading-relaxed">
+          <p className="text-green-700 text-sm leading-relaxed">
             منصة AdminFiles تربطك مباشرة بالإدارات الحكومية لضمان الحصول على خدمات سريعة وموثوقة
           </p>
         </div>

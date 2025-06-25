@@ -25,8 +25,9 @@ const ServiceTypeSelection: React.FC<ServiceTypeSelectionProps> = ({ onServiceTy
         'البريد الجزائري والخدمات المالية'
       ],
       icon: <Shield className="w-12 h-12" />,
-      gradient: 'from-blue-600 to-indigo-700',
-      bgGradient: 'from-blue-50 to-indigo-100',
+      gradient: 'bg-gradient-to-br from-blue-600 to-blue-700',
+      bgColor: 'bg-blue-50',
+      borderColor: 'border-blue-200',
       recommended: true
     },
     {
@@ -42,36 +43,33 @@ const ServiceTypeSelection: React.FC<ServiceTypeSelectionProps> = ({ onServiceTy
         'التأمين والخدمات المالية'
       ],
       icon: <Building2 className="w-12 h-12" />,
-      gradient: 'from-emerald-600 to-green-700',
-      bgGradient: 'from-emerald-50 to-green-100',
+      gradient: 'bg-gradient-to-br from-emerald-600 to-emerald-700',
+      bgColor: 'bg-emerald-50',
+      borderColor: 'border-emerald-200',
       recommended: false
     }
   ];
 
   return (
-    <div className={`min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/20 ${isRTL ? 'rtl' : 'ltr'}`}>
-      <div className="w-full min-h-screen flex flex-col safe-area-padding">
-        {/* Mobile header */}
-        <div className="relative overflow-hidden bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 px-6 py-8 pb-12">
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 via-transparent to-purple-600/20"></div>
-          <div className="absolute top-8 left-8 w-24 h-24 bg-white/5 rounded-full blur-lg animate-gentle-float"></div>
-          <div className="absolute top-12 right-12 w-20 h-20 bg-indigo-300/10 rounded-full blur-md animate-professional-pulse"></div>
-          
-          <div className="relative z-10 text-center">
-            <div className="w-16 h-16 bg-white/20 rounded-2xl mx-auto mb-4 flex items-center justify-center backdrop-blur-sm">
-              <Shield className="w-8 h-8 text-white" />
+    <div className="min-h-screen bg-gradient-to-b from-blue-50 to-white">
+      <div className="max-w-md mx-auto min-h-screen flex flex-col">
+        {/* Modern header */}
+        <div className="bg-blue-600 px-8 py-12 rounded-b-3xl">
+          <div className="text-center">
+            <div className="w-20 h-20 bg-white rounded-2xl mx-auto mb-6 flex items-center justify-center shadow-lg">
+              <Shield className="w-10 h-10 text-blue-600" />
             </div>
-            <h1 className="text-2xl font-bold text-white mb-2">AdminFiles</h1>
-            <p className="text-blue-100 text-base font-medium">اختر نوع الخدمة المطلوبة</p>
-            <p className="text-blue-200 text-xs mt-1">Choisissez le type de service souhaité</p>
+            <h1 className="text-3xl font-bold text-white mb-2">AdminFiles</h1>
+            <p className="text-blue-100 text-lg font-medium">اختر نوع الخدمة المطلوبة</p>
+            <p className="text-blue-200 text-sm mt-1">Choisissez le type de service souhaité</p>
           </div>
         </div>
 
-        {/* Mobile-optimized content */}
-        <div className="flex-1 px-6 py-6">
-          <div className="text-center mb-6">
-            <h2 className="text-xl font-bold text-gray-800 mb-2">نوع الخدمة</h2>
-            <p className="text-gray-600 text-sm">اختر نوع الخدمات التي تحتاجها</p>
+        {/* Service type cards */}
+        <div className="flex-1 px-8 py-8">
+          <div className="text-center mb-8">
+            <h2 className="text-2xl font-bold text-gray-900 mb-2">نوع الخدمة</h2>
+            <p className="text-gray-600 text-base">اختر نوع الخدمات التي تحتاجها</p>
           </div>
 
           <div className="space-y-6">
@@ -79,54 +77,54 @@ const ServiceTypeSelection: React.FC<ServiceTypeSelectionProps> = ({ onServiceTy
               <button
                 key={service.id}
                 onClick={() => onServiceTypeSelect(service.id)}
-                className={`w-full bg-gradient-to-r ${service.bgGradient} border-2 border-transparent hover:border-blue-200 active:border-blue-300 rounded-2xl p-6 transition-all duration-300 hover:shadow-lg active:scale-95 group animate-slide-up relative overflow-hidden`}
+                className={`w-full ${service.bgColor} border-2 ${service.borderColor} hover:shadow-lg active:scale-95 rounded-3xl p-8 transition-all duration-300 relative overflow-hidden animate-fade-in`}
                 style={{animationDelay: `${index * 0.1}s`}}
               >
                 {/* Recommended badge */}
                 {service.recommended && (
-                  <div className="absolute top-3 left-3 bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1">
+                  <div className="absolute top-6 left-6 bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-xs font-bold px-4 py-2 rounded-full flex items-center gap-1 shadow-lg">
                     <Star className="w-3 h-3" />
                     مُوصى به
                   </div>
                 )}
 
-                <div className={`text-center ${isRTL ? 'text-right' : 'text-left'}`}>
-                  <div className={`p-4 bg-gradient-to-r ${service.gradient} text-white rounded-2xl shadow-lg group-hover:scale-105 group-active:scale-100 transition-transform duration-300 mx-auto mb-4 w-fit`}>
+                <div className="text-center">
+                  <div className={`${service.gradient} text-white rounded-3xl shadow-xl p-6 mx-auto mb-6 w-fit`}>
                     {service.icon}
                   </div>
                   
-                  <div className="mb-4">
-                    <h3 className="text-lg font-bold text-gray-800 mb-1">{service.title}</h3>
-                    <p className="text-xs text-gray-500 mb-2">{service.titleFr}</p>
-                    <p className="text-gray-600 text-sm leading-relaxed">{service.description}</p>
+                  <div className="mb-6">
+                    <h3 className="text-xl font-bold text-gray-900 mb-2">{service.title}</h3>
+                    <p className="text-sm text-gray-500 mb-3">{service.titleFr}</p>
+                    <p className="text-gray-700 text-base leading-relaxed">{service.description}</p>
                   </div>
 
-                  <div className="space-y-2 mb-4">
+                  <div className="space-y-3 mb-6">
                     {service.features.map((feature, idx) => (
-                      <div key={idx} className="flex items-center gap-2 text-xs text-gray-700">
-                        <CheckCircle className="w-3 h-3 text-green-600 flex-shrink-0" />
-                        <span>{feature}</span>
+                      <div key={idx} className="flex items-center gap-3 text-sm text-gray-700">
+                        <CheckCircle className="w-4 h-4 text-green-500 flex-shrink-0" />
+                        <span className="text-right">{feature}</span>
                       </div>
                     ))}
                   </div>
 
-                  <div className="flex items-center justify-center gap-2 text-blue-600 font-semibold">
+                  <div className="flex items-center justify-center gap-3 text-blue-600 font-bold text-lg">
                     <span>اختر هذا النوع</span>
-                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
+                    <ArrowRight className="w-5 h-5" />
                   </div>
                 </div>
               </button>
             ))}
           </div>
 
-          <div className="mt-6 p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl border border-green-200">
-            <div className="flex items-start gap-3">
-              <div className="p-2 bg-green-200 rounded-lg">
-                <Shield className="w-4 h-4 text-green-700" />
+          <div className="mt-8 p-6 bg-green-50 rounded-2xl border border-green-200">
+            <div className="flex items-start gap-4">
+              <div className="p-3 bg-green-200 rounded-xl">
+                <Shield className="w-5 h-5 text-green-700" />
               </div>
               <div>
-                <h4 className="font-semibold text-green-800 text-sm mb-1">أمان وموثوقية</h4>
-                <p className="text-green-700 text-xs">جميع الخدمات معتمدة ومصرح بها من الجهات الحكومية المختصة</p>
+                <h4 className="font-bold text-green-800 text-base mb-2">أمان وموثوقية</h4>
+                <p className="text-green-700 text-sm leading-relaxed">جميع الخدمات معتمدة ومصرح بها من الجهات الحكومية المختصة</p>
               </div>
             </div>
           </div>
