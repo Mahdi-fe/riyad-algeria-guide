@@ -1,74 +1,167 @@
 
-import React from 'react';
-import { Bell, Menu, Shield, Star } from 'lucide-react';
+import React, { useState } from 'react';
+import { Bell, Menu, Search, User, Settings, LogOut } from 'lucide-react';
 import { useLanguage } from '../hooks/useLanguage';
-import SearchBar from './SearchBar';
 
-const Header = () => {
-  const { t, isRTL } = useLanguage();
+const Header: React.FC = () => {
+  const { isRTL } = useLanguage();
+  const [showNotifications, setShowNotifications] = useState(false);
+  const [showMenu, setShowMenu] = useState(false);
+
+  const notifications = [
+    {
+      id: 1,
+      title: 'تم قبول طلبك',
+      message: 'طلب شهادة الميلاد جاهز للاستلام',
+      time: 'منذ ساعتين',
+      type: 'success'
+    },
+    {
+      id: 2,
+      title: 'موعد قادم',
+      message: 'موعدك غداً في تمام الساعة 10:00',
+      time: 'منذ 5 ساعات',
+      type: 'reminder'
+    },
+    {
+      id: 3,
+      title: 'تحديث النظام',
+      message: 'متوفر إصدار جديد من التطبيق',
+      time: 'منذ يوم',
+      type: 'info'
+    }
+  ];
 
   return (
-    <div className={`relative overflow-hidden ${isRTL ? 'rtl' : 'ltr'}`}>
-      {/* Professional government gradient background */}
-      <div className="absolute inset-0 gradient-government">
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-800/10 via-transparent to-blue-700/10"></div>
-        <div className="absolute top-0 left-0 w-full h-full">
-          <div className="absolute top-12 left-12 w-28 h-28 bg-white/4 rounded-full blur-xl animate-gentle-float"></div>
-          <div className="absolute top-16 right-20 w-20 h-20 bg-blue-300/6 rounded-full blur-lg animate-professional-pulse"></div>
-          <div className="absolute bottom-8 left-1/3 w-16 h-16 bg-indigo-300/5 rounded-full blur-md animate-gentle-float" style={{animationDelay: '2s'}}></div>
+    <>
+      <div className="relative bg-gradient-to-r from-blue-700 via-blue-800 to-indigo-900 p-6">
+        {/* Background decoration */}
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 to-purple-600/20"></div>
+        <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full -translate-y-16 translate-x-16"></div>
+        <div className="absolute bottom-0 left-0 w-24 h-24 bg-white/5 rounded-full translate-y-12 -translate-x-12"></div>
+        
+        <div className="relative z-10 flex items-center justify-between">
+          {/* Menu Button */}
+          <button 
+            onClick={() => setShowMenu(true)}
+            className="p-3 bg-white/10 backdrop-blur-sm rounded-2xl shadow-lg hover:bg-white/20 transition-all duration-300 hover:scale-105"
+          >
+            <Menu className="w-6 h-6 text-white" />
+          </button>
+
+          {/* Logo and Title */}
+          <div className="flex-1 text-center">
+            <div className="flex items-center justify-center gap-3">
+              <div className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center">
+                <span className="text-white font-bold text-lg">🇩🇿</span>
+              </div>
+              <div>
+                <h1 className="text-xl font-bold text-white">AdminFiles</h1>
+                <p className="text-blue-200 text-xs">الخدمات الحكومية الرقمية</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Notifications */}
+          <div className="relative">
+            <button 
+              onClick={() => setShowNotifications(!showNotifications)}
+              className="p-3 bg-white/10 backdrop-blur-sm rounded-2xl shadow-lg hover:bg-white/20 transition-all duration-300 hover:scale-105 relative"
+            >
+              <Bell className="w-6 h-6 text-white" />
+              {notifications.length > 0 && (
+                <div className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center">
+                  <span className="text-white text-xs font-bold">{notifications.length}</span>
+                </div>
+              )}
+            </button>
+
+            {/* Notifications Dropdown */}
+            {showNotifications && (
+              <div className="absolute top-full right-0 mt-2 w-80 bg-white rounded-2xl shadow-2xl border border-gray-100 z-50 animate-fade-in-scale">
+                <div className="p-4 border-b border-gray-100">
+                  <h3 className="font-bold text-gray-800">الإشعارات</h3>
+                </div>
+                <div className="max-h-96 overflow-y-auto">
+                  {notifications.map((notification) => (
+                    <div key={notification.id} className="p-4 border-b border-gray-50 hover:bg-gray-50 transition-colors">
+                      <div className="flex items-start gap-3">
+                        <div className={`w-3 h-3 rounded-full mt-2 ${
+                          notification.type === 'success' ? 'bg-green-500' :
+                          notification.type === 'reminder' ? 'bg-blue-500' : 'bg-gray-500'
+                        }`}></div>
+                        <div className="flex-1 text-right">
+                          <h4 className="font-semibold text-gray-800 text-sm">{notification.title}</h4>
+                          <p className="text-gray-600 text-xs mt-1">{notification.message}</p>
+                          <span className="text-gray-400 text-xs">{notification.time}</span>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className="p-4 text-center">
+                  <button className="text-blue-600 text-sm font-medium hover:text-blue-700 transition-colors">
+                    عرض جميع الإشعارات
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
       </div>
 
-      <div className="relative z-10 p-6 pb-8">
-        {/* Professional top bar */}
-        <div className="flex items-center justify-between mb-8">
-          <div className="flex items-center gap-4">
-            <div className="p-3 glass-elevated rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer">
-              <Menu className="w-5 h-5 text-white" />
-            </div>
-            <div className="flex items-center gap-3">
-              <div className="p-2 bg-white/20 backdrop-blur-sm rounded-xl">
-                <Shield className="w-5 h-5 text-white animate-professional-pulse" />
+      {/* Side Menu Overlay */}
+      {showMenu && (
+        <div className="fixed inset-0 z-50 animate-fade-in">
+          <div className="absolute inset-0 bg-black/50" onClick={() => setShowMenu(false)}></div>
+          <div className={`absolute top-0 ${isRTL ? 'right-0' : 'left-0'} h-full w-80 bg-white shadow-2xl animate-slide-in-${isRTL ? 'right' : 'left'}`}>
+            <div className="p-6 bg-gradient-to-r from-blue-700 to-indigo-800 text-white">
+              <div className="flex items-center gap-4">
+                <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center">
+                  <User className="w-8 h-8" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-lg">أحمد بن علي</h3>
+                  <p className="text-blue-200 text-sm">مواطن جزائري</p>
+                </div>
               </div>
-              <div>
-                <h1 className="text-2xl font-bold text-white tracking-wide">AdminFiles</h1>
-                <p className="text-blue-100 text-xs font-medium">المنصة الرسمية</p>
+            </div>
+            
+            <div className="p-6 space-y-4">
+              <button className="w-full flex items-center gap-4 p-4 rounded-2xl hover:bg-gray-50 transition-colors text-right">
+                <User className="w-6 h-6 text-gray-600" />
+                <span className="font-medium text-gray-800">الملف الشخصي</span>
+              </button>
+              
+              <button className="w-full flex items-center gap-4 p-4 rounded-2xl hover:bg-gray-50 transition-colors text-right">
+                <Bell className="w-6 h-6 text-gray-600" />
+                <span className="font-medium text-gray-800">الإشعارات</span>
+              </button>
+              
+              <button className="w-full flex items-center gap-4 p-4 rounded-2xl hover:bg-gray-50 transition-colors text-right">
+                <Settings className="w-6 h-6 text-gray-600" />
+                <span className="font-medium text-gray-800">الإعدادات</span>
+              </button>
+              
+              <div className="border-t border-gray-200 pt-4">
+                <button className="w-full flex items-center gap-4 p-4 rounded-2xl hover:bg-red-50 transition-colors text-right text-red-600">
+                  <LogOut className="w-6 h-6" />
+                  <span className="font-medium">تسجيل الخروج</span>
+                </button>
               </div>
-            </div>
-          </div>
-          
-          <div className="relative">
-            <div className="p-3 glass-elevated rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 cursor-pointer group">
-              <Bell className="w-5 h-5 text-white transition-transform group-hover:scale-110 duration-300" />
-            </div>
-            <div className="absolute -top-1 -right-1 w-5 h-5 bg-gradient-to-r from-red-500 to-red-600 rounded-full flex items-center justify-center animate-professional-pulse shadow-lg">
-              <span className="text-xs text-white font-bold">3</span>
             </div>
           </div>
         </div>
-        
-        {/* Enhanced search bar */}
-        <SearchBar />
-        
-        {/* Professional status bar */}
-        <div className="mt-6 flex items-center justify-center gap-4 text-white/80 text-xs">
-          <div className="flex items-center gap-1">
-            <div className="w-2 h-2 bg-green-400 rounded-full animate-professional-pulse"></div>
-            <span>متصل</span>
-          </div>
-          <div className="w-px h-4 bg-white/20"></div>
-          <div className="flex items-center gap-1">
-            <Star className="w-3 h-3 text-yellow-300" />
-            <span>خدمة معتمدة</span>
-          </div>
-          <div className="w-px h-4 bg-white/20"></div>
-          <div className="flex items-center gap-1">
-            <Shield className="w-3 h-3 text-blue-300" />
-            <span>آمن 100%</span>
-          </div>
-        </div>
-      </div>
-    </div>
+      )}
+
+      {/* Click outside to close notifications */}
+      {showNotifications && (
+        <div 
+          className="fixed inset-0 z-40" 
+          onClick={() => setShowNotifications(false)}
+        ></div>
+      )}
+    </>
   );
 };
 

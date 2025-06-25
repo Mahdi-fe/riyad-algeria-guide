@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { ArrowLeft, ArrowRight, Clock, FileText, MapPin, Phone, AlertCircle, Download, Calendar, Star, Users, Building, CreditCard, Info } from 'lucide-react';
 import { useLanguage } from '../hooks/useLanguage';
+import AppointmentBooking from './AppointmentBooking';
+import DocumentViewer from './DocumentViewer';
 
 interface SectorDetailProps {
   sector: string;
@@ -18,6 +20,8 @@ interface Service {
   rating: number;
   completionRate: number;
   isPaid?: boolean;
+  hasAppointment?: boolean;
+  hasDownload?: boolean;
 }
 
 interface Subsection {
@@ -45,6 +49,9 @@ type SectorData = SectorWithSubsections | SectorWithServices;
 const SectorDetail: React.FC<SectorDetailProps> = ({ sector, onBack }) => {
   const { t, isRTL } = useLanguage();
   const [activeService, setActiveService] = useState<string | null>(null);
+  const [showAppointmentBooking, setShowAppointmentBooking] = useState(false);
+  const [showDocumentViewer, setShowDocumentViewer] = useState(false);
+  const [selectedService, setSelectedService] = useState<Service | null>(null);
 
   const sectorData: Record<string, SectorData> = {
     local: {
@@ -52,6 +59,76 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, onBack }) => {
       titleFr: 'Administration Locale',
       icon: '🏛️',
       subsections: [
+        {
+          id: 'biometric',
+          name: 'المصلحة البيومترية',
+          services: [
+            {
+              id: 'passport_biometric',
+              name: 'جواز السفر البيومتري',
+              description: 'استخراج أو تجديد جواز السفر البيومتري الجديد',
+              requirements: ['بطاقة التعريف', '4 صور بيومترية', 'شهادة ميلاد S12', 'وصل دفع (6000 دج)'],
+              deadline: '15 يوم عمل',
+              fee: '6000 دج',
+              location: 'المصلحة البيومترية - الولاية',
+              rating: 4.5,
+              completionRate: 92,
+              hasAppointment: true,
+              hasDownload: true
+            },
+            {
+              id: 'national_id_biometric',
+              name: 'بطاقة التعريف الوطنية البيومترية',
+              description: 'استخراج أو تجديد بطاقة التعريف البيومترية الجديدة',
+              requirements: ['شهادة ميلاد', '2 صورة بيومترية', 'شهادة إقامة', 'وصل دفع (1000 دج)'],
+              deadline: '10 أيام عمل',
+              fee: '1000 دج',
+              location: 'المصلحة البيومترية - الولاية',
+              rating: 4.3,
+              completionRate: 89,
+              hasAppointment: true,
+              hasDownload: true
+            },
+            {
+              id: 'birth_certificate_s12',
+              name: 'شهادة الميلاد S12',
+              description: 'شهادة ميلاد خاصة بالمعاملات البيومترية',
+              requirements: ['بطاقة التعريف', 'طلب محرر', 'وصل دفع (200 دج)'],
+              deadline: '48-72 ساعة',
+              fee: '200 دج',
+              location: 'مكتب الحالة المدنية - البلدية',
+              rating: 4.6,
+              completionRate: 95,
+              hasAppointment: true,
+              hasDownload: true
+            },
+            {
+              id: 'biometric_status',
+              name: 'تتبع حالة الطلب البيومتري',
+              description: 'متابعة حالة طلبات الوثائق البيومترية',
+              requirements: ['رقم الوصل', 'بطاقة التعريف'],
+              deadline: 'فوري',
+              fee: 'مجاني',
+              location: 'عبر التطبيق أو المصلحة',
+              rating: 4.7,
+              completionRate: 98,
+              hasDownload: false
+            },
+            {
+              id: 'biometric_appointment',
+              name: 'حجز موعد للإيداع البيومتري',
+              description: 'حجز موعد لإيداع ملف الوثائق البيومترية',
+              requirements: ['الملف كاملاً', 'بطاقة التعريف'],
+              deadline: 'حسب التوفر',
+              fee: 'مجاني',
+              location: 'المصلحة البيومترية',
+              rating: 4.4,
+              completionRate: 85,
+              hasAppointment: true,
+              hasDownload: false
+            }
+          ]
+        },
         {
           id: 'commune',
           name: 'البلدية (Commune)',
@@ -65,7 +142,9 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, onBack }) => {
               fee: '100 دج',
               location: 'مكتب الحالة المدنية - البلدية',
               rating: 4.5,
-              completionRate: 95
+              completionRate: 95,
+              hasAppointment: true,
+              hasDownload: true
             },
             {
               id: 'residence_certificate',
@@ -76,7 +155,9 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, onBack }) => {
               fee: '150 دج',
               location: 'مصلحة الشؤون الإدارية',
               rating: 4.3,
-              completionRate: 92
+              completionRate: 92,
+              hasAppointment: true,
+              hasDownload: true
             },
             {
               id: 'death_certificate',
@@ -87,7 +168,9 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, onBack }) => {
               fee: '100 دج',
               location: 'مكتب الحالة المدنية',
               rating: 4.6,
-              completionRate: 98
+              completionRate: 98,
+              hasAppointment: true,
+              hasDownload: true
             },
             {
               id: 'marriage_certificate',
@@ -98,7 +181,9 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, onBack }) => {
               fee: '150 دج',
               location: 'مكتب الحالة المدنية',
               rating: 4.4,
-              completionRate: 93
+              completionRate: 93,
+              hasAppointment: true,
+              hasDownload: true
             },
             {
               id: 'social_housing',
@@ -109,7 +194,9 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, onBack }) => {
               fee: 'مجاني',
               location: 'مصلحة السكن - البلدية',
               rating: 3.8,
-              completionRate: 75
+              completionRate: 75,
+              hasAppointment: true,
+              hasDownload: false
             }
           ]
         },
@@ -126,7 +213,9 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, onBack }) => {
               fee: '6000 دج',
               location: 'مصلحة جوازات السفر - الولاية',
               rating: 4.2,
-              completionRate: 89
+              completionRate: 89,
+              hasAppointment: true,
+              hasDownload: true
             },
             {
               id: 'national_id',
@@ -137,7 +226,9 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, onBack }) => {
               fee: '1000 دج',
               location: 'مصلحة بطاقات التعريف - الولاية',
               rating: 4.1,
-              completionRate: 87
+              completionRate: 87,
+              hasAppointment: true,
+              hasDownload: true
             },
             {
               id: 'driving_license',
@@ -148,7 +239,9 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, onBack }) => {
               fee: '3500 دج',
               location: 'مصلحة رخص السياقة',
               rating: 4.0,
-              completionRate: 82
+              completionRate: 82,
+              hasAppointment: true,
+              hasDownload: true
             },
             {
               id: 'gray_card',
@@ -159,7 +252,9 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, onBack }) => {
               fee: '5000 دج',
               location: 'مصلحة المركبات',
               rating: 3.9,
-              completionRate: 86
+              completionRate: 86,
+              hasAppointment: true,
+              hasDownload: true
             }
           ]
         }
@@ -179,7 +274,9 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, onBack }) => {
           fee: '200 دج',
           location: 'صندوق الضمان الاجتماعي',
           rating: 4.3,
-          completionRate: 91
+          completionRate: 91,
+          hasAppointment: true,
+          hasDownload: true
         },
         {
           id: 'medical_appointment',
@@ -190,7 +287,9 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, onBack }) => {
           fee: 'مجاني مع بطاقة الشفاء',
           location: 'المستشفى أو العيادة المختارة',
           rating: 4.0,
-          completionRate: 78
+          completionRate: 78,
+          hasAppointment: true,
+          hasDownload: false
         },
         {
           id: 'medical_transfer',
@@ -201,7 +300,9 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, onBack }) => {
           fee: 'حسب نوع النقل',
           location: 'مديرية الصحة - الولاية',
           rating: 3.7,
-          completionRate: 68
+          completionRate: 68,
+          hasAppointment: true,
+          hasDownload: false
         },
         {
           id: 'free_treatment',
@@ -212,7 +313,9 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, onBack }) => {
           fee: 'مجاني',
           location: 'لجنة العلاج المجاني - المستشفى',
           rating: 4.1,
-          completionRate: 73
+          completionRate: 73,
+          hasAppointment: true,
+          hasDownload: false
         }
       ]
     },
@@ -230,7 +333,9 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, onBack }) => {
           fee: 'مجاني',
           location: 'المؤسسة التعليمية المختارة',
           rating: 4.4,
-          completionRate: 94
+          completionRate: 94,
+          hasAppointment: true,
+          hasDownload: false
         },
         {
           id: 'university_registration',
@@ -241,7 +346,9 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, onBack }) => {
           fee: 'رسوم التسجيل حسب التخصص',
           location: 'الجامعة أو المعهد المختار',
           rating: 4.2,
-          completionRate: 88
+          completionRate: 88,
+          hasAppointment: true,
+          hasDownload: false
         },
         {
           id: 'diploma_extraction',
@@ -252,7 +359,9 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, onBack }) => {
           fee: '500-1000 دج',
           location: 'مديرية التربية أو الجامعة',
           rating: 4.3,
-          completionRate: 91
+          completionRate: 91,
+          hasAppointment: true,
+          hasDownload: true
         },
         {
           id: 'diploma_equivalence',
@@ -263,7 +372,9 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, onBack }) => {
           fee: '3000-5000 دج',
           location: 'وزارة التعليم العالي',
           rating: 3.8,
-          completionRate: 79
+          completionRate: 79,
+          hasAppointment: true,
+          hasDownload: false
         },
         {
           id: 'scholarship',
@@ -274,7 +385,9 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, onBack }) => {
           fee: 'مجاني',
           location: 'الديوان الوطني للمنح الجامعية',
           rating: 4.0,
-          completionRate: 65
+          completionRate: 65,
+          hasAppointment: true,
+          hasDownload: false
         }
       ]
     },
@@ -292,7 +405,9 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, onBack }) => {
           fee: 'مجاني',
           location: 'وكالة التشغيل المحلية',
           rating: 4.1,
-          completionRate: 89
+          completionRate: 89,
+          hasAppointment: true,
+          hasDownload: false
         },
         {
           id: 'job_offers',
@@ -303,7 +418,9 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, onBack }) => {
           fee: 'مجاني',
           location: 'موقع ANEM أو الوكالة',
           rating: 3.9,
-          completionRate: 74
+          completionRate: 74,
+          hasAppointment: false,
+          hasDownload: false
         },
         {
           id: 'professional_integration',
@@ -314,7 +431,9 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, onBack }) => {
           fee: 'مجاني مع منحة',
           location: 'مراكز التكوين المهني',
           rating: 4.2,
-          completionRate: 81
+          completionRate: 81,
+          hasAppointment: true,
+          hasDownload: false
         }
       ]
     },
@@ -332,7 +451,9 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, onBack }) => {
           fee: 'مجاني',
           location: 'وكالة CNAS المحلية',
           rating: 4.3,
-          completionRate: 92
+          completionRate: 92,
+          hasAppointment: true,
+          hasDownload: false
         },
         {
           id: 'retirement_file',
@@ -343,7 +464,9 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, onBack }) => {
           fee: 'مجاني',
           location: 'صندوق التقاعد CNR',
           rating: 4.1,
-          completionRate: 87
+          completionRate: 87,
+          hasAppointment: true,
+          hasDownload: false
         },
         {
           id: 'sick_leave',
@@ -354,7 +477,9 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, onBack }) => {
           fee: 'مجاني',
           location: 'صندوق الضمان الاجتماعي',
           rating: 4.0,
-          completionRate: 83
+          completionRate: 83,
+          hasAppointment: true,
+          hasDownload: false
         }
       ]
     },
@@ -372,7 +497,9 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, onBack }) => {
           fee: '500 دج',
           location: 'مكتب البريد المحلي',
           rating: 4.2,
-          completionRate: 94
+          completionRate: 94,
+          hasAppointment: true,
+          hasDownload: false
         },
         {
           id: 'golden_card',
@@ -383,7 +510,9 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, onBack }) => {
           fee: '300 دج سنوياً',
           location: 'مكتب البريد',
           rating: 4.1,
-          completionRate: 89
+          completionRate: 89,
+          hasAppointment: true,
+          hasDownload: false
         },
         {
           id: 'money_transfer',
@@ -394,7 +523,9 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, onBack }) => {
           fee: 'حسب المبلغ والوجهة',
           location: 'مكتب البريد',
           rating: 4.3,
-          completionRate: 96
+          completionRate: 96,
+          hasAppointment: true,
+          hasDownload: false
         }
       ]
     },
@@ -412,7 +543,9 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, onBack }) => {
           fee: '300 دج',
           location: 'المحكمة الابتدائية',
           rating: 4.4,
-          completionRate: 89
+          completionRate: 89,
+          hasAppointment: true,
+          hasDownload: true
         },
         {
           id: 'legal_consultation',
@@ -424,7 +557,8 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, onBack }) => {
           location: 'استشارة إلكترونية عبر التطبيق',
           isPaid: true,
           rating: 4.7,
-          completionRate: 96
+          completionRate: 96,
+          hasAppointment: true
         },
         {
           id: 'court_sessions',
@@ -435,7 +569,9 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, onBack }) => {
           fee: 'مجاني',
           location: 'كتابة ضبط المحكمة',
           rating: 4.2,
-          completionRate: 91
+          completionRate: 91,
+          hasAppointment: true,
+          hasDownload: false
         },
         {
           id: 'legal_documents',
@@ -446,7 +582,9 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, onBack }) => {
           fee: '500-1000 دج',
           location: 'كتابة ضبط المحكمة',
           rating: 4.1,
-          completionRate: 86
+          completionRate: 86,
+          hasAppointment: true,
+          hasDownload: true
         }
       ]
     },
@@ -464,7 +602,9 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, onBack }) => {
           fee: '200 دج',
           location: 'مكتب الحالة المدنية - البلدية',
           rating: 4.5,
-          completionRate: 95
+          completionRate: 95,
+          hasAppointment: true,
+          hasDownload: true
         },
         {
           id: 'family_booklet',
@@ -475,7 +615,9 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, onBack }) => {
           fee: '300 دج',
           location: 'مكتب الحالة المدنية',
           rating: 4.3,
-          completionRate: 92
+          completionRate: 92,
+          hasAppointment: true,
+          hasDownload: true
         },
         {
           id: 'divorce_certificate',
@@ -486,7 +628,9 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, onBack }) => {
           fee: '400 دج',
           location: 'مكتب الحالة المدنية',
           rating: 4.2,
-          completionRate: 89
+          completionRate: 89,
+          hasAppointment: true,
+          hasDownload: true
         }
       ]
     }
@@ -498,7 +642,6 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, onBack }) => {
     return <div>قطاع غير موجود</div>;
   }
 
-  // Type guard functions
   const hasSubsections = (sector: SectorData): sector is SectorWithSubsections => {
     return 'subsections' in sector;
   };
@@ -507,10 +650,20 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, onBack }) => {
     return 'services' in sector;
   };
 
+  const handleAppointmentClick = (service: Service) => {
+    setSelectedService(service);
+    setShowAppointmentBooking(true);
+  };
+
+  const handleDownloadClick = (service: Service) => {
+    setSelectedService(service);
+    setShowDocumentViewer(true);
+  };
+
   const renderService = (service: Service, index: number) => (
     <div
       key={service.id}
-      className="card-enhanced p-6 animate-slide-up"
+      className="card-enhanced p-6 animate-slide-up bg-white rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300"
       style={{animationDelay: `${index * 0.1}s`}}
     >
       <div className="flex items-start justify-between mb-4">
@@ -554,7 +707,7 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, onBack }) => {
 
       <button
         onClick={() => setActiveService(activeService === service.id ? null : service.id)}
-        className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold px-6 py-4 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 ease-out text-base flex items-center justify-center gap-2"
+        className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold px-6 py-4 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 ease-out text-base flex items-center justify-center gap-2 mb-3"
       >
         <Info className="w-5 h-5" />
         {activeService === service.id ? 'إخفاء التفاصيل' : 'عرض المتطلبات والتفاصيل'}
@@ -573,19 +726,30 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, onBack }) => {
           </ul>
           
           <div className="flex gap-3">
-            <button className="flex-1 bg-gradient-to-r from-gray-100 to-gray-200 hover:from-gray-200 hover:to-gray-300 text-gray-800 font-semibold px-6 py-3 rounded-xl shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 ease-out text-sm flex items-center justify-center gap-2">
-              <Calendar className="w-4 h-4" />
-              حجز موعد
-            </button>
-            {service.isPaid ? (
-              <button className="flex-1 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white font-semibold px-6 py-3 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 ease-out text-sm flex items-center justify-center gap-2">
-                <CreditCard className="w-4 h-4" />
-                دفع وحجز
+            {service.hasAppointment && (
+              <button 
+                onClick={() => handleAppointmentClick(service)}
+                className="flex-1 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white font-semibold px-6 py-3 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 ease-out text-sm flex items-center justify-center gap-2"
+              >
+                <Calendar className="w-4 h-4" />
+                حجز موعد
               </button>
-            ) : (
-              <button className="flex-1 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold px-6 py-3 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 ease-out text-sm flex items-center justify-center gap-2">
+            )}
+            
+            {service.hasDownload && (
+              <button 
+                onClick={() => handleDownloadClick(service)}
+                className="flex-1 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold px-6 py-3 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 ease-out text-sm flex items-center justify-center gap-2"
+              >
                 <Download className="w-4 h-4" />
                 تحميل النموذج
+              </button>
+            )}
+            
+            {service.isPaid && (
+              <button className="flex-1 bg-gradient-to-r from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700 text-white font-semibold px-6 py-3 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 ease-out text-sm flex items-center justify-center gap-2">
+                <CreditCard className="w-4 h-4" />
+                دفع وحجز
               </button>
             )}
           </div>
@@ -593,6 +757,30 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, onBack }) => {
       )}
     </div>
   );
+
+  if (showAppointmentBooking && selectedService) {
+    return (
+      <AppointmentBooking
+        service={selectedService}
+        onBack={() => {
+          setShowAppointmentBooking(false);
+          setSelectedService(null);
+        }}
+      />
+    );
+  }
+
+  if (showDocumentViewer && selectedService) {
+    return (
+      <DocumentViewer
+        service={selectedService}
+        onBack={() => {
+          setShowDocumentViewer(false);
+          setSelectedService(null);
+        }}
+      />
+    );
+  }
 
   return (
     <div className={`min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/20 ${isRTL ? 'rtl' : 'ltr'}`}>
@@ -619,7 +807,6 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, onBack }) => {
         </div>
 
         <div className="p-6 space-y-6">
-          {/* للإدارة المحلية - عرض الأقسام الفرعية */}
           {hasSubsections(currentSector) ? (
             currentSector.subsections.map((subsection) => (
               <div key={subsection.id} className="space-y-4">
@@ -632,7 +819,6 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, onBack }) => {
               </div>
             ))
           ) : hasServices(currentSector) ? (
-            /* للقطاعات الأخرى - عرض الخدمات مباشرة */
             <>
               <h2 className="text-xl font-bold text-gray-800 mb-4">الخدمات المتاحة</h2>
               {currentSector.services.map((service, index) => renderService(service, index))}
