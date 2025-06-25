@@ -119,3 +119,6 @@ const UserTypeSelection: React.FC<UserTypeSelectionProps> = ({ onUserTypeSelect 
       </div>
     </div>
   );
+};
+
+export default UserTypeSelection;
