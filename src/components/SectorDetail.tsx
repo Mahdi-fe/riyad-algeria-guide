@@ -1,6 +1,5 @@
-
 import React, { useState } from 'react';
-import { ArrowLeft, ArrowRight, Clock, FileText, MapPin, Phone, AlertCircle, Download, Calendar, Star, Users, Building, CreditCard } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Clock, FileText, MapPin, Phone, AlertCircle, Download, Calendar, Star, Users, Building, CreditCard, Info } from 'lucide-react';
 import { useLanguage } from '../hooks/useLanguage';
 
 interface SectorDetailProps {
@@ -417,12 +416,12 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, onBack }) => {
         },
         {
           id: 'legal_consultation',
-          name: 'الاستشارة القانونية المدفوعة',
-          description: 'استشارة قانونية متخصصة مع محامي مؤهل',
-          requirements: ['وثائق القضية', 'بطاقة التعريف'],
-          deadline: 'فوري',
-          fee: 'حسب نوع الخدمة',
-          location: 'عبر التطبيق أو مكتب المحامي',
+          name: 'طلب استشارة قانونية عبر الإنترنت',
+          description: 'استشارة قانونية متخصصة مع محامي مؤهل عبر التطبيق',
+          requirements: ['وثائق القضية', 'بطاقة التعريف', 'وصف مفصل للمشكلة القانونية'],
+          deadline: 'خلال 24-48 ساعة',
+          fee: 'حسب نوع الاستشارة (2000-5000 دج)',
+          location: 'استشارة إلكترونية عبر التطبيق',
           isPaid: true,
           rating: 4.7,
           completionRate: 96
@@ -555,8 +554,9 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, onBack }) => {
 
       <button
         onClick={() => setActiveService(activeService === service.id ? null : service.id)}
-        className="w-full btn-primary text-sm py-3"
+        className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold px-6 py-4 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 ease-out text-base flex items-center justify-center gap-2"
       >
+        <Info className="w-5 h-5" />
         {activeService === service.id ? 'إخفاء التفاصيل' : 'عرض المتطلبات والتفاصيل'}
       </button>
 
@@ -573,17 +573,18 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, onBack }) => {
           </ul>
           
           <div className="flex gap-3">
-            <button className="flex-1 btn-secondary text-sm py-3">
-              <Calendar className="w-4 h-4 mr-2" />
+            <button className="flex-1 bg-gradient-to-r from-gray-100 to-gray-200 hover:from-gray-200 hover:to-gray-300 text-gray-800 font-semibold px-6 py-3 rounded-xl shadow-md hover:shadow-lg transform hover:-translate-y-0.5 transition-all duration-200 ease-out text-sm flex items-center justify-center gap-2">
+              <Calendar className="w-4 h-4" />
               حجز موعد
             </button>
             {service.isPaid ? (
-              <button className="flex-1 bg-gradient-to-r from-green-500 to-emerald-500 text-white font-semibold px-6 py-3 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 ease-out text-sm">
+              <button className="flex-1 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white font-semibold px-6 py-3 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 ease-out text-sm flex items-center justify-center gap-2">
+                <CreditCard className="w-4 h-4" />
                 دفع وحجز
               </button>
             ) : (
-              <button className="flex-1 btn-primary text-sm py-3">
-                <Download className="w-4 h-4 mr-2" />
+              <button className="flex-1 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold px-6 py-3 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 ease-out text-sm flex items-center justify-center gap-2">
+                <Download className="w-4 h-4" />
                 تحميل النموذج
               </button>
             )}

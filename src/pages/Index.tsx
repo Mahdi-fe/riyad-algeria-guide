@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { LanguageProvider } from '../hooks/useLanguage';
 import SplashScreen from '../components/SplashScreen';
@@ -27,7 +26,6 @@ const Index = () => {
   const [activeSector, setActiveSector] = useState<string | null>(null);
   const [isEmergencyModalOpen, setIsEmergencyModalOpen] = useState(false);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
-  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
   const [isLocationSearchOpen, setIsLocationSearchOpen] = useState(false);
   const [isDocumentTemplatesOpen, setIsDocumentTemplatesOpen] = useState(false);
   const [darkMode, setDarkMode] = useState(false);
@@ -75,9 +73,6 @@ const Index = () => {
     switch (action) {
       case 'emergency':
         setIsEmergencyModalOpen(true);
-        break;
-      case 'consultation':
-        setIsPaymentModalOpen(true);
         break;
       case 'templates':
         setIsDocumentTemplatesOpen(true);
@@ -250,12 +245,6 @@ const Index = () => {
           onClose={() => setIsSettingsModalOpen(false)}
           darkMode={darkMode}
           onDarkModeToggle={toggleDarkMode}
-        />
-
-        <LegalConsultationPayment
-          isOpen={isPaymentModalOpen}
-          onClose={() => setIsPaymentModalOpen(false)}
-          serviceType="general"
         />
 
         <LocationSearch

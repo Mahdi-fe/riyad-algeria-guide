@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { MessageCircle, Phone, Download, Zap, MapPin } from 'lucide-react';
+import { Phone, Download, Zap, MapPin } from 'lucide-react';
 import { useLanguage } from '../hooks/useLanguage';
 
 interface QuickActionsProps {
@@ -11,13 +11,6 @@ const QuickActions: React.FC<QuickActionsProps> = ({ onActionClick }) => {
   const { t, isRTL } = useLanguage();
 
   const actions = [
-    { 
-      id: 'consultation', 
-      title: 'الاستشارة القانونية المدفوعة', 
-      icon: <MessageCircle className="w-6 h-6" />, 
-      gradient: 'from-green-500 to-emerald-600 hover:from-green-600 hover:to-emerald-700',
-      shadowColor: 'shadow-green-500/25 hover:shadow-green-500/40'
-    },
     { 
       id: 'emergency', 
       title: 'حالات الطوارئ', 
