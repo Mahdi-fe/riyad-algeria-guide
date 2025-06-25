@@ -1,10 +1,10 @@
 
 import React from 'react';
-import { Building2, Users, Shield, ArrowRight, ArrowLeft, Star } from 'lucide-react';
+import { Building2, Shield, Star, ArrowRight, CheckCircle } from 'lucide-react';
 import { useLanguage } from '../hooks/useLanguage';
 
 interface ServiceTypeSelectionProps {
-  onServiceTypeSelect: (serviceType: 'government' | 'private') => void;
+  onServiceTypeSelect: (serviceType: string) => void;
 }
 
 const ServiceTypeSelection: React.FC<ServiceTypeSelectionProps> = ({ onServiceTypeSelect }) => {
@@ -15,169 +15,118 @@ const ServiceTypeSelection: React.FC<ServiceTypeSelectionProps> = ({ onServiceTy
       id: 'government',
       title: 'الخدمات الحكومية الرسمية',
       titleFr: 'Services Gouvernementaux Officiels',
-      description: 'الوصول المباشر إلى جميع القطاعات الحكومية والخدمات الإدارية الرسمية للدولة الجزائرية',
-      descriptionFr: 'Accès direct à tous les secteurs gouvernementaux et services administratifs officiels',
-      icon: <Building2 className="w-8 h-8" />,
-      gradient: 'from-blue-700 via-blue-800 to-blue-900',
-      bgGradient: 'from-blue-50/90 to-indigo-50/70',
-      borderColor: 'border-blue-200/50',
+      description: 'جميع الخدمات الإدارية الحكومية الجزائرية',
+      descriptionFr: 'Tous les services administratifs gouvernementaux algériens',
       features: [
-        'وثائق رسمية معتمدة',
-        'خدمات البلدية والولاية',
-        'قطاعات العدالة والصحة',
-        'التعليم والضمان الاجتماعي',
-        'خدمات البريد والتشغيل',
-        'الحالة المدنية والإدارة'
+        'الإدارة المحلية (البلدية والولاية)',
+        'قطاع الصحة والضمان الاجتماعي',
+        'قطاع العدالة والقضاء',
+        'قطاع التعليم والتكوين',
+        'البريد الجزائري والخدمات المالية'
       ],
-      badge: 'رسمي',
-      priority: true
+      icon: <Shield className="w-12 h-12" />,
+      gradient: 'from-blue-600 to-indigo-700',
+      bgGradient: 'from-blue-50 to-indigo-100',
+      recommended: true
     },
     {
       id: 'private',
-      title: 'الخدمات العامة والمساعدة',
-      titleFr: 'Services Généraux et Assistance',
-      description: 'خدمات الدعم والمساعدة الإدارية، الاستشارات، والخدمات التكميلية للمواطنين',
-      descriptionFr: 'Services de soutien administratif, consultations et services complémentaires',
-      icon: <Users className="w-8 h-8" />,
-      gradient: 'from-emerald-600 via-teal-700 to-cyan-800',
-      bgGradient: 'from-emerald-50/90 to-teal-50/70',
-      borderColor: 'border-emerald-200/50',
+      title: 'الخدمات الخاصة والاستشارات',
+      titleFr: 'Services Privés et Consultations',
+      description: 'الخدمات المهنية والاستشارات القانونية',
+      descriptionFr: 'Services professionnels et consultations juridiques',
       features: [
-        'استشارات قانونية متخصصة',
-        'خدمات الكاتب العمومي',
-        'مساعدة في الإجراءات الإدارية',
-        'خدمات الترجمة والتوثيق',
-        'دعم تقني وإرشادات',
-        'خدمات النقل والتوصيل'
+        'الاستشارات القانونية المدفوعة',
+        'خدمات المحاماة والتوثيق',
+        'الخدمات المصرفية الخاصة',
+        'التأمين والخدمات المالية'
       ],
-      badge: 'مساعد',
-      priority: false
+      icon: <Building2 className="w-12 h-12" />,
+      gradient: 'from-emerald-600 to-green-700',
+      bgGradient: 'from-emerald-50 to-green-100',
+      recommended: false
     }
   ];
 
   return (
-    <div className={`min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/20 to-indigo-50/10 ${isRTL ? 'rtl' : 'ltr'}`}>
-      <div className="max-w-lg mx-auto glass-government min-h-screen flex flex-col">
-        {/* Professional Header */}
-        <div className="relative overflow-hidden gradient-government p-8 pb-20">
-          {/* Background decorative elements */}
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-700/10 via-transparent to-blue-800/10"></div>
-          <div className="absolute top-16 left-12 w-32 h-32 bg-white/5 rounded-full blur-2xl animate-gentle-float"></div>
-          <div className="absolute top-28 right-20 w-24 h-24 bg-blue-300/8 rounded-full blur-xl animate-professional-pulse"></div>
-          <div className="absolute bottom-12 left-1/3 w-20 h-20 bg-indigo-300/6 rounded-full blur-lg animate-gentle-float" style={{animationDelay: '2s'}}></div>
+    <div className={`min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/20 ${isRTL ? 'rtl' : 'ltr'}`}>
+      <div className="w-full min-h-screen flex flex-col safe-area-padding">
+        {/* Mobile header */}
+        <div className="relative overflow-hidden bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 px-6 py-8 pb-12">
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-600/20 via-transparent to-purple-600/20"></div>
+          <div className="absolute top-8 left-8 w-24 h-24 bg-white/5 rounded-full blur-lg animate-gentle-float"></div>
+          <div className="absolute top-12 right-12 w-20 h-20 bg-indigo-300/10 rounded-full blur-md animate-professional-pulse"></div>
           
           <div className="relative z-10 text-center">
-            <div className="w-20 h-20 glass-elevated rounded-2xl mx-auto mb-6 flex items-center justify-center shadow-xl">
-              <Shield className="w-10 h-10 text-blue-700 animate-professional-pulse" />
+            <div className="w-16 h-16 bg-white/20 rounded-2xl mx-auto mb-4 flex items-center justify-center backdrop-blur-sm">
+              <Shield className="w-8 h-8 text-white" />
             </div>
-            <h1 className="text-4xl font-bold text-white mb-3 tracking-wide">AdminFiles</h1>
-            <div className="flex items-center justify-center gap-2 mb-2">
-              <Star className="w-4 h-4 text-yellow-300" />
-              <p className="text-blue-100 text-lg font-medium">منصة الخدمات الإدارية الرقمية</p>
-              <Star className="w-4 h-4 text-yellow-300" />
-            </div>
-            <p className="text-blue-200 text-sm">Plateforme de Services Administratifs Numériques</p>
-            <div className="mt-4 px-4 py-2 bg-white/20 backdrop-blur-sm rounded-full inline-block">
-              <p className="text-white text-xs font-medium">الجمهورية الجزائرية الديمقراطية الشعبية</p>
-            </div>
+            <h1 className="text-2xl font-bold text-white mb-2">AdminFiles</h1>
+            <p className="text-blue-100 text-base font-medium">اختر نوع الخدمة المطلوبة</p>
+            <p className="text-blue-200 text-xs mt-1">Choisissez le type de service souhaité</p>
           </div>
         </div>
 
-        {/* Service Selection Section */}
-        <div className="flex-1 p-8">
-          <div className="text-center mb-10">
-            <h2 className="title-government mb-3">اختر نوع الخدمة المطلوبة</h2>
-            <p className="text-muted-government text-base leading-relaxed">حدد القطاع المناسب للحصول على الخدمات المطلوبة بسرعة وسهولة</p>
-            <div className="w-16 h-1 bg-gradient-to-r from-blue-600 to-blue-800 rounded-full mx-auto mt-4"></div>
+        {/* Mobile-optimized content */}
+        <div className="flex-1 px-6 py-6">
+          <div className="text-center mb-6">
+            <h2 className="text-xl font-bold text-gray-800 mb-2">نوع الخدمة</h2>
+            <p className="text-gray-600 text-sm">اختر نوع الخدمات التي تحتاجها</p>
           </div>
 
           <div className="space-y-6">
-            {serviceTypes.map((type, index) => (
+            {serviceTypes.map((service, index) => (
               <button
-                key={type.id}
-                onClick={() => onServiceTypeSelect(type.id as 'government' | 'private')}
-                className={`w-full professional-card ${type.borderColor} p-6 relative overflow-hidden animate-slide-in-up group`}
-                style={{animationDelay: `${index * 0.15}s`}}
+                key={service.id}
+                onClick={() => onServiceTypeSelect(service.id)}
+                className={`w-full bg-gradient-to-r ${service.bgGradient} border-2 border-transparent hover:border-blue-200 active:border-blue-300 rounded-2xl p-6 transition-all duration-300 hover:shadow-lg active:scale-95 group animate-slide-up relative overflow-hidden`}
+                style={{animationDelay: `${index * 0.1}s`}}
               >
-                {/* Priority badge */}
-                {type.priority && (
-                  <div className="absolute top-4 right-4 bg-gradient-to-r from-amber-500 to-orange-500 text-white text-xs px-3 py-1 rounded-full font-bold shadow-lg">
-                    {type.badge}
+                {/* Recommended badge */}
+                {service.recommended && (
+                  <div className="absolute top-3 left-3 bg-gradient-to-r from-yellow-400 to-orange-500 text-white text-xs font-bold px-3 py-1 rounded-full flex items-center gap-1">
+                    <Star className="w-3 h-3" />
+                    مُوصى به
                   </div>
                 )}
-                
-                {/* Background decoration */}
-                <div className="absolute top-0 right-0 w-28 h-28 bg-gradient-to-br from-blue-100/20 to-transparent rounded-full -translate-y-10 translate-x-10 group-hover:scale-125 transition-transform duration-500"></div>
-                <div className="absolute bottom-0 left-0 w-20 h-20 bg-gradient-to-tr from-blue-50/30 to-transparent rounded-full translate-y-6 -translate-x-6 group-hover:scale-110 transition-transform duration-500"></div>
-                
-                <div className={`relative z-10 flex items-start gap-6 ${isRTL ? 'flex-row-reverse text-right' : 'text-left'}`}>
-                  <div className={`p-4 bg-gradient-to-r ${type.gradient} text-white rounded-2xl shadow-xl group-hover:scale-105 group-hover:rotate-1 transition-all duration-400`}>
-                    {type.icon}
+
+                <div className={`text-center ${isRTL ? 'text-right' : 'text-left'}`}>
+                  <div className={`p-4 bg-gradient-to-r ${service.gradient} text-white rounded-2xl shadow-lg group-hover:scale-105 group-active:scale-100 transition-transform duration-300 mx-auto mb-4 w-fit`}>
+                    {service.icon}
                   </div>
                   
-                  <div className="flex-1 space-y-4">
-                    <div>
-                      <h3 className="text-xl font-bold text-blue-900 mb-2 group-hover:text-blue-800 transition-colors duration-300">
-                        {type.title}
-                      </h3>
-                      <p className="text-xs text-slate-500 mb-3 font-medium">{type.titleFr}</p>
-                      <p className="text-slate-600 text-sm leading-relaxed group-hover:text-slate-700 transition-colors duration-300">
-                        {type.description}
-                      </p>
-                    </div>
-                    
-                    {/* Features grid */}
-                    <div className="grid grid-cols-2 gap-2">
-                      {type.features.slice(0, 4).map((feature, idx) => (
-                        <div key={idx} className="flex items-center gap-2 text-xs text-slate-600">
-                          <div className={`w-1.5 h-1.5 bg-gradient-to-r ${type.gradient} rounded-full`}></div>
-                          <span>{feature}</span>
-                        </div>
-                      ))}
-                    </div>
+                  <div className="mb-4">
+                    <h3 className="text-lg font-bold text-gray-800 mb-1">{service.title}</h3>
+                    <p className="text-xs text-gray-500 mb-2">{service.titleFr}</p>
+                    <p className="text-gray-600 text-sm leading-relaxed">{service.description}</p>
                   </div>
-                  
-                  <div className="p-3 glass-elevated rounded-xl group-hover:shadow-lg transition-all duration-300 group-hover:scale-105">
-                    {isRTL ? (
-                      <ArrowLeft className="w-5 h-5 text-blue-700 group-hover:text-blue-800 transition-colors duration-300" />
-                    ) : (
-                      <ArrowRight className="w-5 h-5 text-blue-700 group-hover:text-blue-800 transition-colors duration-300" />
-                    )}
+
+                  <div className="space-y-2 mb-4">
+                    {service.features.map((feature, idx) => (
+                      <div key={idx} className="flex items-center gap-2 text-xs text-gray-700">
+                        <CheckCircle className="w-3 h-3 text-green-600 flex-shrink-0" />
+                        <span>{feature}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="flex items-center justify-center gap-2 text-blue-600 font-semibold">
+                    <span>اختر هذا النوع</span>
+                    <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform duration-300" />
                   </div>
                 </div>
-                
-                {/* Hover shimmer effect */}
-                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/15 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out opacity-0 group-hover:opacity-100"></div>
               </button>
             ))}
           </div>
 
-          {/* Professional info section */}
-          <div className="mt-10 p-6 gradient-government-light rounded-2xl border border-blue-200/30 backdrop-blur-sm">
-            <div className="flex items-start gap-4">
-              <div className="p-3 bg-blue-600/10 backdrop-blur-sm rounded-xl">
-                <Shield className="w-6 h-6 text-blue-700" />
+          <div className="mt-6 p-4 bg-gradient-to-r from-green-50 to-emerald-50 rounded-xl border border-green-200">
+            <div className="flex items-start gap-3">
+              <div className="p-2 bg-green-200 rounded-lg">
+                <Shield className="w-4 h-4 text-green-700" />
               </div>
               <div>
-                <h4 className="font-bold text-blue-800 mb-2 text-base">منصة آمنة وموثوقة</h4>
-                <p className="text-blue-700 text-sm leading-relaxed">
-                  منصة AdminFiles هي خدمة رقمية آمنة ومتطورة تجمع جميع الخدمات الحكومية والإدارية 
-                  في مكان واحد، مع ضمان الحماية الكاملة لبياناتك الشخصية
-                </p>
-                <div className="mt-3 flex items-center gap-4 text-xs text-blue-600">
-                  <span className="flex items-center gap-1">
-                    <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                    آمن 100%
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
-                    معتمد رسمياً
-                  </span>
-                  <span className="flex items-center gap-1">
-                    <div className="w-2 h-2 bg-purple-500 rounded-full"></div>
-                    سهل الاستخدام
-                  </span>
-                </div>
+                <h4 className="font-semibold text-green-800 text-sm mb-1">أمان وموثوقية</h4>
+                <p className="text-green-700 text-xs">جميع الخدمات معتمدة ومصرح بها من الجهات الحكومية المختصة</p>
               </div>
             </div>
           </div>
