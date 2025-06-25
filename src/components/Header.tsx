@@ -4,7 +4,7 @@ import { Bell, Menu, Search, User, Settings, LogOut } from 'lucide-react';
 import { useLanguage } from '../hooks/useLanguage';
 
 const Header: React.FC = () => {
-  const { isRTL } = useLanguage();
+  const { isRTL, t } = useLanguage();
   const [showNotifications, setShowNotifications] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
 
@@ -44,20 +44,20 @@ const Header: React.FC = () => {
           {/* Menu Button */}
           <button 
             onClick={() => setShowMenu(true)}
-            className="p-3 bg-white/10 backdrop-blur-sm rounded-2xl shadow-lg hover:bg-white/20 transition-all duration-300 hover:scale-105"
+            className="p-3 bg-white/10 backdrop-blur-sm rounded-2xl shadow-lg hover:bg-white/20 transition-all duration-300 hover:scale-105 ring-2 ring-white/20"
           >
-            <Menu className="w-6 h-6 text-white" />
+            <Menu className="w-6 h-6 text-white drop-shadow-lg" />
           </button>
 
           {/* Logo and Title */}
           <div className="flex-1 text-center">
             <div className="flex items-center justify-center gap-3">
-              <div className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center">
-                <span className="text-white font-bold text-lg">🇩🇿</span>
+              <div className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center ring-2 ring-white/30">
+                <span className="text-white font-bold text-lg drop-shadow-lg">🇩🇿</span>
               </div>
               <div>
-                <h1 className="text-xl font-bold text-white">AdminFiles</h1>
-                <p className="text-blue-200 text-xs">الخدمات الحكومية الرقمية</p>
+                <h1 className="text-xl font-bold text-white drop-shadow-lg">AdminFiles</h1>
+                <p className="text-blue-200 text-xs drop-shadow-sm">الخدمات الحكومية الرقمية</p>
               </div>
             </div>
           </div>
@@ -66,12 +66,12 @@ const Header: React.FC = () => {
           <div className="relative">
             <button 
               onClick={() => setShowNotifications(!showNotifications)}
-              className="p-3 bg-white/10 backdrop-blur-sm rounded-2xl shadow-lg hover:bg-white/20 transition-all duration-300 hover:scale-105 relative"
+              className="p-3 bg-white/10 backdrop-blur-sm rounded-2xl shadow-lg hover:bg-white/20 transition-all duration-300 hover:scale-105 relative ring-2 ring-white/20"
             >
-              <Bell className="w-6 h-6 text-white" />
+              <Bell className="w-6 h-6 text-white drop-shadow-lg" />
               {notifications.length > 0 && (
-                <div className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center">
-                  <span className="text-white text-xs font-bold">{notifications.length}</span>
+                <div className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center ring-2 ring-white/50">
+                  <span className="text-white text-xs font-bold drop-shadow-sm">{notifications.length}</span>
                 </div>
               )}
             </button>
@@ -121,8 +121,8 @@ const Header: React.FC = () => {
                   <User className="w-8 h-8" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-lg">أحمد بن علي</h3>
-                  <p className="text-blue-200 text-sm">مواطن جزائري</p>
+                  <h3 className="font-bold text-lg">{t('userName')}</h3>
+                  <p className="text-blue-200 text-sm">{t('userType')}</p>
                 </div>
               </div>
             </div>

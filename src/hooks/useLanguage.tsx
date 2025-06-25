@@ -1,3 +1,4 @@
+
 import React, { createContext, useContext, useState } from 'react';
 
 type Language = 'ar' | 'fr' | 'en';
@@ -40,7 +41,9 @@ const translations = {
     police: 'الشرطة',
     gendarmerie: 'الدرك الوطني',
     ambulance: 'الإسعاف',
-    civilProtection: 'الحماية المدنية'
+    civilProtection: 'الحماية المدنية',
+    userName: 'فتاش مهدي',
+    userType: 'مواطن جزائري'
   },
   fr: {
     searchPlaceholder: 'Rechercher des dossiers, délais et services...',
@@ -72,7 +75,9 @@ const translations = {
     police: 'Police',
     gendarmerie: 'Gendarmerie',
     ambulance: 'Ambulance',
-    civilProtection: 'Protection Civile'
+    civilProtection: 'Protection Civile',
+    userName: 'Mahdi Fettache',
+    userType: 'Citoyen Algérien'
   },
   en: {
     searchPlaceholder: 'Search for files, deadlines and services...',
@@ -104,7 +109,9 @@ const translations = {
     police: 'Police',
     gendarmerie: 'Gendarmerie',
     ambulance: 'Ambulance',
-    civilProtection: 'Civil Protection'
+    civilProtection: 'Civil Protection',
+    userName: 'Mahdi Fettache',
+    userType: 'Algerian Citizen'
   }
 };
 
