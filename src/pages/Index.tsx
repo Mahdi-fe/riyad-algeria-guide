@@ -221,7 +221,7 @@ const MainContent = ({
       <DocumentViewer
         isOpen={isDocumentViewerOpen}
         onClose={() => setIsDocumentViewerOpen(false)}
-        document={selectedDocument}
+        service={selectedDocument}
       />
     </div>
   );
