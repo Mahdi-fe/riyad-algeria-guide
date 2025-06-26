@@ -1,6 +1,6 @@
 
 import React, { useEffect } from 'react';
-import { Shield, Star } from 'lucide-react';
+import { Shield, CheckCircle } from 'lucide-react';
 
 interface SplashScreenProps {
   onComplete: () => void;
@@ -17,41 +17,52 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete }) => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-600 via-blue-700 to-blue-900 flex items-center justify-center relative overflow-hidden">
-      {/* Clean background elements */}
+      {/* Enhanced background elements */}
       <div className="absolute inset-0">
-        <div className="absolute top-1/4 left-1/4 w-32 h-32 bg-white/5 rounded-full blur-2xl animate-pulse"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-24 h-24 bg-white/3 rounded-full blur-xl animate-pulse" style={{animationDelay: '1s'}}></div>
+        <div className="absolute top-1/4 left-1/4 w-40 h-40 bg-white/5 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute bottom-1/4 right-1/4 w-32 h-32 bg-white/3 rounded-full blur-2xl animate-pulse" style={{animationDelay: '1s'}}></div>
+        <div className="absolute top-1/2 left-1/2 w-24 h-24 bg-blue-300/8 rounded-full blur-xl animate-professional-pulse" style={{animationDelay: '2s'}}></div>
       </div>
 
-      <div className="text-center px-8 animate-fade-in-scale">
-        {/* Modern app logo */}
-        <div className="w-28 h-28 mx-auto mb-8 bg-white rounded-3xl flex items-center justify-center shadow-2xl">
-          <Shield className="w-16 h-16 text-blue-600" />
+      <div className="text-center px-8 animate-fade-in-scale relative z-10">
+        {/* Enhanced app logo */}
+        <div className="w-32 h-32 mx-auto mb-10 bg-white rounded-3xl flex items-center justify-center shadow-2xl animate-gentle-float">
+          <Shield className="w-18 h-18 text-blue-600 animate-professional-pulse" style={{width: '4.5rem', height: '4.5rem'}} />
         </div>
 
-        {/* Clean app branding */}
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-white mb-4 tracking-tight">AdminFiles</h1>
-          <div className="flex items-center justify-center gap-2 mb-3">
-            <div className="w-1 h-1 bg-yellow-300 rounded-full"></div>
-            <p className="text-xl text-blue-100 font-medium">بوابتك الإدارية الرقمية</p>
-            <div className="w-1 h-1 bg-yellow-300 rounded-full"></div>
+        {/* Enhanced app branding */}
+        <div className="mb-12 space-y-6">
+          <h1 className="text-5xl font-bold text-white mb-6 tracking-tight">AdminFiles</h1>
+          <div className="space-y-4">
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <div className="w-2 h-2 bg-yellow-300 rounded-full animate-pulse"></div>
+              <p className="text-2xl text-blue-100 font-semibold">بوابتك الإدارية الرقمية</p>
+              <div className="w-2 h-2 bg-yellow-300 rounded-full animate-pulse"></div>
+            </div>
+            <p className="text-blue-200 text-lg font-medium">Votre Portail Administratif Numérique</p>
           </div>
-          <p className="text-blue-200 text-base">Votre Portail Administratif Numérique</p>
         </div>
 
-        {/* Government identification */}
-        <div className="bg-white/15 backdrop-blur-sm rounded-2xl px-6 py-4 mb-8">
-          <p className="text-white font-semibold text-base">الجمهورية الجزائرية الديمقراطية الشعبية</p>
-          <p className="text-blue-100 text-sm mt-1">République Algérienne Démocratique et Populaire</p>
+        {/* Enhanced government identification */}
+        <div className="glass-elevated rounded-3xl px-8 py-6 mb-10 border border-white/20">
+          <div className="space-y-3">
+            <div className="flex items-center justify-center gap-2 mb-2">
+              <CheckCircle className="w-5 h-5 text-green-400" />
+              <span className="text-white font-bold text-base">رسمي ومعتمد</span>
+            </div>
+            <p className="text-white font-bold text-lg">الجمهورية الجزائرية الديمقراطية الشعبية</p>
+            <p className="text-blue-100 text-base font-medium">République Algérienne Démocratique et Populaire</p>
+          </div>
         </div>
 
-        {/* Modern loading dots */}
-        <div className="flex justify-center items-center gap-2">
-          <div className="w-3 h-3 bg-white rounded-full animate-bounce"></div>
-          <div className="w-3 h-3 bg-white rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
-          <div className="w-3 h-3 bg-white rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
+        {/* Enhanced loading animation */}
+        <div className="flex justify-center items-center gap-3">
+          <div className="w-4 h-4 bg-white rounded-full animate-bounce shadow-lg"></div>
+          <div className="w-4 h-4 bg-white rounded-full animate-bounce shadow-lg" style={{animationDelay: '0.1s'}}></div>
+          <div className="w-4 h-4 bg-white rounded-full animate-bounce shadow-lg" style={{animationDelay: '0.2s'}}></div>
         </div>
+        
+        <p className="text-blue-200 text-sm mt-6 font-medium">جاري التحميل...</p>
       </div>
     </div>
   );

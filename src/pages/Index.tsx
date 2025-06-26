@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+
+import React, { useState, useEffect } from 'react';
 import { LanguageProvider, useLanguage } from '../hooks/useLanguage';
 import SplashScreen from '../components/SplashScreen';
 import LoginScreen from '../components/LoginScreen';
@@ -18,7 +19,7 @@ import DocumentTemplates from '../components/DocumentTemplates';
 import AppointmentBooking from '../components/AppointmentBooking';
 import DocumentViewer from '../components/DocumentViewer';
 
-type AppState = 'splash' | 'login' | 'signup' | 'serviceType' | 'userType' | 'main';
+type AppState = 'splash' | 'userType' | 'login' | 'signup' | 'serviceType' | 'main';
 
 const MainContent = ({
   appState,
@@ -35,12 +36,12 @@ const MainContent = ({
   selectedDocument,
   darkMode,
   handleSplashComplete,
+  handleUserTypeSelect,
   handleLogin,
   handleSignUpClick,
   handleSignUp,
   handleBackToLogin,
   handleServiceTypeSelect,
-  handleUserTypeSelect,
   handleSectorClick,
   handleActionClick,
   handleTabChange,
@@ -61,6 +62,10 @@ const MainContent = ({
         <SplashScreen onComplete={handleSplashComplete} />
       )}
       
+      {appState === 'userType' && (
+        <UserTypeSelection onUserTypeSelect={handleUserTypeSelect} />
+      )}
+      
       {appState === 'login' && (
         <LoginScreen onLogin={handleLogin} onSignUp={handleSignUpClick} />
       )}
@@ -71,10 +76,6 @@ const MainContent = ({
       
       {appState === 'serviceType' && (
         <ServiceTypeSelection onServiceTypeSelect={handleServiceTypeSelect} />
-      )}
-      
-      {appState === 'userType' && (
-        <UserTypeSelection onUserTypeSelect={handleUserTypeSelect} />
       )}
       
       {appState === 'main' && (
@@ -242,7 +243,32 @@ const Index = () => {
   const [selectedDocument, setSelectedDocument] = useState<string | null>(null);
   const [darkMode, setDarkMode] = useState(false);
 
+  // Check for saved user preferences on app load
+  useEffect(() => {
+    const savedUserType = localStorage.getItem('adminfiles_user_type');
+    const savedServiceType = localStorage.getItem('adminfiles_service_type');
+    const isReturningUser = localStorage.getItem('adminfiles_is_returning_user');
+    
+    if (savedUserType && savedServiceType && isReturningUser) {
+      setUserType(savedUserType);
+      setServiceType(savedServiceType);
+      // Skip onboarding for returning users
+      setTimeout(() => setAppState('main'), 2500);
+    }
+  }, []);
+
   const handleSplashComplete = () => {
+    const isReturningUser = localStorage.getItem('adminfiles_is_returning_user');
+    if (isReturningUser) {
+      setAppState('main');
+    } else {
+      setAppState('userType');
+    }
+  };
+
+  const handleUserTypeSelect = (selectedUserType: string) => {
+    setUserType(selectedUserType);
+    localStorage.setItem('adminfiles_user_type', selectedUserType);
     setAppState('login');
   };
 
@@ -256,6 +282,7 @@ const Index = () => {
 
   const handleSignUp = (selectedUserType: string) => {
     setUserType(selectedUserType);
+    localStorage.setItem('adminfiles_user_type', selectedUserType);
     setAppState('serviceType');
   };
 
@@ -265,15 +292,8 @@ const Index = () => {
 
   const handleServiceTypeSelect = (selectedServiceType: string) => {
     setServiceType(selectedServiceType);
-    if (userType) {
-      setAppState('main');
-    } else {
-      setAppState('userType');
-    }
-  };
-
-  const handleUserTypeSelect = (selectedUserType: string) => {
-    setUserType(selectedUserType);
+    localStorage.setItem('adminfiles_service_type', selectedServiceType);
+    localStorage.setItem('adminfiles_is_returning_user', 'true');
     setAppState('main');
   };
 
@@ -330,12 +350,12 @@ const Index = () => {
         selectedDocument={selectedDocument}
         darkMode={darkMode}
         handleSplashComplete={handleSplashComplete}
+        handleUserTypeSelect={handleUserTypeSelect}
         handleLogin={handleLogin}
         handleSignUpClick={handleSignUpClick}
         handleSignUp={handleSignUp}
         handleBackToLogin={handleBackToLogin}
         handleServiceTypeSelect={handleServiceTypeSelect}
-        handleUserTypeSelect={handleUserTypeSelect}
         handleSectorClick={handleSectorClick}
         handleActionClick={handleActionClick}
         handleTabChange={handleTabChange}
