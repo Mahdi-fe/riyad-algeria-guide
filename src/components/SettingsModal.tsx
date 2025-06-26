@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { X, Globe, Moon, Sun, Bell, Palette } from 'lucide-react';
 import { useLanguage } from '../hooks/useLanguage';
@@ -16,9 +15,8 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, darkMode
   if (!isOpen) return null;
 
   const languages = [
-    { code: 'ar' as const, name: t('arabic'), flag: '🇩🇿', gradient: 'from-green-500 to-red-500' },
-    { code: 'fr' as const, name: t('french'), flag: '🇫🇷', gradient: 'from-blue-500 to-red-500' },
-    { code: 'en' as const, name: t('english'), flag: '🇺🇸', gradient: 'from-blue-500 to-red-600' },
+    { code: 'ar' as const, name: 'العربية', flag: '🇩🇿', gradient: 'from-green-500 to-red-500' },
+    { code: 'fr' as const, name: 'Français', flag: '🇫🇷', gradient: 'from-blue-500 to-red-500' },
   ];
 
   return (
@@ -50,7 +48,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, darkMode
                 <div className="p-2 bg-blue-50 rounded-xl">
                   <Globe className="w-5 h-5 text-blue-600" />
                 </div>
-                <span className="font-semibold text-gray-800">{t('language')}</span>
+                <span className="font-semibold text-gray-800">اللغة</span>
               </div>
               <div className="space-y-3">
                 {languages.map((lang, index) => (
@@ -85,7 +83,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, darkMode
                   )}
                 </div>
                 <span className="font-semibold text-gray-800">
-                  {darkMode ? t('darkMode') : t('lightMode')}
+                  {darkMode ? 'الوضع المظلم' : 'الوضع المضيء'}
                 </span>
               </div>
               <button
@@ -114,7 +112,7 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ isOpen, onClose, darkMode
                 <div className="p-3 bg-white rounded-xl shadow-md">
                   <Bell className="w-5 h-5 text-green-600" />
                 </div>
-                <span className="font-semibold text-gray-800">{t('notifications')}</span>
+                <span className="font-semibold text-gray-800">الإشعارات</span>
               </div>
               <button className="w-16 h-8 bg-gradient-to-r from-green-500 to-emerald-500 rounded-full relative shadow-lg">
                 <div className="w-7 h-7 bg-white rounded-full shadow-md transform translate-x-8 absolute top-0.5 flex items-center justify-center">

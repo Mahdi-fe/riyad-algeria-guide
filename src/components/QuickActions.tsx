@@ -1,13 +1,13 @@
-
 import React from 'react';
 import { Phone, Download, Zap, MapPin } from 'lucide-react';
 import { useLanguage } from '../hooks/useLanguage';
 
 interface QuickActionsProps {
   onActionClick: (action: string) => void;
+  userType?: string;
 }
 
-const QuickActions: React.FC<QuickActionsProps> = ({ onActionClick }) => {
+const QuickActions: React.FC<QuickActionsProps> = ({ onActionClick, userType }) => {
   const { t, isRTL } = useLanguage();
 
   const actions = [

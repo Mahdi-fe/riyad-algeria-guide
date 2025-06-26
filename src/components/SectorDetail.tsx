@@ -6,6 +6,7 @@ import DocumentViewer from './DocumentViewer';
 
 interface SectorDetailProps {
   sector: string;
+  userType?: string;
   onBack: () => void;
 }
 
@@ -46,7 +47,7 @@ interface SectorWithServices {
 
 type SectorData = SectorWithSubsections | SectorWithServices;
 
-const SectorDetail: React.FC<SectorDetailProps> = ({ sector, onBack }) => {
+const SectorDetail: React.FC<SectorDetailProps> = ({ sector, userType, onBack }) => {
   const { t, isRTL } = useLanguage();
   const [activeService, setActiveService] = useState<string | null>(null);
   const [showAppointmentBooking, setShowAppointmentBooking] = useState(false);
