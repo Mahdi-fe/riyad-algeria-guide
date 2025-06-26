@@ -13,11 +13,10 @@ interface Service {
 interface DocumentViewerProps {
   isOpen: boolean;
   onClose: () => void;
-  document?: string;
   service?: Service;
 }
 
-const DocumentViewer: React.FC<DocumentViewerProps> = ({ isOpen, onClose, document, service }) => {
+const DocumentViewer: React.FC<DocumentViewerProps> = ({ isOpen, onClose, service }) => {
   const { isRTL } = useLanguage();
   const [isDownloaded, setIsDownloaded] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
@@ -43,14 +42,14 @@ const DocumentViewer: React.FC<DocumentViewerProps> = ({ isOpen, onClose, docume
     setIsDownloaded(true);
     
     // Create a simple PDF-like download simulation
-    const element = document.createElement('a');
+    const element = window.document.createElement('a');
     const file = new Blob([`نموذج ${currentService.name}\n\nالمتطلبات:\n${currentService.requirements.join('\n')}\n\nالمكان: ${currentService.location}`], 
       { type: 'text/plain;charset=utf-8' });
     element.href = URL.createObjectURL(file);
     element.download = `نموذج_${currentService.name.replace(/\s+/g, '_')}.txt`;
-    document.body.appendChild(element);
+    window.document.body.appendChild(element);
     element.click();
-    document.body.removeChild(element);
+    window.document.body.removeChild(element);
     
     setTimeout(() => {
       setIsDownloaded(false);

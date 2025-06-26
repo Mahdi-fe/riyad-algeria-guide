@@ -761,11 +761,12 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, onBack }) => {
   if (showAppointmentBooking && selectedService) {
     return (
       <AppointmentBooking
-        service={selectedService}
-        onBack={() => {
+        isOpen={true}
+        onClose={() => {
           setShowAppointmentBooking(false);
           setSelectedService(null);
         }}
+        service={selectedService}
       />
     );
   }
@@ -773,11 +774,12 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, onBack }) => {
   if (showDocumentViewer && selectedService) {
     return (
       <DocumentViewer
-        service={selectedService}
-        onBack={() => {
+        isOpen={true}
+        onClose={() => {
           setShowDocumentViewer(false);
           setSelectedService(null);
         }}
+        service={selectedService}
       />
     );
   }
