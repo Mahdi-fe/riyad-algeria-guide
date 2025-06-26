@@ -1,9 +1,13 @@
 
 import React, { useState } from 'react';
-import { Bell, Menu, Search, User, Settings, LogOut } from 'lucide-react';
+import { Bell, Menu, Search, User, Settings, LogOut, Shield } from 'lucide-react';
 import { useLanguage } from '../hooks/useLanguage';
 
-const Header: React.FC = () => {
+interface HeaderProps {
+  userType?: string;
+}
+
+const Header: React.FC<HeaderProps> = ({ userType }) => {
   const { isRTL, t } = useLanguage();
   const [showNotifications, setShowNotifications] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
@@ -32,6 +36,25 @@ const Header: React.FC = () => {
     }
   ];
 
+  const getUserTypeLabel = () => {
+    switch (userType) {
+      case 'lawyer':
+        return 'محامي مرخص';
+      case 'officer':
+        return 'موظف إداري';
+      case 'business':
+        return 'صاحب مؤسسة';
+      default:
+        return 'مواطن';
+    }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('adminfiles_is_logged_in');
+    localStorage.removeItem('adminfiles_user_type');
+    window.location.reload();
+  };
+
   return (
     <>
       <div className="relative bg-gradient-to-r from-blue-700 via-blue-800 to-indigo-900 p-6">
@@ -53,7 +76,7 @@ const Header: React.FC = () => {
           <div className="flex-1 text-center">
             <div className="flex items-center justify-center gap-3">
               <div className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center ring-2 ring-white/30">
-                <span className="text-white font-bold text-lg drop-shadow-lg">🇩🇿</span>
+                <Shield className="w-6 h-6 text-white drop-shadow-lg" />
               </div>
               <div>
                 <h1 className="text-xl font-bold text-white drop-shadow-lg">AdminFiles</h1>
@@ -108,6 +131,13 @@ const Header: React.FC = () => {
             )}
           </div>
         </div>
+
+        {/* User Type Badge */}
+        <div className="mt-4 flex justify-center">
+          <div className="bg-white/15 backdrop-blur-sm rounded-2xl px-6 py-2 border border-white/20">
+            <p className="text-white font-medium text-sm">{getUserTypeLabel()}</p>
+          </div>
+        </div>
       </div>
 
       {/* Side Menu Overlay */}
@@ -121,8 +151,8 @@ const Header: React.FC = () => {
                   <User className="w-8 h-8" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-lg">{t('userName')}</h3>
-                  <p className="text-blue-200 text-sm">{t('userType')}</p>
+                  <h3 className="font-bold text-lg">محمد فتاح</h3>
+                  <p className="text-blue-200 text-sm">{getUserTypeLabel()}</p>
                 </div>
               </div>
             </div>
@@ -144,7 +174,10 @@ const Header: React.FC = () => {
               </button>
               
               <div className="border-t border-gray-200 pt-4">
-                <button className="w-full flex items-center gap-4 p-4 rounded-2xl hover:bg-red-50 transition-colors text-right text-red-600">
+                <button 
+                  onClick={handleLogout}
+                  className="w-full flex items-center gap-4 p-4 rounded-2xl hover:bg-red-50 transition-colors text-right text-red-600"
+                >
                   <LogOut className="w-6 h-6" />
                   <span className="font-medium">تسجيل الخروج</span>
                 </button>
