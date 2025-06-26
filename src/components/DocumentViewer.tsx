@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { ArrowLeft, ArrowRight, Download, FileText, CheckCircle, Eye } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Download, FileText, CheckCircle, Eye, X } from 'lucide-react';
 import { useLanguage } from '../hooks/useLanguage';
 
 interface Service {
@@ -11,14 +11,32 @@ interface Service {
 }
 
 interface DocumentViewerProps {
-  service: Service;
-  onBack: () => void;
+  isOpen: boolean;
+  onClose: () => void;
+  document?: string;
+  service?: Service;
 }
 
-const DocumentViewer: React.FC<DocumentViewerProps> = ({ service, onBack }) => {
+const DocumentViewer: React.FC<DocumentViewerProps> = ({ isOpen, onClose, document, service }) => {
   const { isRTL } = useLanguage();
   const [isDownloaded, setIsDownloaded] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
+
+  // Default service if none provided
+  const defaultService: Service = {
+    id: 'default',
+    name: 'نموذج عام',
+    location: 'الإدارة المحلية',
+    requirements: [
+      'نسخة من بطاقة التعريف الوطنية',
+      'شهادة الإقامة',
+      'صورة شمسية'
+    ]
+  };
+
+  const currentService = service || defaultService;
+
+  if (!isOpen) return null;
 
   const handleDownload = () => {
     // Simulate download process
@@ -26,10 +44,10 @@ const DocumentViewer: React.FC<DocumentViewerProps> = ({ service, onBack }) => {
     
     // Create a simple PDF-like download simulation
     const element = document.createElement('a');
-    const file = new Blob([`نموذج ${service.name}\n\nالمتطلبات:\n${service.requirements.join('\n')}\n\nالمكان: ${service.location}`], 
+    const file = new Blob([`نموذج ${currentService.name}\n\nالمتطلبات:\n${currentService.requirements.join('\n')}\n\nالمكان: ${currentService.location}`], 
       { type: 'text/plain;charset=utf-8' });
     element.href = URL.createObjectURL(file);
-    element.download = `نموذج_${service.name.replace(/\s+/g, '_')}.txt`;
+    element.download = `نموذج_${currentService.name.replace(/\s+/g, '_')}.txt`;
     document.body.appendChild(element);
     element.click();
     document.body.removeChild(element);
@@ -45,8 +63,8 @@ const DocumentViewer: React.FC<DocumentViewerProps> = ({ service, onBack }) => {
 
   if (showPreview) {
     return (
-      <div className={`min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/20 ${isRTL ? 'rtl' : 'ltr'}`}>
-        <div className="max-w-md mx-auto glass-card min-h-screen">
+      <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+        <div className={`bg-white rounded-2xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto ${isRTL ? 'rtl' : 'ltr'}`}>
           {/* Header */}
           <div className="relative overflow-hidden bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 p-6">
             <div className="flex items-center gap-4 relative z-10">
@@ -54,16 +72,18 @@ const DocumentViewer: React.FC<DocumentViewerProps> = ({ service, onBack }) => {
                 onClick={() => setShowPreview(false)}
                 className="p-3 glass rounded-2xl shadow-lg hover-lift"
               >
-                {isRTL ? (
-                  <ArrowRight className="w-6 h-6 text-white" />
-                ) : (
-                  <ArrowLeft className="w-6 h-6 text-white" />
-                )}
+                <ArrowLeft className="w-6 h-6 text-white" />
               </button>
               <div className="flex-1">
                 <h1 className="text-xl font-bold text-white mb-1">معاينة النموذج</h1>
-                <p className="text-blue-200 text-sm">{service.name}</p>
+                <p className="text-blue-200 text-sm">{currentService.name}</p>
               </div>
+              <button
+                onClick={onClose}
+                className="p-3 glass rounded-2xl shadow-lg hover-lift"
+              >
+                <X className="w-6 h-6 text-white" />
+              </button>
             </div>
           </div>
 
@@ -72,14 +92,14 @@ const DocumentViewer: React.FC<DocumentViewerProps> = ({ service, onBack }) => {
             <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6">
               <div className="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center">
                 <FileText className="w-20 h-20 text-gray-400 mx-auto mb-4" />
-                <h3 className="text-lg font-bold text-gray-800 mb-2">نموذج {service.name}</h3>
+                <h3 className="text-lg font-bold text-gray-800 mb-2">نموذج {currentService.name}</h3>
                 <p className="text-gray-600 text-sm mb-6">
                   هذا نموذج رسمي من الإدارة الجزائرية
                 </p>
                 
                 <div className="bg-gray-50 rounded-xl p-4 text-right space-y-2">
                   <h4 className="font-bold text-gray-800 mb-3">المتطلبات:</h4>
-                  {service.requirements.map((req, index) => (
+                  {currentService.requirements.map((req, index) => (
                     <div key={index} className="flex items-start gap-2">
                       <div className="w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
                       <span className="text-sm text-gray-700">{req}</span>
@@ -89,7 +109,7 @@ const DocumentViewer: React.FC<DocumentViewerProps> = ({ service, onBack }) => {
                 
                 <div className="mt-6 pt-4 border-t border-gray-200">
                   <p className="text-xs text-gray-500">
-                    المكان: {service.location}
+                    المكان: {currentService.location}
                   </p>
                 </div>
               </div>
@@ -109,24 +129,20 @@ const DocumentViewer: React.FC<DocumentViewerProps> = ({ service, onBack }) => {
   }
 
   return (
-    <div className={`min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/20 ${isRTL ? 'rtl' : 'ltr'}`}>
-      <div className="max-w-md mx-auto glass-card min-h-screen">
+    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+      <div className={`bg-white rounded-2xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto ${isRTL ? 'rtl' : 'ltr'}`}>
         {/* Header */}
         <div className="relative overflow-hidden bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 p-6">
           <div className="flex items-center gap-4 relative z-10">
             <button
-              onClick={onBack}
+              onClick={onClose}
               className="p-3 glass rounded-2xl shadow-lg hover-lift"
             >
-              {isRTL ? (
-                <ArrowRight className="w-6 h-6 text-white" />
-              ) : (
-                <ArrowLeft className="w-6 h-6 text-white" />
-              )}
+              <X className="w-6 h-6 text-white" />
             </button>
             <div className="flex-1">
               <h1 className="text-xl font-bold text-white mb-1">تحميل النموذج</h1>
-              <p className="text-blue-200 text-sm">{service.name}</p>
+              <p className="text-blue-200 text-sm">{currentService.name}</p>
             </div>
           </div>
         </div>
@@ -140,13 +156,13 @@ const DocumentViewer: React.FC<DocumentViewerProps> = ({ service, onBack }) => {
             </div>
             <div className="space-y-3">
               <div className="bg-blue-50 rounded-xl p-4">
-                <h3 className="font-semibold text-blue-800 mb-2">{service.name}</h3>
+                <h3 className="font-semibold text-blue-800 mb-2">{currentService.name}</h3>
                 <p className="text-blue-700 text-sm">
                   نموذج رسمي معتمد من الإدارة الجزائرية
                 </p>
               </div>
               <div className="text-sm text-gray-600">
-                <p><strong>المكان:</strong> {service.location}</p>
+                <p><strong>المكان:</strong> {currentService.location}</p>
                 <p><strong>الصيغة:</strong> PDF</p>
                 <p><strong>الحجم:</strong> 2.5 MB تقريباً</p>
               </div>
@@ -157,7 +173,7 @@ const DocumentViewer: React.FC<DocumentViewerProps> = ({ service, onBack }) => {
           <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-100">
             <h3 className="text-lg font-bold text-gray-800 mb-4">المتطلبات قبل التحميل:</h3>
             <div className="space-y-2">
-              {service.requirements.map((req, index) => (
+              {currentService.requirements.map((req, index) => (
                 <div key={index} className="flex items-start gap-3 p-3 bg-gray-50 rounded-xl">
                   <div className="w-2 h-2 bg-blue-600 rounded-full mt-2"></div>
                   <span className="text-sm text-gray-700">{req}</span>

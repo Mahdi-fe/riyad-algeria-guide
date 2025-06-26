@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { ArrowLeft, ArrowRight, Calendar, Clock, User, MapPin, CheckCircle, AlertCircle } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Calendar, Clock, User, MapPin, CheckCircle, AlertCircle, X } from 'lucide-react';
 import { useLanguage } from '../hooks/useLanguage';
 
 interface Service {
@@ -11,17 +11,30 @@ interface Service {
 }
 
 interface AppointmentBookingProps {
-  service: Service;
-  onBack: () => void;
+  isOpen: boolean;
+  onClose: () => void;
+  service?: Service;
 }
 
-const AppointmentBooking: React.FC<AppointmentBookingProps> = ({ service, onBack }) => {
+const AppointmentBooking: React.FC<AppointmentBookingProps> = ({ isOpen, onClose, service }) => {
   const { isRTL } = useLanguage();
   const [selectedDate, setSelectedDate] = useState<string>('');
   const [selectedTime, setSelectedTime] = useState<string>('');
   const [fullName, setFullName] = useState<string>('');
   const [phoneNumber, setPhoneNumber] = useState<string>('');
   const [isBooked, setIsBooked] = useState(false);
+
+  // Default service if none provided
+  const defaultService: Service = {
+    id: 'default',
+    name: 'حجز موعد عام',
+    location: 'الإدارة المحلية',
+    fee: 'مجاني'
+  };
+
+  const currentService = service || defaultService;
+
+  if (!isOpen) return null;
 
   // Generate next 14 days for appointment booking
   const getAvailableDates = () => {
@@ -58,14 +71,15 @@ const AppointmentBooking: React.FC<AppointmentBookingProps> = ({ service, onBack
       setIsBooked(true);
       // Here you would normally send the booking to a backend
       setTimeout(() => {
-        onBack();
+        setIsBooked(false);
+        onClose();
       }, 3000);
     }
   };
 
   if (isBooked) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-green-50 to-emerald-50 flex items-center justify-center p-6">
+      <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
         <div className="bg-white rounded-3xl shadow-2xl p-8 text-center max-w-sm w-full animate-fade-in-scale">
           <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
             <CheckCircle className="w-12 h-12 text-green-600" />
@@ -76,7 +90,7 @@ const AppointmentBooking: React.FC<AppointmentBookingProps> = ({ service, onBack
           </p>
           <div className="bg-gray-50 rounded-2xl p-4 mb-6">
             <p className="text-sm text-gray-700">
-              <strong>الخدمة:</strong> {service.name}
+              <strong>الخدمة:</strong> {currentService.name}
             </p>
             <p className="text-sm text-gray-700">
               <strong>التاريخ:</strong> {selectedDate}
@@ -91,24 +105,20 @@ const AppointmentBooking: React.FC<AppointmentBookingProps> = ({ service, onBack
   }
 
   return (
-    <div className={`min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/20 ${isRTL ? 'rtl' : 'ltr'}`}>
-      <div className="max-w-md mx-auto glass-card min-h-screen">
+    <div className="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4">
+      <div className={`bg-white rounded-2xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto ${isRTL ? 'rtl' : 'ltr'}`}>
         {/* Header */}
         <div className="relative overflow-hidden bg-gradient-to-br from-blue-600 via-blue-700 to-indigo-800 p-6">
           <div className="flex items-center gap-4 relative z-10">
             <button
-              onClick={onBack}
+              onClick={onClose}
               className="p-3 glass rounded-2xl shadow-lg hover-lift"
             >
-              {isRTL ? (
-                <ArrowRight className="w-6 h-6 text-white" />
-              ) : (
-                <ArrowLeft className="w-6 h-6 text-white" />
-              )}
+              <X className="w-6 h-6 text-white" />
             </button>
             <div className="flex-1">
               <h1 className="text-xl font-bold text-white mb-1">حجز موعد</h1>
-              <p className="text-blue-200 text-sm">{service.name}</p>
+              <p className="text-blue-200 text-sm">{currentService.name}</p>
             </div>
           </div>
         </div>
@@ -123,10 +133,10 @@ const AppointmentBooking: React.FC<AppointmentBookingProps> = ({ service, onBack
             <div className="space-y-2">
               <div className="flex items-center gap-2">
                 <MapPin className="w-4 h-4 text-gray-500" />
-                <span className="text-sm text-gray-700">{service.location}</span>
+                <span className="text-sm text-gray-700">{currentService.location}</span>
               </div>
               <div className="flex items-center gap-2">
-                <span className="text-sm text-gray-700">الرسوم: {service.fee}</span>
+                <span className="text-sm text-gray-700">الرسوم: {currentService.fee}</span>
               </div>
             </div>
           </div>
