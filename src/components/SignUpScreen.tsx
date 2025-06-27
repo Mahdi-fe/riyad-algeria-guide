@@ -41,7 +41,7 @@ const SignUpScreen: React.FC<SignUpScreenProps> = ({ onSignUp, onBack }) => {
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/20">
       <div className="max-w-md mx-auto min-h-screen flex flex-col safe-area-padding">
         {/* Enhanced header */}
-        <div className="gradient-government px-8 py-16 rounded-b-3xl relative overflow-hidden">
+        <div className="bg-gradient-to-br from-blue-600 to-blue-800 px-8 py-16 rounded-b-3xl relative overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-r from-blue-700/10 via-transparent to-blue-800/10"></div>
           <div className="absolute top-12 left-12 w-32 h-32 bg-white/5 rounded-full blur-2xl animate-gentle-float"></div>
           <div className="absolute bottom-8 right-16 w-24 h-24 bg-blue-300/8 rounded-full blur-lg animate-professional-pulse"></div>
@@ -49,14 +49,14 @@ const SignUpScreen: React.FC<SignUpScreenProps> = ({ onSignUp, onBack }) => {
           <div className="relative z-10">
             <button
               onClick={onBack}
-              className="mb-6 p-3 glass rounded-2xl shadow-lg hover-lift"
+              className="mb-6 p-3 bg-white/10 backdrop-blur-sm rounded-2xl shadow-lg hover:bg-white/20 transition-all duration-300"
             >
               <ArrowLeft className="w-6 h-6 text-white" />
             </button>
             
             <div className="text-center">
-              <div className="w-24 h-24 glass-elevated rounded-3xl mx-auto mb-8 flex items-center justify-center shadow-2xl">
-                <Shield className="w-12 h-12 text-blue-700 animate-professional-pulse" />
+              <div className="w-24 h-24 bg-white/10 backdrop-blur-sm rounded-3xl mx-auto mb-8 flex items-center justify-center shadow-2xl border border-white/20">
+                <Shield className="w-12 h-12 text-white animate-professional-pulse" />
               </div>
               <h1 className="text-4xl font-bold text-white mb-4 tracking-tight">إنشاء حساب جديد</h1>
               <div className="space-y-2">
@@ -111,7 +111,7 @@ const SignUpScreen: React.FC<SignUpScreenProps> = ({ onSignUp, onBack }) => {
             </div>
 
             {/* Login method toggle */}
-            <div className="glass-government rounded-2xl p-2 mb-8 border border-blue-200/50">
+            <div className="bg-gray-50 rounded-2xl p-2 mb-8 border border-gray-200">
               <div className="flex">
                 <button
                   type="button"
@@ -225,7 +225,7 @@ const SignUpScreen: React.FC<SignUpScreenProps> = ({ onSignUp, onBack }) => {
           </form>
 
           {/* Enhanced security notice */}
-          <div className="mt-8 glass-government rounded-2xl p-6 border border-green-200/50">
+          <div className="mt-8 bg-green-50 rounded-2xl p-6 border border-green-200">
             <div className="flex items-start gap-4">
               <div className="p-3 bg-gradient-to-r from-green-600 to-green-700 rounded-xl shadow-lg">
                 <Shield className="w-6 h-6 text-white" />

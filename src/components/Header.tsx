@@ -1,16 +1,19 @@
 
 import React, { useState } from 'react';
-import { Bell, Menu, Search, User, Settings, LogOut, Shield } from 'lucide-react';
+import { Bell, Menu, Shield } from 'lucide-react';
 import { useLanguage } from '../hooks/useLanguage';
+import SideMenu from './SideMenu';
 
 interface HeaderProps {
   userType?: string;
+  darkMode?: boolean;
+  onDarkModeToggle?: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ userType }) => {
-  const { isRTL, t } = useLanguage();
+const Header: React.FC<HeaderProps> = ({ userType, darkMode, onDarkModeToggle }) => {
+  const { isRTL } = useLanguage();
   const [showNotifications, setShowNotifications] = useState(false);
-  const [showMenu, setShowMenu] = useState(false);
+  const [showSideMenu, setShowSideMenu] = useState(false);
 
   const notifications = [
     {
@@ -49,12 +52,6 @@ const Header: React.FC<HeaderProps> = ({ userType }) => {
     }
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem('adminfiles_is_logged_in');
-    localStorage.removeItem('adminfiles_user_type');
-    window.location.reload();
-  };
-
   return (
     <>
       <div className="relative bg-gradient-to-r from-blue-700 via-blue-800 to-indigo-900 p-6">
@@ -66,7 +63,7 @@ const Header: React.FC<HeaderProps> = ({ userType }) => {
         <div className="relative z-10 flex items-center justify-between">
           {/* Menu Button */}
           <button 
-            onClick={() => setShowMenu(true)}
+            onClick={() => setShowSideMenu(true)}
             className="p-3 bg-white/10 backdrop-blur-sm rounded-2xl shadow-lg hover:bg-white/20 transition-all duration-300 hover:scale-105 ring-2 ring-white/20"
           >
             <Menu className="w-6 h-6 text-white drop-shadow-lg" />
@@ -140,52 +137,14 @@ const Header: React.FC<HeaderProps> = ({ userType }) => {
         </div>
       </div>
 
-      {/* Side Menu Overlay */}
-      {showMenu && (
-        <div className="fixed inset-0 z-50 animate-fade-in">
-          <div className="absolute inset-0 bg-black/50" onClick={() => setShowMenu(false)}></div>
-          <div className={`absolute top-0 ${isRTL ? 'right-0' : 'left-0'} h-full w-80 bg-white shadow-2xl animate-slide-in-${isRTL ? 'right' : 'left'}`}>
-            <div className="p-6 bg-gradient-to-r from-blue-700 to-indigo-800 text-white">
-              <div className="flex items-center gap-4">
-                <div className="w-16 h-16 bg-white/20 rounded-2xl flex items-center justify-center">
-                  <User className="w-8 h-8" />
-                </div>
-                <div>
-                  <h3 className="font-bold text-lg">محمد فتاح</h3>
-                  <p className="text-blue-200 text-sm">{getUserTypeLabel()}</p>
-                </div>
-              </div>
-            </div>
-            
-            <div className="p-6 space-y-4">
-              <button className="w-full flex items-center gap-4 p-4 rounded-2xl hover:bg-gray-50 transition-colors text-right">
-                <User className="w-6 h-6 text-gray-600" />
-                <span className="font-medium text-gray-800">الملف الشخصي</span>
-              </button>
-              
-              <button className="w-full flex items-center gap-4 p-4 rounded-2xl hover:bg-gray-50 transition-colors text-right">
-                <Bell className="w-6 h-6 text-gray-600" />
-                <span className="font-medium text-gray-800">الإشعارات</span>
-              </button>
-              
-              <button className="w-full flex items-center gap-4 p-4 rounded-2xl hover:bg-gray-50 transition-colors text-right">
-                <Settings className="w-6 h-6 text-gray-600" />
-                <span className="font-medium text-gray-800">الإعدادات</span>
-              </button>
-              
-              <div className="border-t border-gray-200 pt-4">
-                <button 
-                  onClick={handleLogout}
-                  className="w-full flex items-center gap-4 p-4 rounded-2xl hover:bg-red-50 transition-colors text-right text-red-600"
-                >
-                  <LogOut className="w-6 h-6" />
-                  <span className="font-medium">تسجيل الخروج</span>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* Side Menu */}
+      <SideMenu
+        isOpen={showSideMenu}
+        onClose={() => setShowSideMenu(false)}
+        userType={userType}
+        darkMode={darkMode || false}
+        onDarkModeToggle={onDarkModeToggle || (() => {})}
+      />
 
       {/* Click outside to close notifications */}
       {showNotifications && (
