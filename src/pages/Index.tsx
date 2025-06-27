@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { LanguageProvider, useLanguage } from '../hooks/useLanguage';
 import SplashScreen from '../components/SplashScreen';
@@ -18,6 +17,7 @@ import LocationSearch from '../components/LocationSearch';
 import DocumentTemplates from '../components/DocumentTemplates';
 import AppointmentBooking from '../components/AppointmentBooking';
 import DocumentViewer from '../components/DocumentViewer';
+import PaymentModal from '../components/PaymentModal';
 
 type AppState = 'splash' | 'login' | 'signup' | 'userType' | 'main';
 
