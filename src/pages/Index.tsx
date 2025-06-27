@@ -32,7 +32,9 @@ const MainContent = ({
   isDocumentTemplatesOpen,
   isAppointmentBookingOpen,
   isDocumentViewerOpen,
+  isPaymentModalOpen,
   selectedDocument,
+  selectedService,
   darkMode,
   handleSplashComplete,
   handleLogin,
@@ -50,6 +52,7 @@ const MainContent = ({
   setIsDocumentTemplatesOpen,
   setIsAppointmentBookingOpen,
   setIsDocumentViewerOpen,
+  setIsPaymentModalOpen,
   setActiveSector
 }: any) => {
   const { t } = useLanguage();
@@ -81,8 +84,12 @@ const MainContent = ({
               onBack={() => setActiveSector(null)} 
             />
           ) : (
-            <div className="w-full glass-card min-h-screen flex flex-col shadow-2xl bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/20 safe-area-padding">
-              <Header userType={userType} />
+            <div className="w-full min-h-screen flex flex-col bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/20 pb-20">
+              <Header 
+                userType={userType} 
+                darkMode={darkMode}
+                onDarkModeToggle={toggleDarkMode}
+              />
               
               <div className="flex-1 overflow-y-auto mobile-scroll scrollbar-professional">
                 {activeTab === 'home' && (
@@ -171,6 +178,12 @@ const MainContent = ({
                           >
                             تحميل النماذج
                           </button>
+                          <button
+                            onClick={() => setIsPaymentModalOpen(true)}
+                            className="w-full bg-green-600 hover:bg-green-700 text-white py-3 px-6 rounded-2xl font-semibold transition-all duration-200 shadow-lg hover:shadow-xl"
+                          >
+                            اختبار الدفع الإلكتروني
+                          </button>
                         </div>
                       </div>
                     </div>
@@ -217,6 +230,16 @@ const MainContent = ({
         onClose={() => setIsDocumentViewerOpen(false)}
         service={selectedDocument}
       />
+
+      <PaymentModal
+        isOpen={isPaymentModalOpen}
+        onClose={() => setIsPaymentModalOpen(false)}
+        service={selectedService || {
+          name: 'شهادة الميلاد',
+          price: 500,
+          code: 'BC-2024-001'
+        }}
+      />
     </div>
   );
 };
@@ -232,7 +255,9 @@ const Index = () => {
   const [isDocumentTemplatesOpen, setIsDocumentTemplatesOpen] = useState(false);
   const [isAppointmentBookingOpen, setIsAppointmentBookingOpen] = useState(false);
   const [isDocumentViewerOpen, setIsDocumentViewerOpen] = useState(false);
+  const [isPaymentModalOpen, setIsPaymentModalOpen] = useState(false);
   const [selectedDocument, setSelectedDocument] = useState<string | null>(null);
+  const [selectedService, setSelectedService] = useState<any>(null);
   const [darkMode, setDarkMode] = useState(false);
 
   // Check for saved user data on app load
@@ -338,7 +363,9 @@ const Index = () => {
         isDocumentTemplatesOpen={isDocumentTemplatesOpen}
         isAppointmentBookingOpen={isAppointmentBookingOpen}
         isDocumentViewerOpen={isDocumentViewerOpen}
+        isPaymentModalOpen={isPaymentModalOpen}
         selectedDocument={selectedDocument}
+        selectedService={selectedService}
         darkMode={darkMode}
         handleSplashComplete={handleSplashComplete}
         handleLogin={handleLogin}
@@ -356,6 +383,7 @@ const Index = () => {
         setIsDocumentTemplatesOpen={setIsDocumentTemplatesOpen}
         setIsAppointmentBookingOpen={setIsAppointmentBookingOpen}
         setIsDocumentViewerOpen={setIsDocumentViewerOpen}
+        setIsPaymentModalOpen={setIsPaymentModalOpen}
         setActiveSector={setActiveSector}
       />
     </LanguageProvider>
