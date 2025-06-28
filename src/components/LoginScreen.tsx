@@ -33,7 +33,11 @@ const LoginScreen: React.FC<LoginScreenProps> = ({ onLogin, onSignUp }) => {
           
           <div className="relative z-10 text-center">
             <div className="w-24 h-24 glass-elevated rounded-3xl mx-auto mb-8 flex items-center justify-center shadow-2xl">
-              <Shield className="w-12 h-12 text-blue-700 animate-professional-pulse" />
+              <img 
+                src="/lovable-uploads/e07eb29a-fa9e-4606-87ca-b0f92e4ba0ef.png" 
+                alt="AdminFiles Logo" 
+                className="w-16 h-16 object-contain drop-shadow-sm"
+              />
             </div>
             <h1 className="text-4xl font-bold text-white mb-4 tracking-tight">مرحباً بعودتك</h1>
             <div className="space-y-2">

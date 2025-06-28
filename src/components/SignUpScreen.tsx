@@ -32,9 +32,8 @@ const SignUpScreen: React.FC<SignUpScreenProps> = ({ onSignUp, onBack }) => {
 
   const userTypes = [
     { id: 'citizen', label: 'مواطن عادي', icon: '🧍' },
-    { id: 'lawyer', label: 'محامي مرخص', icon: '⚖️' },
-    { id: 'officer', label: 'موظف إداري', icon: '🧑‍💼' },
-    { id: 'business', label: 'صاحب مؤسسة', icon: '🏢' }
+    { id: 'lawyer', label: 'محامي', icon: '⚖️' },
+    { id: 'officer', label: 'موظف إداري', icon: '🧑‍💼' }
   ];
 
   return (
@@ -56,7 +55,11 @@ const SignUpScreen: React.FC<SignUpScreenProps> = ({ onSignUp, onBack }) => {
             
             <div className="text-center">
               <div className="w-24 h-24 glass-elevated rounded-3xl mx-auto mb-8 flex items-center justify-center shadow-2xl">
-                <Shield className="w-12 h-12 text-blue-700 animate-professional-pulse" />
+                <img 
+                  src="/lovable-uploads/e07eb29a-fa9e-4606-87ca-b0f92e4ba0ef.png" 
+                  alt="AdminFiles Logo" 
+                  className="w-16 h-16 object-contain drop-shadow-sm"
+                />
               </div>
               <h1 className="text-4xl font-bold text-white mb-4 tracking-tight">إنشاء حساب جديد</h1>
               <div className="space-y-2">
