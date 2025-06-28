@@ -96,15 +96,17 @@ const SectorGrid: React.FC<SectorGridProps> = ({ onSectorClick, userType }) => {
     }
   ];
 
-  // Filter sectors based on user type
-  const sectors = allSectors.filter(sector => 
-    !sector.allowedUsers || sector.allowedUsers.includes(userType || 'citizen')
-  );
+  // Filter sectors based on user type - lawyers only see justice sector
+  const sectors = userType === 'lawyer' 
+    ? allSectors.filter(sector => sector.id === 'justice')
+    : allSectors.filter(sector => 
+        !sector.allowedUsers || sector.allowedUsers.includes(userType || 'citizen')
+      );
 
   const getUserTypeTitle = () => {
     switch (userType) {
       case 'lawyer':
-        return 'الخدمات المتاحة للمحامين';
+        return 'المنصة القانونية للمحامين';
       case 'officer':
         return 'لوحة تحكم الموظف الإداري';
       default:
@@ -136,7 +138,10 @@ const SectorGrid: React.FC<SectorGridProps> = ({ onSectorClick, userType }) => {
           </div>
         </div>
         <p className="text-gray-600 text-base mb-4 leading-relaxed">
-          اختر القطاع المناسب للحصول على الخدمات المطلوبة والوثائق الرسمية
+          {userType === 'lawyer' 
+            ? 'منصة متخصصة للمحامين لتقديم الاستشارات القانونية والخدمات القضائية'
+            : 'اختر القطاع المناسب للحصول على الخدمات المطلوبة والوثائق الرسمية'
+          }
         </p>
       </div>
       
