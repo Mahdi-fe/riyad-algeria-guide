@@ -25,26 +25,30 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ onComplete }) => {
       </div>
 
       <div className="text-center px-8 animate-fade-in-scale relative z-10">
-        {/* Enhanced app logo */}
-        <div className="w-32 h-32 mx-auto mb-10 bg-white rounded-3xl flex items-center justify-center shadow-2xl animate-gentle-float">
-          <Shield className="w-18 h-18 text-blue-600 animate-professional-pulse" style={{width: '4.5rem', height: '4.5rem'}} />
+        {/* App logo with the new AdminFiles logo */}
+        <div className="w-40 h-40 mx-auto mb-8 bg-white/95 backdrop-blur-sm rounded-3xl flex items-center justify-center shadow-2xl animate-gentle-float border border-white/20">
+          <img 
+            src="/lovable-uploads/e07eb29a-fa9e-4606-87ca-b0f92e4ba0ef.png" 
+            alt="AdminFiles Logo" 
+            className="w-32 h-32 object-contain drop-shadow-sm"
+          />
         </div>
 
         {/* Enhanced app branding */}
         <div className="mb-12 space-y-6">
-          <h1 className="text-5xl font-bold text-white mb-6 tracking-tight">AdminFiles</h1>
+          <h1 className="text-5xl font-bold text-white mb-6 tracking-tight drop-shadow-lg">AdminFiles</h1>
           <div className="space-y-4">
             <div className="flex items-center justify-center gap-3 mb-4">
               <div className="w-2 h-2 bg-yellow-300 rounded-full animate-pulse"></div>
-              <p className="text-2xl text-blue-100 font-semibold">بوابتك الإدارية الرقمية</p>
+              <p className="text-2xl text-blue-100 font-semibold drop-shadow-sm">بوابتك الإدارية الرقمية</p>
               <div className="w-2 h-2 bg-yellow-300 rounded-full animate-pulse"></div>
             </div>
-            <p className="text-blue-200 text-lg font-medium">Votre Portail Administratif Numérique</p>
+            <p className="text-blue-200 text-lg font-medium drop-shadow-sm">Votre Portail Administratif Numérique</p>
           </div>
         </div>
 
         {/* Enhanced government identification */}
-        <div className="glass-elevated rounded-3xl px-8 py-6 mb-10 border border-white/20">
+        <div className="glass-elevated rounded-3xl px-8 py-6 mb-10 border border-white/20 backdrop-blur-sm">
           <div className="space-y-3">
             <div className="flex items-center justify-center gap-2 mb-2">
               <CheckCircle className="w-5 h-5 text-green-400" />

@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Bell, Menu, Search, User, Settings, LogOut, Shield } from 'lucide-react';
 import { useLanguage } from '../hooks/useLanguage';
@@ -72,8 +73,12 @@ const Header: React.FC<HeaderProps> = ({ userType }) => {
           {/* Logo and Title */}
           <div className="flex-1 text-center">
             <div className="flex items-center justify-center gap-3">
-              <div className="w-10 h-10 bg-white/20 backdrop-blur-sm rounded-2xl flex items-center justify-center ring-2 ring-white/30">
-                <Shield className="w-6 h-6 text-white drop-shadow-lg" />
+              <div className="w-12 h-12 bg-white/95 backdrop-blur-sm rounded-2xl flex items-center justify-center ring-2 ring-white/30 shadow-lg">
+                <img 
+                  src="/lovable-uploads/e07eb29a-fa9e-4606-87ca-b0f92e4ba0ef.png" 
+                  alt="AdminFiles Logo" 
+                  className="w-8 h-8 object-contain"
+                />
               </div>
               <div>
                 <h1 className="text-xl font-bold text-white drop-shadow-lg">AdminFiles</h1>
