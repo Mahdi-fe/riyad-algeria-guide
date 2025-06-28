@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { User, Scale, Shield, Users, CheckCircle, ArrowRight } from 'lucide-react';
+import { User, Scale, Shield, CheckCircle, ArrowRight } from 'lucide-react';
 import { useLanguage } from '../hooks/useLanguage';
 
 interface UserTypeSelectionProps {
@@ -21,13 +21,13 @@ const UserTypeSelection: React.FC<UserTypeSelectionProps> = ({ onUserTypeSelect 
       gradient: 'bg-gradient-to-br from-blue-500 to-blue-600',
       bgColor: 'bg-blue-50',
       borderColor: 'border-blue-200',
-      features: ['الوثائق المدنية', 'الاستعلامات', 'المواعيد']
+      features: ['الوثائق المدنية', 'الاستعلامات', 'الخدمات المجانية']
     },
     {
       id: 'lawyer',
-      title: 'محامي مرخص',
-      titleFr: 'Avocat Agréé',
-      description: 'للوصول إلى الخدمات القانونية المتخصصة والمحاكم',
+      title: 'محامي',
+      titleFr: 'Avocat',
+      description: 'للوصول إلى الخدمات القانونية المتخصصة والاستشارات القانونية المدفوعة',
       descriptionFr: 'Accès aux services juridiques spécialisés',
       icon: <Scale className="w-8 h-8" />,
       gradient: 'bg-gradient-to-br from-emerald-500 to-emerald-600',
@@ -39,25 +39,13 @@ const UserTypeSelection: React.FC<UserTypeSelectionProps> = ({ onUserTypeSelect 
       id: 'officer',
       title: 'موظف إداري',
       titleFr: 'Agent Administratif',
-      description: 'للوصول إلى أدوات الإدارة والمتابعة والإشراف',
+      description: 'للوصول إلى أدوات الإدارة والمتابعة والرد على الاستشارات الإدارية',
       descriptionFr: 'Accès aux outils d\'administration et de suivi',
       icon: <Shield className="w-8 h-8" />,
       gradient: 'bg-gradient-to-br from-purple-500 to-purple-600',
       bgColor: 'bg-purple-50',
       borderColor: 'border-purple-200',
-      features: ['إدارة الطلبات', 'المتابعة', 'التقارير']
-    },
-    {
-      id: 'business',
-      title: 'صاحب مؤسسة',
-      titleFr: 'Propriétaire d\'Entreprise',
-      description: 'للوصول إلى خدمات الأعمال والتجارة والاستثمار',
-      descriptionFr: 'Accès aux services d\'entreprise et de commerce',
-      icon: <Users className="w-8 h-8" />,
-      gradient: 'bg-gradient-to-br from-orange-500 to-orange-600',
-      bgColor: 'bg-orange-50',
-      borderColor: 'border-orange-200',
-      features: ['التراخيص التجارية', 'الضرائب', 'الاستثمار']
+      features: ['إدارة الطلبات', 'الرد على الاستشارات', 'التقارير']
     }
   ];
 

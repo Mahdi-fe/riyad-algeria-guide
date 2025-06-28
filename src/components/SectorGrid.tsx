@@ -15,27 +15,15 @@ const SectorGrid: React.FC<SectorGridProps> = ({ onSectorClick, userType }) => {
   const allSectors = [
     { 
       id: 'local', 
-      title: 'الإدارة المحلية', 
+      title: 'الإدارة المحلية والحالة المدنية', 
       icon: <Landmark className="w-8 h-8" />, 
       color: 'hover:shadow-lg', 
-      notifications: 3,
-      subtitle: 'البلدية والدائرة',
+      notifications: 5,
+      subtitle: 'البلدية والدائرة وشهادات الحالة المدنية',
       bgColor: 'bg-blue-50',
       iconBg: 'bg-gradient-to-br from-blue-600 to-blue-700',
       borderColor: 'border-blue-200',
-      allowedUsers: ['citizen', 'officer', 'business']
-    },
-    { 
-      id: 'civil', 
-      title: 'الحالة المدنية', 
-      icon: <UserCheck className="w-8 h-8" />, 
-      color: 'hover:shadow-lg',
-      notifications: 2,
-      subtitle: 'شهادات الحالة المدنية والهوية',
-      bgColor: 'bg-pink-50',
-      iconBg: 'bg-gradient-to-br from-pink-600 to-pink-700',
-      borderColor: 'border-pink-200',
-      allowedUsers: ['citizen', 'officer', 'lawyer', 'business']
+      allowedUsers: ['citizen', 'officer']
     },
     { 
       id: 'justice', 
@@ -43,7 +31,7 @@ const SectorGrid: React.FC<SectorGridProps> = ({ onSectorClick, userType }) => {
       icon: <Gavel className="w-8 h-8" />, 
       color: 'hover:shadow-lg', 
       notifications: 1,
-      subtitle: 'المحاكم والنيابة العامة',
+      subtitle: 'المحاكم والنيابة العامة والاستشارات القانونية',
       bgColor: 'bg-amber-50',
       iconBg: 'bg-gradient-to-br from-amber-600 to-amber-700',
       borderColor: 'border-amber-200',
@@ -82,7 +70,7 @@ const SectorGrid: React.FC<SectorGridProps> = ({ onSectorClick, userType }) => {
       bgColor: 'bg-emerald-50',
       iconBg: 'bg-gradient-to-br from-emerald-600 to-emerald-700',
       borderColor: 'border-emerald-200',
-      allowedUsers: ['citizen', 'officer', 'business']
+      allowedUsers: ['citizen', 'officer']
     },
     { 
       id: 'social', 
@@ -93,7 +81,7 @@ const SectorGrid: React.FC<SectorGridProps> = ({ onSectorClick, userType }) => {
       bgColor: 'bg-indigo-50',
       iconBg: 'bg-gradient-to-br from-indigo-600 to-indigo-700',
       borderColor: 'border-indigo-200',
-      allowedUsers: ['citizen', 'officer', 'business']
+      allowedUsers: ['citizen', 'officer']
     },
     { 
       id: 'postal', 
@@ -104,7 +92,7 @@ const SectorGrid: React.FC<SectorGridProps> = ({ onSectorClick, userType }) => {
       bgColor: 'bg-orange-50',
       iconBg: 'bg-gradient-to-br from-orange-600 to-orange-700',
       borderColor: 'border-orange-200',
-      allowedUsers: ['citizen', 'officer', 'business']
+      allowedUsers: ['citizen', 'officer']
     }
   ];
 
@@ -119,8 +107,6 @@ const SectorGrid: React.FC<SectorGridProps> = ({ onSectorClick, userType }) => {
         return 'الخدمات المتاحة للمحامين';
       case 'officer':
         return 'لوحة تحكم الموظف الإداري';
-      case 'business':
-        return 'خدمات أصحاب المؤسسات';
       default:
         return 'القطاعات الحكومية الرسمية';
     }
@@ -132,8 +118,6 @@ const SectorGrid: React.FC<SectorGridProps> = ({ onSectorClick, userType }) => {
         return 'الخدمات القانونية والقضائية المتخصصة';
       case 'officer':
         return 'أدوات الإدارة والمتابعة والإشراف';
-      case 'business':
-        return 'الخدمات التجارية والاستثمارية';
       default:
         return 'الخدمات الإدارية المعتمدة';
     }

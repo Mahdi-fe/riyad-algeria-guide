@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Bell, Menu, Search, User, Settings, LogOut, Shield } from 'lucide-react';
 import { useLanguage } from '../hooks/useLanguage';
@@ -39,11 +38,9 @@ const Header: React.FC<HeaderProps> = ({ userType }) => {
   const getUserTypeLabel = () => {
     switch (userType) {
       case 'lawyer':
-        return 'محامي مرخص';
+        return 'محامي';
       case 'officer':
         return 'موظف إداري';
-      case 'business':
-        return 'صاحب مؤسسة';
       default:
         return 'مواطن';
     }
@@ -92,11 +89,9 @@ const Header: React.FC<HeaderProps> = ({ userType }) => {
               className="p-3 bg-white/10 backdrop-blur-sm rounded-2xl shadow-lg hover:bg-white/20 transition-all duration-300 hover:scale-105 relative ring-2 ring-white/20"
             >
               <Bell className="w-6 h-6 text-white drop-shadow-lg" />
-              {notifications.length > 0 && (
-                <div className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center ring-2 ring-white/50">
-                  <span className="text-white text-xs font-bold drop-shadow-sm">{notifications.length}</span>
-                </div>
-              )}
+              <div className="absolute -top-1 -right-1 w-5 h-5 bg-red-500 rounded-full flex items-center justify-center ring-2 ring-white/50">
+                <span className="text-white text-xs font-bold drop-shadow-sm">3</span>
+              </div>
             </button>
 
             {/* Notifications Dropdown */}
@@ -106,21 +101,26 @@ const Header: React.FC<HeaderProps> = ({ userType }) => {
                   <h3 className="font-bold text-gray-800">الإشعارات</h3>
                 </div>
                 <div className="max-h-96 overflow-y-auto">
-                  {notifications.map((notification) => (
-                    <div key={notification.id} className="p-4 border-b border-gray-50 hover:bg-gray-50 transition-colors">
-                      <div className="flex items-start gap-3">
-                        <div className={`w-3 h-3 rounded-full mt-2 ${
-                          notification.type === 'success' ? 'bg-green-500' :
-                          notification.type === 'reminder' ? 'bg-blue-500' : 'bg-gray-500'
-                        }`}></div>
-                        <div className="flex-1 text-right">
-                          <h4 className="font-semibold text-gray-800 text-sm">{notification.title}</h4>
-                          <p className="text-gray-600 text-xs mt-1">{notification.message}</p>
-                          <span className="text-gray-400 text-xs">{notification.time}</span>
-                        </div>
+                  <div className="p-4 border-b border-gray-50 hover:bg-gray-50 transition-colors">
+                    <div className="flex items-start gap-3">
+                      <div className="w-3 h-3 rounded-full mt-2 bg-green-500"></div>
+                      <div className="flex-1 text-right">
+                        <h4 className="font-semibold text-gray-800 text-sm">تم قبول طلبك</h4>
+                        <p className="text-gray-600 text-xs mt-1">طلب شهادة الميلاد جاهز للاستلام</p>
+                        <span className="text-gray-400 text-xs">منذ ساعتين</span>
                       </div>
                     </div>
-                  ))}
+                  </div>
+                  <div className="p-4 border-b border-gray-50 hover:bg-gray-50 transition-colors">
+                    <div className="flex items-start gap-3">
+                      <div className="w-3 h-3 rounded-full mt-2 bg-blue-500"></div>
+                      <div className="flex-1 text-right">
+                        <h4 className="font-semibold text-gray-800 text-sm">تحديث النظام</h4>
+                        <p className="text-gray-600 text-xs mt-1">متوفر إصدار جديد من التطبيق</p>
+                        <span className="text-gray-400 text-xs">منذ يوم</span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 <div className="p-4 text-center">
                   <button className="text-blue-600 text-sm font-medium hover:text-blue-700 transition-colors">

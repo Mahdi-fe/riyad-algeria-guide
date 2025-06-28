@@ -1,5 +1,6 @@
+
 import React from 'react';
-import { Phone, Download, Zap, MapPin } from 'lucide-react';
+import { Download, Zap, MapPin, MessageSquare } from 'lucide-react';
 import { useLanguage } from '../hooks/useLanguage';
 
 interface QuickActionsProps {
@@ -12,11 +13,11 @@ const QuickActions: React.FC<QuickActionsProps> = ({ onActionClick, userType }) 
 
   const actions = [
     { 
-      id: 'emergency', 
-      title: 'حالات الطوارئ', 
-      icon: <Phone className="w-6 h-6" />, 
-      gradient: 'from-red-500 to-red-600 hover:from-red-600 hover:to-red-700',
-      shadowColor: 'shadow-red-500/25 hover:shadow-red-500/40'
+      id: 'consultation', 
+      title: 'الاستشارات الإدارية', 
+      icon: <MessageSquare className="w-6 h-6" />, 
+      gradient: 'from-green-500 to-green-600 hover:from-green-600 hover:to-green-700',
+      shadowColor: 'shadow-green-500/25 hover:shadow-green-500/40'
     },
     { 
       id: 'templates', 

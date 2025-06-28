@@ -10,14 +10,13 @@ import Header from '../components/Header';
 import SectorGrid from '../components/SectorGrid';
 import QuickActions from '../components/QuickActions';
 import BottomNavigation from '../components/BottomNavigation';
-import EmergencyModal from '../components/EmergencyModal';
 import SettingsModal from '../components/SettingsModal';
 import SectorDetail from '../components/SectorDetail';
 import LegalConsultationPayment from '../components/LegalConsultationPayment';
 import LocationSearch from '../components/LocationSearch';
 import DocumentTemplates from '../components/DocumentTemplates';
-import AppointmentBooking from '../components/AppointmentBooking';
 import DocumentViewer from '../components/DocumentViewer';
+import AdministrativeConsultation from '../components/AdministrativeConsultation';
 
 type AppState = 'splash' | 'login' | 'signup' | 'userType' | 'main';
 
@@ -26,12 +25,12 @@ const MainContent = ({
   userType,
   activeTab,
   activeSector,
-  isEmergencyModalOpen,
   isSettingsModalOpen,
   isLocationSearchOpen,
   isDocumentTemplatesOpen,
-  isAppointmentBookingOpen,
   isDocumentViewerOpen,
+  isAdministrativeConsultationOpen,
+  isLegalConsultationOpen,
   selectedDocument,
   darkMode,
   handleSplashComplete,
@@ -44,12 +43,12 @@ const MainContent = ({
   handleActionClick,
   handleTabChange,
   toggleDarkMode,
-  setIsEmergencyModalOpen,
   setIsSettingsModalOpen,
   setIsLocationSearchOpen,
   setIsDocumentTemplatesOpen,
-  setIsAppointmentBookingOpen,
   setIsDocumentViewerOpen,
+  setIsAdministrativeConsultationOpen,
+  setIsLegalConsultationOpen,
   setActiveSector
 }: any) => {
   const { t } = useLanguage();
@@ -152,9 +151,8 @@ const MainContent = ({
                           <p className="text-blue-700 font-semibold text-base">نوع المستخدم</p>
                           <p className="text-blue-600 text-sm mt-1">
                             {userType === 'citizen' && 'مواطن عادي'}
-                            {userType === 'lawyer' && 'محامي مرخص'}
+                            {userType === 'lawyer' && 'محامي'}
                             {userType === 'officer' && 'موظف إداري'}
-                            {userType === 'business' && 'صاحب مؤسسة'}
                           </p>
                         </div>
                         
@@ -185,11 +183,6 @@ const MainContent = ({
       )}
       
       {/* Modals */}
-      <EmergencyModal 
-        isOpen={isEmergencyModalOpen} 
-        onClose={() => setIsEmergencyModalOpen(false)} 
-      />
-      
       <SettingsModal
         isOpen={isSettingsModalOpen}
         onClose={() => setIsSettingsModalOpen(false)}
@@ -207,15 +200,22 @@ const MainContent = ({
         onClose={() => setIsDocumentTemplatesOpen(false)}
       />
 
-      <AppointmentBooking
-        isOpen={isAppointmentBookingOpen}
-        onClose={() => setIsAppointmentBookingOpen(false)}
-      />
-
       <DocumentViewer
         isOpen={isDocumentViewerOpen}
         onClose={() => setIsDocumentViewerOpen(false)}
         service={selectedDocument}
+      />
+
+      <AdministrativeConsultation
+        isOpen={isAdministrativeConsultationOpen}
+        onClose={() => setIsAdministrativeConsultationOpen(false)}
+        userType={userType}
+      />
+
+      <LegalConsultationPayment
+        isOpen={isLegalConsultationOpen}
+        onClose={() => setIsLegalConsultationOpen(false)}
+        serviceType="legal"
       />
     </div>
   );
@@ -226,12 +226,12 @@ const Index = () => {
   const [userType, setUserType] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState('home');
   const [activeSector, setActiveSector] = useState<string | null>(null);
-  const [isEmergencyModalOpen, setIsEmergencyModalOpen] = useState(false);
   const [isSettingsModalOpen, setIsSettingsModalOpen] = useState(false);
   const [isLocationSearchOpen, setIsLocationSearchOpen] = useState(false);
   const [isDocumentTemplatesOpen, setIsDocumentTemplatesOpen] = useState(false);
-  const [isAppointmentBookingOpen, setIsAppointmentBookingOpen] = useState(false);
   const [isDocumentViewerOpen, setIsDocumentViewerOpen] = useState(false);
+  const [isAdministrativeConsultationOpen, setIsAdministrativeConsultationOpen] = useState(false);
+  const [isLegalConsultationOpen, setIsLegalConsultationOpen] = useState(false);
   const [selectedDocument, setSelectedDocument] = useState<string | null>(null);
   const [darkMode, setDarkMode] = useState(false);
 
@@ -295,8 +295,8 @@ const Index = () => {
 
   const handleActionClick = (action: string) => {
     switch (action) {
-      case 'emergency':
-        setIsEmergencyModalOpen(true);
+      case 'consultation':
+        setIsAdministrativeConsultationOpen(true);
         break;
       case 'templates':
         setIsDocumentTemplatesOpen(true);
@@ -304,8 +304,8 @@ const Index = () => {
       case 'location':
         setIsLocationSearchOpen(true);
         break;
-      case 'appointment':
-        setIsAppointmentBookingOpen(true);
+      case 'legal-consultation':
+        setIsLegalConsultationOpen(true);
         break;
       default:
         console.log(`Action clicked: ${action}`);
@@ -332,12 +332,12 @@ const Index = () => {
         userType={userType}
         activeTab={activeTab}
         activeSector={activeSector}
-        isEmergencyModalOpen={isEmergencyModalOpen}
         isSettingsModalOpen={isSettingsModalOpen}
         isLocationSearchOpen={isLocationSearchOpen}
         isDocumentTemplatesOpen={isDocumentTemplatesOpen}
-        isAppointmentBookingOpen={isAppointmentBookingOpen}
         isDocumentViewerOpen={isDocumentViewerOpen}
+        isAdministrativeConsultationOpen={isAdministrativeConsultationOpen}
+        isLegalConsultationOpen={isLegalConsultationOpen}
         selectedDocument={selectedDocument}
         darkMode={darkMode}
         handleSplashComplete={handleSplashComplete}
@@ -350,12 +350,12 @@ const Index = () => {
         handleActionClick={handleActionClick}
         handleTabChange={handleTabChange}
         toggleDarkMode={toggleDarkMode}
-        setIsEmergencyModalOpen={setIsEmergencyModalOpen}
         setIsSettingsModalOpen={setIsSettingsModalOpen}
         setIsLocationSearchOpen={setIsLocationSearchOpen}
         setIsDocumentTemplatesOpen={setIsDocumentTemplatesOpen}
-        setIsAppointmentBookingOpen={setIsAppointmentBookingOpen}
         setIsDocumentViewerOpen={setIsDocumentViewerOpen}
+        setIsAdministrativeConsultationOpen={setIsAdministrativeConsultationOpen}
+        setIsLegalConsultationOpen={setIsLegalConsultationOpen}
         setActiveSector={setActiveSector}
       />
     </LanguageProvider>
