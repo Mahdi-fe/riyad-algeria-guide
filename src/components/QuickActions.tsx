@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Download, Zap, MapPin, MessageSquare } from 'lucide-react';
+import { Download, Zap, MapPin, MessageSquare, Scale } from 'lucide-react';
 import { useLanguage } from '../hooks/useLanguage';
 
 interface QuickActionsProps {
@@ -11,7 +11,7 @@ interface QuickActionsProps {
 const QuickActions: React.FC<QuickActionsProps> = ({ onActionClick, userType }) => {
   const { t, isRTL } = useLanguage();
 
-  const actions = [
+  const commonActions = [
     { 
       id: 'consultation', 
       title: 'الاستشارات الإدارية', 
@@ -34,6 +34,19 @@ const QuickActions: React.FC<QuickActionsProps> = ({ onActionClick, userType }) 
       shadowColor: 'shadow-purple-500/25 hover:shadow-purple-500/40'
     },
   ];
+
+  const lawyerActions = [
+    { 
+      id: 'legal-consultation-box', 
+      title: 'صندوق الاستشارات القانونية', 
+      icon: <Scale className="w-6 h-6" />, 
+      gradient: 'from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700',
+      shadowColor: 'shadow-amber-500/25 hover:shadow-amber-500/40'
+    },
+    ...commonActions
+  ];
+
+  const actions = userType === 'lawyer' ? lawyerActions : commonActions;
 
   return (
     <div className="px-6 py-8 bg-white">
@@ -71,6 +84,11 @@ const QuickActions: React.FC<QuickActionsProps> = ({ onActionClick, userType }) 
                   {action.title}
                 </span>
               </div>
+              {action.id === 'legal-consultation-box' && (
+                <div className="bg-red-500 text-white text-xs px-2 py-1 rounded-full">
+                  3 جديد
+                </div>
+              )}
             </div>
             
             {/* Shimmer effect on hover */}

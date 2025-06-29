@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { LanguageProvider, useLanguage } from '../hooks/useLanguage';
 import SplashScreen from '../components/SplashScreen';
@@ -17,6 +16,7 @@ import LocationSearch from '../components/LocationSearch';
 import DocumentTemplates from '../components/DocumentTemplates';
 import DocumentViewer from '../components/DocumentViewer';
 import AdministrativeConsultation from '../components/AdministrativeConsultation';
+import LegalConsultationBox from '../components/LegalConsultationBox';
 
 type AppState = 'splash' | 'login' | 'signup' | 'userType' | 'main';
 
@@ -31,6 +31,7 @@ const MainContent = ({
   isDocumentViewerOpen,
   isAdministrativeConsultationOpen,
   isLegalConsultationOpen,
+  isLegalConsultationBoxOpen,
   selectedDocument,
   darkMode,
   handleSplashComplete,
@@ -49,6 +50,7 @@ const MainContent = ({
   setIsDocumentViewerOpen,
   setIsAdministrativeConsultationOpen,
   setIsLegalConsultationOpen,
+  setIsLegalConsultationBoxOpen,
   setActiveSector
 }: any) => {
   const { t } = useLanguage();
@@ -217,6 +219,11 @@ const MainContent = ({
         onClose={() => setIsLegalConsultationOpen(false)}
         serviceType="legal"
       />
+
+      <LegalConsultationBox
+        isOpen={isLegalConsultationBoxOpen}
+        onClose={() => setIsLegalConsultationBoxOpen(false)}
+      />
     </div>
   );
 };
@@ -232,6 +239,7 @@ const Index = () => {
   const [isDocumentViewerOpen, setIsDocumentViewerOpen] = useState(false);
   const [isAdministrativeConsultationOpen, setIsAdministrativeConsultationOpen] = useState(false);
   const [isLegalConsultationOpen, setIsLegalConsultationOpen] = useState(false);
+  const [isLegalConsultationBoxOpen, setIsLegalConsultationBoxOpen] = useState(false);
   const [selectedDocument, setSelectedDocument] = useState<string | null>(null);
   const [darkMode, setDarkMode] = useState(false);
 
@@ -307,6 +315,9 @@ const Index = () => {
       case 'legal-consultation':
         setIsLegalConsultationOpen(true);
         break;
+      case 'legal-consultation-box':
+        setIsLegalConsultationBoxOpen(true);
+        break;
       default:
         console.log(`Action clicked: ${action}`);
     }
@@ -338,6 +349,7 @@ const Index = () => {
         isDocumentViewerOpen={isDocumentViewerOpen}
         isAdministrativeConsultationOpen={isAdministrativeConsultationOpen}
         isLegalConsultationOpen={isLegalConsultationOpen}
+        isLegalConsultationBoxOpen={isLegalConsultationBoxOpen}
         selectedDocument={selectedDocument}
         darkMode={darkMode}
         handleSplashComplete={handleSplashComplete}
@@ -356,6 +368,7 @@ const Index = () => {
         setIsDocumentViewerOpen={setIsDocumentViewerOpen}
         setIsAdministrativeConsultationOpen={setIsAdministrativeConsultationOpen}
         setIsLegalConsultationOpen={setIsLegalConsultationOpen}
+        setIsLegalConsultationBoxOpen={setIsLegalConsultationBoxOpen}
         setActiveSector={setActiveSector}
       />
     </LanguageProvider>
