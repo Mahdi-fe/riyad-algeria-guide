@@ -12,7 +12,7 @@ interface SectorGridProps {
 const SectorGrid: React.FC<SectorGridProps> = ({ onSectorClick, userType }) => {
   const { t, isRTL } = useLanguage();
 
-  const allSectors = [
+  const sectors = [
     { 
       id: 'local', 
       title: 'الإدارة المحلية والحالة المدنية', 
@@ -22,8 +22,7 @@ const SectorGrid: React.FC<SectorGridProps> = ({ onSectorClick, userType }) => {
       subtitle: 'البلدية والدائرة وشهادات الحالة المدنية',
       bgColor: 'bg-blue-50',
       iconBg: 'bg-gradient-to-br from-blue-600 to-blue-700',
-      borderColor: 'border-blue-200',
-      allowedUsers: ['citizen', 'officer']
+      borderColor: 'border-blue-200'
     },
     { 
       id: 'justice', 
@@ -34,8 +33,7 @@ const SectorGrid: React.FC<SectorGridProps> = ({ onSectorClick, userType }) => {
       subtitle: 'المحاكم والنيابة العامة والاستشارات القانونية',
       bgColor: 'bg-amber-50',
       iconBg: 'bg-gradient-to-br from-amber-600 to-amber-700',
-      borderColor: 'border-amber-200',
-      allowedUsers: ['citizen', 'lawyer', 'officer']
+      borderColor: 'border-amber-200'
     },
     { 
       id: 'health', 
@@ -46,8 +44,7 @@ const SectorGrid: React.FC<SectorGridProps> = ({ onSectorClick, userType }) => {
       subtitle: 'بطاقة الشفاء والمستشفيات',
       bgColor: 'bg-rose-50',
       iconBg: 'bg-gradient-to-br from-rose-600 to-rose-700',
-      borderColor: 'border-rose-200',
-      allowedUsers: ['citizen', 'officer']
+      borderColor: 'border-rose-200'
     },
     { 
       id: 'education', 
@@ -57,8 +54,7 @@ const SectorGrid: React.FC<SectorGridProps> = ({ onSectorClick, userType }) => {
       subtitle: 'المدارس والجامعات',
       bgColor: 'bg-violet-50',
       iconBg: 'bg-gradient-to-br from-violet-600 to-violet-700',
-      borderColor: 'border-violet-200',
-      allowedUsers: ['citizen', 'officer']
+      borderColor: 'border-violet-200'
     },
     { 
       id: 'employment', 
@@ -69,8 +65,7 @@ const SectorGrid: React.FC<SectorGridProps> = ({ onSectorClick, userType }) => {
       subtitle: 'وكالة التشغيل ANEM',
       bgColor: 'bg-emerald-50',
       iconBg: 'bg-gradient-to-br from-emerald-600 to-emerald-700',
-      borderColor: 'border-emerald-200',
-      allowedUsers: ['citizen', 'officer']
+      borderColor: 'border-emerald-200'
     },
     { 
       id: 'social', 
@@ -80,8 +75,7 @@ const SectorGrid: React.FC<SectorGridProps> = ({ onSectorClick, userType }) => {
       subtitle: 'CNAS و CASNOS',
       bgColor: 'bg-indigo-50',
       iconBg: 'bg-gradient-to-br from-indigo-600 to-indigo-700',
-      borderColor: 'border-indigo-200',
-      allowedUsers: ['citizen', 'officer']
+      borderColor: 'border-indigo-200'
     },
     { 
       id: 'postal', 
@@ -91,17 +85,9 @@ const SectorGrid: React.FC<SectorGridProps> = ({ onSectorClick, userType }) => {
       subtitle: 'الحسابات البريدية والخدمات',
       bgColor: 'bg-orange-50',
       iconBg: 'bg-gradient-to-br from-orange-600 to-orange-700',
-      borderColor: 'border-orange-200',
-      allowedUsers: ['citizen', 'officer']
+      borderColor: 'border-orange-200'
     }
   ];
-
-  // Filter sectors based on user type - lawyers only see justice sector
-  const sectors = userType === 'lawyer' 
-    ? allSectors.filter(sector => sector.id === 'justice')
-    : allSectors.filter(sector => 
-        !sector.allowedUsers || sector.allowedUsers.includes(userType || 'citizen')
-      );
 
   const getUserTypeTitle = () => {
     switch (userType) {
