@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { ArrowLeft, ArrowRight, Clock, FileText, MapPin, Phone, AlertCircle, Download, Calendar, Star, Users, CreditCard, Info } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Clock, FileText, MapPin, Phone, AlertCircle, Download, Star, Users, CreditCard, Info } from 'lucide-react';
 import { useLanguage } from '../hooks/useLanguage';
-import AppointmentBooking from './AppointmentBooking';
 import DocumentViewer from './DocumentViewer';
 
 interface SectorDetailProps {
@@ -20,7 +19,6 @@ interface Service {
   rating: number;
   completionRate: number;
   isPaid?: boolean;
-  hasAppointment?: boolean;
   hasDownload?: boolean;
   hasTracking?: boolean;
   paymentMethods?: string[];
@@ -36,7 +34,6 @@ interface SectorData {
 const SectorDetail: React.FC<SectorDetailProps> = ({ sector, userType, onBack }) => {
   const { t, isRTL } = useLanguage();
   const [activeService, setActiveService] = useState<string | null>(null);
-  const [showAppointmentBooking, setShowAppointmentBooking] = useState(false);
   const [showDocumentViewer, setShowDocumentViewer] = useState(false);
   const [selectedService, setSelectedService] = useState<Service | null>(null);
 
@@ -55,7 +52,6 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, userType, onBack })
           location: 'مكتب الحالة المدنية - البلدية',
           rating: 4.5,
           completionRate: 95,
-          hasAppointment: true,
           hasDownload: true,
           hasTracking: true,
           paymentMethods: ['CIB', 'Edahabia', 'BaridiMob']
@@ -69,7 +65,6 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, userType, onBack })
           location: 'مكتب الحالة المدنية',
           rating: 4.6,
           completionRate: 98,
-          hasAppointment: true,
           hasDownload: true,
           hasTracking: true
         },
@@ -82,7 +77,6 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, userType, onBack })
           location: 'مصلحة الشؤون الإدارية',
           rating: 4.3,
           completionRate: 92,
-          hasAppointment: true,
           hasDownload: true,
           hasTracking: true
         },
@@ -95,7 +89,6 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, userType, onBack })
           location: 'مكتب الحالة المدنية',
           rating: 4.4,
           completionRate: 93,
-          hasAppointment: true,
           hasDownload: true,
           hasTracking: true
         },
@@ -108,7 +101,6 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, userType, onBack })
           location: 'مصلحة الشؤون الإدارية',
           rating: 4.1,
           completionRate: 87,
-          hasAppointment: true,
           hasDownload: true,
           hasTracking: true
         },
@@ -121,7 +113,6 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, userType, onBack })
           location: 'مصلحة الشؤون الإدارية',
           rating: 4.2,
           completionRate: 94,
-          hasAppointment: true,
           hasDownload: true,
           hasTracking: true
         },
@@ -134,7 +125,6 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, userType, onBack })
           location: 'مصلحة السكن - البلدية',
           rating: 3.8,
           completionRate: 75,
-          hasAppointment: true,
           hasDownload: true,
           hasTracking: true
         },
@@ -148,7 +138,6 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, userType, onBack })
           rating: 3.9,
           completionRate: 78,
           isPaid: true,
-          hasAppointment: true,
           hasDownload: true,
           hasTracking: true,
           paymentMethods: ['CIB', 'Edahabia', 'نقدي']
@@ -170,7 +159,6 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, userType, onBack })
           rating: 4.3,
           completionRate: 89,
           isPaid: true,
-          hasAppointment: true,
           hasDownload: true,
           hasTracking: true,
           paymentMethods: ['CIB', 'Edahabia', 'BaridiMob']
@@ -185,7 +173,6 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, userType, onBack })
           rating: 4.5,
           completionRate: 92,
           isPaid: true,
-          hasAppointment: true,
           hasDownload: true,
           hasTracking: true,
           paymentMethods: ['CIB', 'Edahabia', 'BaridiMob']
@@ -199,7 +186,6 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, userType, onBack })
           location: 'مكتب الحالة المدنية - البلدية',
           rating: 4.6,
           completionRate: 95,
-          hasAppointment: true,
           hasDownload: true,
           hasTracking: true,
           paymentMethods: ['CIB', 'Edahabia', 'BaridiMob']
@@ -214,7 +200,6 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, userType, onBack })
           rating: 4.0,
           completionRate: 85,
           isPaid: true,
-          hasAppointment: true,
           hasDownload: true,
           hasTracking: true
         },
@@ -227,7 +212,6 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, userType, onBack })
           location: 'مكتب الحالة المدنية',
           rating: 4.3,
           completionRate: 92,
-          hasAppointment: true,
           hasDownload: true,
           hasTracking: true
         },
@@ -240,7 +224,6 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, userType, onBack })
           location: 'مكتب الحالة المدنية',
           rating: 4.4,
           completionRate: 94,
-          hasAppointment: true,
           hasDownload: true,
           hasTracking: true
         }
@@ -260,7 +243,6 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, userType, onBack })
           location: 'المحكمة الابتدائية',
           rating: 4.4,
           completionRate: 89,
-          hasAppointment: true,
           hasDownload: true,
           hasTracking: true,
           paymentMethods: ['CIB', 'Edahabia', 'نقدي']
@@ -275,7 +257,6 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, userType, onBack })
           rating: 4.1,
           completionRate: 82,
           isPaid: true,
-          hasAppointment: true,
           hasDownload: true,
           hasTracking: true
         },
@@ -289,7 +270,6 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, userType, onBack })
           isPaid: true,
           rating: 4.7,
           completionRate: 96,
-          hasAppointment: true,
           hasTracking: true,
           paymentMethods: ['CIB', 'Edahabia', 'BaridiMob']
         },
@@ -302,7 +282,6 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, userType, onBack })
           location: 'كتابة ضبط المحكمة',
           rating: 4.2,
           completionRate: 91,
-          hasAppointment: true,
           hasTracking: true
         },
         {
@@ -314,7 +293,6 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, userType, onBack })
           location: 'كتابة ضبط المحكمة',
           rating: 4.2,
           completionRate: 89,
-          hasAppointment: true,
           hasDownload: true,
           hasTracking: true
         }
@@ -334,7 +312,6 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, userType, onBack })
           location: 'صندوق الضمان الاجتماعي',
           rating: 4.3,
           completionRate: 91,
-          hasAppointment: true,
           hasDownload: true,
           hasTracking: true
         },
@@ -348,7 +325,6 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, userType, onBack })
           rating: 4.1,
           completionRate: 88,
           isPaid: true,
-          hasAppointment: true,
           hasDownload: true,
           hasTracking: true
         },
@@ -361,7 +337,6 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, userType, onBack })
           location: 'المستشفى أو العيادة المختارة',
           rating: 4.0,
           completionRate: 78,
-          hasAppointment: true,
           hasTracking: true
         },
         {
@@ -373,7 +348,6 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, userType, onBack })
           location: 'مديرية الصحة - الولاية',
           rating: 3.7,
           completionRate: 68,
-          hasAppointment: true,
           hasTracking: true
         }
       ]
@@ -392,7 +366,6 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, userType, onBack })
           location: 'المؤسسة التعليمية',
           rating: 4.4,
           completionRate: 94,
-          hasAppointment: true,
           hasDownload: true,
           hasTracking: true
         },
@@ -405,7 +378,6 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, userType, onBack })
           location: 'الجامعة أو المعهد',
           rating: 4.2,
           completionRate: 88,
-          hasAppointment: true,
           hasDownload: true,
           hasTracking: true
         },
@@ -418,7 +390,6 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, userType, onBack })
           location: 'مديرية التربية',
           rating: 4.3,
           completionRate: 91,
-          hasAppointment: true,
           hasDownload: true,
           hasTracking: true
         },
@@ -431,7 +402,6 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, userType, onBack })
           location: 'الديوان الوطني للمنح الجامعية',
           rating: 4.0,
           completionRate: 65,
-          hasAppointment: true,
           hasDownload: true,
           hasTracking: true
         },
@@ -445,7 +415,6 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, userType, onBack })
           rating: 3.8,
           completionRate: 79,
           isPaid: true,
-          hasAppointment: true,
           hasDownload: true,
           hasTracking: true
         }
@@ -465,7 +434,6 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, userType, onBack })
           location: 'وكالة التشغيل المحلية',
           rating: 4.1,
           completionRate: 89,
-          hasAppointment: true,
           hasDownload: true,
           hasTracking: true
         },
@@ -478,7 +446,6 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, userType, onBack })
           location: 'وكالة التشغيل',
           rating: 4.0,
           completionRate: 85,
-          hasAppointment: true,
           hasDownload: true,
           hasTracking: true
         },
@@ -502,7 +469,6 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, userType, onBack })
           location: 'مراكز التكوين المهني',
           rating: 4.2,
           completionRate: 81,
-          hasAppointment: true,
           hasDownload: true,
           hasTracking: true
         }
@@ -522,7 +488,6 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, userType, onBack })
           location: 'وكالة CNAS المحلية',
           rating: 4.3,
           completionRate: 92,
-          hasAppointment: true,
           hasDownload: true,
           hasTracking: true
         },
@@ -535,7 +500,6 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, userType, onBack })
           location: 'وكالة CASNOS المحلية',
           rating: 4.1,
           completionRate: 88,
-          hasAppointment: true,
           hasDownload: true,
           hasTracking: true
         },
@@ -548,7 +512,6 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, userType, onBack })
           location: 'صندوق التقاعد CNR',
           rating: 4.1,
           completionRate: 87,
-          hasAppointment: true,
           hasDownload: true,
           hasTracking: true
         },
@@ -561,7 +524,6 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, userType, onBack })
           location: 'صندوق الضمان الاجتماعي',
           rating: 4.0,
           completionRate: 83,
-          hasAppointment: true,
           hasDownload: true,
           hasTracking: true
         }
@@ -581,7 +543,6 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, userType, onBack })
           location: 'مكتب البريد المحلي',
           rating: 4.2,
           completionRate: 94,
-          hasAppointment: true,
           hasDownload: true,
           hasTracking: true
         },
@@ -595,7 +556,6 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, userType, onBack })
           rating: 4.1,
           completionRate: 89,
           isPaid: true,
-          hasAppointment: true,
           hasDownload: true,
           hasTracking: true,
           paymentMethods: ['Edahabia', 'BaridiMob', 'نقدي']
@@ -609,7 +569,6 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, userType, onBack })
           location: 'مكتب البريد',
           rating: 4.0,
           completionRate: 92,
-          hasAppointment: true,
           hasDownload: true,
           hasTracking: true
         },
@@ -622,7 +581,6 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, userType, onBack })
           location: 'مكتب البريد',
           rating: 4.3,
           completionRate: 96,
-          hasAppointment: true,
           hasTracking: true,
           paymentMethods: ['Edahabia', 'BaridiMob', 'نقدي']
         }
@@ -635,11 +593,6 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, userType, onBack })
   if (!currentSector) {
     return <div>قطاع غير موجود</div>;
   }
-
-  const handleAppointmentClick = (service: Service) => {
-    setSelectedService(service);
-    setShowAppointmentBooking(true);
-  };
 
   const handleDownloadClick = (service: Service) => {
     setSelectedService(service);
@@ -717,16 +670,6 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, userType, onBack })
           </ul>
           
           <div className="grid grid-cols-2 gap-3">
-            {service.hasAppointment && (
-              <button 
-                onClick={() => handleAppointmentClick(service)}
-                className="bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white font-semibold px-4 py-3 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 ease-out text-sm flex items-center justify-center gap-2"
-              >
-                <Calendar className="w-4 h-4" />
-                حجز موعد
-              </button>
-            )}
-            
             {service.hasDownload && (
               <button 
                 onClick={() => handleDownloadClick(service)}
@@ -750,7 +693,7 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, userType, onBack })
             {service.isPaid && (
               <button 
                 onClick={() => handlePayment(service)}
-                className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-semibold px-4 py-3 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 ease-out text-sm flex items-center justify-center gap-2"
+                className="bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700 text-white font-semibold px-4 py-3 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 ease-out text-sm flex items-center justify-center gap-2 col-span-2"
               >
                 <CreditCard className="w-4 h-4" />
                 دفع إلكتروني
@@ -774,19 +717,6 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, userType, onBack })
       )}
     </div>
   );
-
-  if (showAppointmentBooking && selectedService) {
-    return (
-      <AppointmentBooking
-        isOpen={true}
-        onClose={() => {
-          setShowAppointmentBooking(false);
-          setSelectedService(null);
-        }}
-        service={selectedService}
-      />
-    );
-  }
 
   if (showDocumentViewer && selectedService) {
     return (
