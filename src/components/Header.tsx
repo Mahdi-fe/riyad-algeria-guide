@@ -6,9 +6,10 @@ import { useLanguage } from '../hooks/useLanguage';
 interface HeaderProps {
   userType?: string;
   onSearch?: (query: string) => void;
+  onLogout?: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ userType, onSearch }) => {
+const Header: React.FC<HeaderProps> = ({ userType, onSearch, onLogout }) => {
   const { isRTL } = useLanguage();
   const [searchQuery, setSearchQuery] = useState('');
   const [showNotifications, setShowNotifications] = useState(false);
@@ -72,6 +73,15 @@ const Header: React.FC<HeaderProps> = ({ userType, onSearch }) => {
         break;
       case 'logout':
         if (confirm('هل أنت متأكد من تسجيل الخروج؟')) {
+          // Clear user session data
+          localStorage.removeItem('adminfiles_user_type');
+          localStorage.removeItem('adminfiles_is_logged_in');
+          
+          // Call the logout callback if provided
+          if (onLogout) {
+            onLogout();
+          }
+          
           alert('تم تسجيل الخروج بنجاح');
         }
         break;

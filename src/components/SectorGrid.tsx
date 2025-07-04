@@ -14,7 +14,7 @@ const SectorGrid: React.FC<SectorGridProps> = ({ onSectorClick, userType }) => {
 
   const sectors = [
     { 
-      id: 'local', 
+      id: 'local_admin', // Updated to match sectorData key
       title: 'الإدارة المحلية والحالة المدنية', 
       icon: <Landmark className="w-8 h-8" />, 
       color: 'hover:shadow-lg', 
@@ -57,35 +57,15 @@ const SectorGrid: React.FC<SectorGridProps> = ({ onSectorClick, userType }) => {
       borderColor: 'border-violet-200'
     },
     { 
-      id: 'employment', 
-      title: 'قطاع التشغيل', 
+      id: 'consultations', // Added consultations sector
+      title: 'الاستشارات القانونية والإدارية', 
       icon: <Briefcase className="w-8 h-8" />, 
       color: 'hover:shadow-lg',
       notifications: 1,
-      subtitle: 'وكالة التشغيل ANEM',
+      subtitle: 'استشارات قانونية وإدارية متخصصة',
       bgColor: 'bg-emerald-50',
       iconBg: 'bg-gradient-to-br from-emerald-600 to-emerald-700',
       borderColor: 'border-emerald-200'
-    },
-    { 
-      id: 'social', 
-      title: 'الضمان الاجتماعي', 
-      icon: <Shield className="w-8 h-8" />, 
-      color: 'hover:shadow-lg',
-      subtitle: 'CNAS و CASNOS',
-      bgColor: 'bg-indigo-50',
-      iconBg: 'bg-gradient-to-br from-indigo-600 to-indigo-700',
-      borderColor: 'border-indigo-200'
-    },
-    { 
-      id: 'postal', 
-      title: 'البريد الجزائري', 
-      icon: <Mail className="w-8 h-8" />, 
-      color: 'hover:shadow-lg',
-      subtitle: 'الحسابات البريدية والخدمات',
-      bgColor: 'bg-orange-50',
-      iconBg: 'bg-gradient-to-br from-orange-600 to-orange-700',
-      borderColor: 'border-orange-200'
     }
   ];
 
@@ -109,6 +89,11 @@ const SectorGrid: React.FC<SectorGridProps> = ({ onSectorClick, userType }) => {
       default:
         return 'الخدمات الإدارية المعتمدة';
     }
+  };
+
+  const handleSectorClick = (sectorId: string) => {
+    console.log('Sector clicked:', sectorId);
+    onSectorClick(sectorId);
   };
 
   return (
@@ -143,7 +128,7 @@ const SectorGrid: React.FC<SectorGridProps> = ({ onSectorClick, userType }) => {
               bgColor={sector.bgColor}
               iconBg={sector.iconBg}
               borderColor={sector.borderColor}
-              onClick={() => onSectorClick(sector.id)}
+              onClick={() => handleSectorClick(sector.id)}
             />
           </div>
         ))}

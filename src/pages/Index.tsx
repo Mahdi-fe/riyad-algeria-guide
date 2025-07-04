@@ -51,7 +51,8 @@ const MainContent = ({
   setIsAdministrativeConsultationOpen,
   setIsLegalConsultationOpen,
   setIsLegalConsultationBoxOpen,
-  setActiveSector
+  setActiveSector,
+  handleLogout
 }: any) => {
   const { t } = useLanguage();
 
@@ -83,7 +84,7 @@ const MainContent = ({
             />
           ) : (
             <div className="w-full glass-card min-h-screen flex flex-col shadow-2xl bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/20 safe-area-padding">
-              <Header userType={userType} />
+              <Header userType={userType} onLogout={handleLogout} />
               
               <div className="flex-1 overflow-y-auto mobile-scroll scrollbar-professional">
                 {activeTab === 'home' && (
@@ -184,7 +185,6 @@ const MainContent = ({
         </>
       )}
       
-      {/* Modals */}
       <SettingsModal
         isOpen={isSettingsModalOpen}
         onClose={() => setIsSettingsModalOpen(false)}
@@ -336,6 +336,23 @@ const Index = () => {
     setDarkMode(!darkMode);
   };
 
+  const handleLogout = () => {
+    // Reset app state to user type selection
+    setAppState('userType');
+    setUserType(null);
+    setActiveTab('home');
+    setActiveSector(null);
+    
+    // Close any open modals
+    setIsSettingsModalOpen(false);
+    setIsLocationSearchOpen(false);
+    setIsDocumentTemplatesOpen(false);
+    setIsDocumentViewerOpen(false);
+    setIsAdministrativeConsultationOpen(false);
+    setIsLegalConsultationOpen(false);
+    setIsLegalConsultationBoxOpen(false);
+  };
+
   return (
     <LanguageProvider>
       <MainContent
@@ -370,6 +387,7 @@ const Index = () => {
         setIsLegalConsultationOpen={setIsLegalConsultationOpen}
         setIsLegalConsultationBoxOpen={setIsLegalConsultationBoxOpen}
         setActiveSector={setActiveSector}
+        handleLogout={handleLogout}
       />
     </LanguageProvider>
   );
