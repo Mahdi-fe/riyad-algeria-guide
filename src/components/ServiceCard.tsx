@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Clock, MapPin, Users, Info } from 'lucide-react';
 import { Service } from '../types/sector';
@@ -14,6 +13,7 @@ interface ServiceCardProps {
   onDownload: (service: Service) => void;
   onTracking: (service: Service) => void;
   onPayment: (service: Service) => void;
+  onConsultation?: () => void;
   getPassportRequirements: (requestType: string) => string[];
 }
 
@@ -27,8 +27,69 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
   onDownload,
   onTracking,
   onPayment,
+  onConsultation,
   getPassportRequirements
 }) => {
+  // Only show consultation services differently
+  if (service.id === 'legal_consultation' || service.id === 'administrative_consultation') {
+    return (
+      <div
+        key={service.id}
+        className="card-enhanced p-6 animate-slide-up bg-white rounded-2xl shadow-lg border border-gray-100 hover:shadow-xl transition-all duration-300"
+        style={{animationDelay: `${index * 0.1}s`}}
+      >
+        <div className="flex items-start justify-between mb-4">
+          <div className="flex-1">
+            <h3 className="text-lg font-bold text-gray-800 mb-1">{service.name}</h3>
+            <p className="text-gray-600 text-sm">{service.description}</p>
+          </div>
+          <div className="px-3 py-1 bg-gradient-to-r from-blue-500 to-indigo-500 text-white text-xs rounded-full font-semibold">
+            خدمة مدفوعة
+          </div>
+        </div>
+
+        <div className="grid grid-cols-2 gap-4 mb-4">
+          <div className="flex items-center gap-2">
+            <Clock className="w-4 h-4 text-blue-600" />
+            <span className="text-sm text-gray-600">{service.deadline}</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <MapPin className="w-4 h-4 text-red-600" />
+            <span className="text-sm text-gray-600">{service.location}</span>
+          </div>
+        </div>
+
+        <div className="flex items-center gap-6 mb-4 p-3 bg-gray-50 rounded-xl">
+          <div className="flex items-center gap-2">
+            <Users className="w-4 h-4 text-blue-500" />
+            <span className="text-sm text-gray-600">معدل الرضا {service.completionRate}%</span>
+          </div>
+        </div>
+
+        <button
+          onClick={onConsultation}
+          className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold px-6 py-4 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 ease-out text-base flex items-center justify-center gap-2"
+        >
+          <Info className="w-5 h-5" />
+          طلب استشارة
+        </button>
+
+        {service.paymentMethods && service.paymentMethods.length > 0 && (
+          <div className="mt-4 p-3 bg-blue-50 rounded-xl">
+            <p className="text-sm text-blue-800 font-semibold mb-2">وسائل الدفع المتاحة:</p>
+            <div className="flex flex-wrap gap-2">
+              {service.paymentMethods.map((method, i) => (
+                <span key={i} className="px-3 py-1 bg-blue-100 text-blue-700 text-xs rounded-full font-medium">
+                  {method}
+                </span>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+    );
+  }
+
   return (
     <div
       key={service.id}

@@ -5,6 +5,7 @@ import DocumentViewer from './DocumentViewer';
 import SectorHeader from './SectorHeader';
 import ServiceCard from './ServiceCard';
 import EmergencyContact from './EmergencyContact';
+import ConsultationInterface from './ConsultationInterface';
 import { Service, SectorDetailProps } from '../types/sector';
 import { sectorData } from '../data/sectorData';
 import { getPassportRequirements } from '../utils/passportRequirements';
@@ -13,6 +14,7 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, userType, onBack })
   const { isRTL } = useLanguage();
   const [activeService, setActiveService] = useState<string | null>(null);
   const [showDocumentViewer, setShowDocumentViewer] = useState(false);
+  const [showConsultationInterface, setShowConsultationInterface] = useState(false);
   const [selectedService, setSelectedService] = useState<Service | null>(null);
   const [selectedRequestType, setSelectedRequestType] = useState<'first_time' | 'renewal' | 'replacement'>('first_time');
 
@@ -25,18 +27,26 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, userType, onBack })
   const handleDownloadClick = (service: Service) => {
     setSelectedService(service);
     setShowDocumentViewer(true);
+    console.log(`تحميل نموذج للخدمة: ${service.name}`);
   };
 
   const handlePayment = (service: Service) => {
+    console.log(`تم تفعيل نظام الدفع الإلكتروني للخدمة: ${service.name}`);
     alert(`تم تفعيل نظام الدفع الإلكتروني للخدمة: ${service.name}\nوسائل الدفع المتاحة: ${service.paymentMethods?.join(', ') || 'CIB, Edahabia'}`);
   };
 
   const handleTracking = (service: Service) => {
-    alert(`تتبع الملف للخدمة: ${service.name}\nالحالة: قيد المعالجة\nالمدة المتبقية: ${service.deadline}`);
+    console.log(`تتبع الملف للخدمة: ${service.name}`);
+    const trackingNumber = Math.random().toString(36).substr(2, 9).toUpperCase();
+    alert(`تتبع الملف للخدمة: ${service.name}\nرقم التتبع: ${trackingNumber}\nالحالة: قيد المعالجة\nالمدة المتبقية: ${service.deadline}`);
   };
 
   const handleToggleDetails = (serviceId: string) => {
     setActiveService(activeService === serviceId ? null : serviceId);
+  };
+
+  const handleConsultationClick = () => {
+    setShowConsultationInterface(true);
   };
 
   if (showDocumentViewer && selectedService) {
@@ -71,6 +81,7 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, userType, onBack })
               onDownload={handleDownloadClick}
               onTracking={handleTracking}
               onPayment={handlePayment}
+              onConsultation={handleConsultationClick}
               getPassportRequirements={getPassportRequirements}
             />
           ))}
@@ -78,6 +89,11 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, userType, onBack })
 
         <EmergencyContact />
       </div>
+
+      <ConsultationInterface
+        isOpen={showConsultationInterface}
+        onClose={() => setShowConsultationInterface(false)}
+      />
     </div>
   );
 };
