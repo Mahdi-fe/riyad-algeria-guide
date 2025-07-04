@@ -22,6 +22,8 @@ interface Service {
   hasDownload?: boolean;
   hasTracking?: boolean;
   paymentMethods?: string[];
+  requestType?: 'first_time' | 'renewal' | 'replacement';
+  specialNotes?: string[];
 }
 
 interface SectorData {
@@ -36,6 +38,7 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, userType, onBack })
   const [activeService, setActiveService] = useState<string | null>(null);
   const [showDocumentViewer, setShowDocumentViewer] = useState(false);
   const [selectedService, setSelectedService] = useState<Service | null>(null);
+  const [selectedRequestType, setSelectedRequestType] = useState<'first_time' | 'renewal' | 'replacement'>('first_time');
 
   const sectorData: Record<string, SectorData> = {
     local: {
@@ -55,6 +58,69 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, userType, onBack })
           hasDownload: true,
           hasTracking: true,
           paymentMethods: ['CIB', 'Edahabia', 'BaridiMob']
+        },
+        {
+          id: 'biometric_passport',
+          name: 'طلب جواز السفر البيومتري',
+          description: 'استخراج أو تجديد جواز السفر البيومتري الجديد',
+          requirements: [],
+          deadline: '15-30 يوم عمل',
+          location: 'مصلحة جوازات السفر - الولاية',
+          rating: 4.4,
+          completionRate: 91,
+          isPaid: true,
+          hasDownload: true,
+          hasTracking: true,
+          paymentMethods: ['وصل دفع 6,000 دج من قباضة الضرائب'],
+          requestType: 'first_time',
+          specialNotes: [
+            'لا تُطلب شهادة الجنسية في حالة التجديد أو الضياع أو السرقة',
+            'لا تُطلب شهادة الجنسية لحاملي بطاقة التعريف البيومترية'
+          ]
+        },
+        {
+          id: 'biometric_id_card',
+          name: 'بطاقة التعريف البيومترية',
+          description: 'استخراج أو تجديد بطاقة التعريف البيومترية',
+          requirements: [
+            'شهادة الميلاد S12',
+            'شهادة إقامة',
+            '2 صور شمسية حديثة',
+            'شهادة مدرسية / عمل / بطالة حسب الحالة',
+            'بطاقة فصيلة الدم'
+          ],
+          deadline: '10-15 يوم عمل',
+          location: 'المصلحة البيومترية - البلدية',
+          rating: 4.3,
+          completionRate: 89,
+          hasDownload: true,
+          hasTracking: true,
+          specialNotes: ['مجانية للطلبة والبطالين']
+        },
+        {
+          id: 'social_housing',
+          name: 'طلب السكن الاجتماعي',
+          description: 'تقديم طلب للاستفادة من السكن الاجتماعي',
+          requirements: [
+            'استمارة طلب محررة ومصادق عليها',
+            'بطاقة التعريف الوطنية',
+            'شهادة عائلية',
+            'شهادة دخل أو عدم العمل',
+            'شهادة إقامة',
+            'شهادة عدم امتلاك سكن',
+            'كشف نقاط الأطفال المتمدرسين (إن وجد)'
+          ],
+          deadline: '30-60 يوم للدراسة الأولية',
+          location: 'مصلحة السكن - البلدية',
+          rating: 3.9,
+          completionRate: 76,
+          hasDownload: true,
+          hasTracking: true,
+          specialNotes: [
+            'يجب أن يكون الدخل الشهري أقل من 6 أضعاف الأجر الوطني الأدنى المضمون',
+            'عدم امتلاك سكن أو قطعة أرض صالحة للبناء',
+            'الأولوية للعائلات الكبيرة والحالات الاجتماعية الصعبة'
+          ]
         },
         {
           id: 'death_certificate',
@@ -79,152 +145,48 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, userType, onBack })
           completionRate: 92,
           hasDownload: true,
           hasTracking: true
-        },
-        {
-          id: 'celibacy_certificate',
-          name: 'شهادة العزوبة',
-          description: 'شهادة تثبت الحالة الاجتماعية العزوبة',
-          requirements: ['بطاقة التعريف', 'صورة شمسية', 'شاهدين مع بطاقاتهم'],
-          deadline: '48 ساعة',
-          location: 'مكتب الحالة المدنية',
-          rating: 4.4,
-          completionRate: 93,
-          hasDownload: true,
-          hasTracking: true
-        },
-        {
-          id: 'unemployment_certificate',
-          name: 'شهادة عدم العمل',
-          description: 'شهادة تثبت عدم امتلاك عمل أو مهنة',
-          requirements: ['بطاقة التعريف', 'تصريح بعدم العمل', 'شاهدين'],
-          deadline: '2-3 أيام',
-          location: 'مصلحة الشؤون الإدارية',
-          rating: 4.1,
-          completionRate: 87,
-          hasDownload: true,
-          hasTracking: true
-        },
-        {
-          id: 'loss_declaration',
-          name: 'تصريح بالضياع',
-          description: 'تصريح رسمي بضياع وثيقة أو بطاقة',
-          requirements: ['بطاقة التعريف', 'تصريح مكتوب بالضياع', 'صورة شمسية'],
-          deadline: '24 ساعة',
-          location: 'مصلحة الشؤون الإدارية',
-          rating: 4.2,
-          completionRate: 94,
-          hasDownload: true,
-          hasTracking: true
-        },
-        {
-          id: 'social_housing',
-          name: 'طلب السكن الاجتماعي',
-          description: 'تقديم طلب سكن اجتماعي',
-          requirements: ['استمارة محررة', 'بطاقة التعريف', 'شهادة دخل', 'شهادة إقامة', 'شهادة عائلية'],
-          deadline: '30 يوم للدراسة',
-          location: 'مصلحة السكن - البلدية',
-          rating: 3.8,
-          completionRate: 75,
-          hasDownload: true,
-          hasTracking: true
-        },
-        {
-          id: 'building_permit',
-          name: 'رخصة البناء البسيطة',
-          description: 'رخصة بناء للمشاريع البسيطة والتوسعات',
-          requirements: ['مخطط البناء', 'عقد الملكية', 'بطاقة التعريف', 'رسوم الرخصة'],
-          deadline: '15-30 يوم',
-          location: 'مصلحة التعمير - البلدية',
-          rating: 3.9,
-          completionRate: 78,
-          isPaid: true,
-          hasDownload: true,
-          hasTracking: true,
-          paymentMethods: ['CIB', 'Edahabia', 'نقدي']
         }
       ]
     },
-    civil: {
-      title: 'الحالة المدنية',
-      titleFr: 'État Civil',
-      icon: '📋',
+    health: {
+      title: 'قطاع الصحة',
+      titleFr: 'Secteur Santé',
+      icon: '🏥',
       services: [
         {
-          id: 'national_id_biometric',
-          name: 'بطاقة التعريف الوطنية البيومترية',
-          description: 'استخراج أو تجديد بطاقة التعريف البيومترية الجديدة',
-          requirements: ['شهادة ميلاد', '2 صورة بيومترية', 'شهادة إقامة', 'وصل دفع'],
-          deadline: '10 أيام عمل',
-          location: 'المصلحة البيومترية - البلدية',
+          id: 'chifa_card',
+          name: 'بطاقة الشفاء',
+          description: 'استخراج أو تجديد بطاقة الشفاء للتأمين الصحي',
+          requirements: ['بطاقة التعريف', 'شهادة عمل أو تقاعد', 'صورة شمسية', 'استمارة محررة'],
+          deadline: '10-15 يوم',
+          location: 'صندوق الضمان الاجتماعي',
           rating: 4.3,
-          completionRate: 89,
+          completionRate: 91,
+          hasDownload: true,
+          hasTracking: true
+        },
+        {
+          id: 'medical_certificate',
+          name: 'الشهادة الطبية',
+          description: 'شهادة طبية للعمل أو الدراسة أو الإعفاءات',
+          requirements: ['بطاقة التعريف', 'فحص طبي', 'صور طبية إن وجدت'],
+          deadline: '24-48 ساعة',
+          location: 'المستشفى أو العيادة المعتمدة',
+          rating: 4.1,
+          completionRate: 88,
           isPaid: true,
           hasDownload: true,
-          hasTracking: true,
-          paymentMethods: ['CIB', 'Edahabia', 'BaridiMob']
+          hasTracking: true
         },
         {
-          id: 'passport_biometric',
-          name: 'جواز السفر البيومتري',
-          description: 'استخراج أو تجديد جواز السفر البيومتري الجديد',
-          requirements: ['بطاقة التعريف', '4 صور بيومترية', 'شهادة ميلاد S12', 'وصل دفع'],
-          deadline: '15 يوم عمل',
-          location: 'المصلحة البيومترية - الولاية',
-          rating: 4.5,
-          completionRate: 92,
-          isPaid: true,
-          hasDownload: true,
-          hasTracking: true,
-          paymentMethods: ['CIB', 'Edahabia', 'BaridiMob']
-        },
-        {
-          id: 'birth_certificate_s12',
-          name: 'شهادة الميلاد S12',
-          description: 'شهادة ميلاد خاصة بالمعاملات البيومترية',
-          requirements: ['بطاقة التعريف', 'طلب محرر', 'وصل دفع'],
-          deadline: '48-72 ساعة',
-          location: 'مكتب الحالة المدنية - البلدية',
-          rating: 4.6,
-          completionRate: 95,
-          hasDownload: true,
-          hasTracking: true,
-          paymentMethods: ['CIB', 'Edahabia', 'BaridiMob']
-        },
-        {
-          id: 'residence_card',
-          name: 'بطاقة الإقامة',
-          description: 'بطاقة إقامة للأجانب أو المقيمين',
-          requirements: ['جواز السفر', 'صور شمسية', 'عقد إيجار أو ملكية', 'شهادة طبية'],
+          id: 'medical_transfer',
+          name: 'ملف النقل الصحي',
+          description: 'طلب نقل صحي للعلاج في ولاية أخرى أو الخارج',
+          requirements: ['ملف طبي كامل', 'تقرير طبي مفصل', 'طلب محرر', 'بطاقة الشفاء'],
           deadline: '15-30 يوم',
-          location: 'مصلحة الأجانب - الولاية',
-          rating: 4.0,
-          completionRate: 85,
-          isPaid: true,
-          hasDownload: true,
-          hasTracking: true
-        },
-        {
-          id: 'family_booklet',
-          name: 'دفتر العائلة',
-          description: 'استخراج أو تحديث دفتر العائلة',
-          requirements: ['عقد الزواج', 'شهادات الميلاد للأطفال', 'بطاقات التعريف'],
-          deadline: '7-10 أيام',
-          location: 'مكتب الحالة المدنية',
-          rating: 4.3,
-          completionRate: 92,
-          hasDownload: true,
-          hasTracking: true
-        },
-        {
-          id: 'marriage_contract',
-          name: 'عقد الزواج',
-          description: 'استخراج نسخة من عقد الزواج',
-          requirements: ['بطاقات التعريف للزوجين', 'دفتر العائلة', 'وصل دفع الرسوم'],
-          deadline: '3-5 أيام',
-          location: 'مكتب الحالة المدنية',
-          rating: 4.4,
-          completionRate: 94,
-          hasDownload: true,
+          location: 'مديرية الصحة - الولاية',
+          rating: 3.7,
+          completionRate: 68,
           hasTracking: true
         }
       ]
@@ -294,60 +256,6 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, userType, onBack })
           rating: 4.2,
           completionRate: 89,
           hasDownload: true,
-          hasTracking: true
-        }
-      ]
-    },
-    health: {
-      title: 'قطاع الصحة',
-      titleFr: 'Secteur Santé',
-      icon: '🏥',
-      services: [
-        {
-          id: 'chifa_card',
-          name: 'بطاقة الشفاء',
-          description: 'استخراج أو تجديد بطاقة الشفاء للتأمين الصحي',
-          requirements: ['بطاقة التعريف', 'شهادة عمل أو تقاعد', 'صورة شمسية', 'استمارة محررة'],
-          deadline: '10-15 يوم',
-          location: 'صندوق الضمان الاجتماعي',
-          rating: 4.3,
-          completionRate: 91,
-          hasDownload: true,
-          hasTracking: true
-        },
-        {
-          id: 'medical_certificate',
-          name: 'الشهادة الطبية',
-          description: 'شهادة طبية للعمل أو الدراسة أو الإعفاءات',
-          requirements: ['بطاقة التعريف', 'فحص طبي', 'صور طبية إن وجدت'],
-          deadline: '24-48 ساعة',
-          location: 'المستشفى أو العيادة المعتمدة',
-          rating: 4.1,
-          completionRate: 88,
-          isPaid: true,
-          hasDownload: true,
-          hasTracking: true
-        },
-        {
-          id: 'medical_appointment',
-          name: 'حجز موعد طبي',
-          description: 'حجز موعد مع طبيب مختص أو عام',
-          requirements: ['بطاقة الشفاء', 'بطاقة التعريف', 'وصفة طبية (إن وجدت)'],
-          deadline: 'حسب التوفر (1-30 يوم)',
-          location: 'المستشفى أو العيادة المختارة',
-          rating: 4.0,
-          completionRate: 78,
-          hasTracking: true
-        },
-        {
-          id: 'medical_transfer',
-          name: 'ملف النقل الصحي',
-          description: 'طلب نقل صحي للعلاج في ولاية أخرى أو الخارج',
-          requirements: ['ملف طبي كامل', 'تقرير طبي مفصل', 'طلب محرر', 'بطاقة الشفاء'],
-          deadline: '15-30 يوم',
-          location: 'مديرية الصحة - الولاية',
-          rating: 3.7,
-          completionRate: 68,
           hasTracking: true
         }
       ]
@@ -588,6 +496,36 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, userType, onBack })
     }
   };
 
+  const getPassportRequirements = (requestType: string) => {
+    const baseRequirements = [
+      '2 صور شمسية حديثة بخلفية بيضاء',
+      'بطاقة فصيلة الدم أو نسخة من رخصة السياقة',
+      'شهادة عمل / بطالة / مدرسية حسب الحالة',
+      'وصل دفع 6,000 دج من قباضة الضرائب'
+    ];
+
+    switch (requestType) {
+      case 'first_time':
+        return [
+          'شهادة الجنسية (إلزامية لأول طلب)',
+          'شهادة الإقامة (لمن تجاوز 19 سنة)',
+          ...baseRequirements
+        ];
+      case 'renewal':
+        return [
+          'جواز السفر القديم',
+          ...baseRequirements
+        ];
+      case 'replacement':
+        return [
+          'تصريح بالضياع أو السرقة من الشرطة',
+          ...baseRequirements
+        ];
+      default:
+        return baseRequirements;
+    }
+  };
+
   const currentSector = sectorData[sector];
 
   if (!currentSector) {
@@ -600,12 +538,10 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, userType, onBack })
   };
 
   const handlePayment = (service: Service) => {
-    // Simulate payment process
     alert(`تم تفعيل نظام الدفع الإلكتروني للخدمة: ${service.name}\nوسائل الدفع المتاحة: ${service.paymentMethods?.join(', ') || 'CIB, Edahabia'}`);
   };
 
   const handleTracking = (service: Service) => {
-    // Simulate tracking
     alert(`تتبع الملف للخدمة: ${service.name}\nالحالة: قيد المعالجة\nالمدة المتبقية: ${service.deadline}`);
   };
 
@@ -649,6 +585,47 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, userType, onBack })
         </div>
       </div>
 
+      {service.id === 'biometric_passport' && (
+        <div className="mb-4 p-4 bg-blue-50 rounded-xl">
+          <p className="text-sm font-semibold text-blue-800 mb-3">نوع الطلب:</p>
+          <div className="grid grid-cols-1 gap-2">
+            <label className="flex items-center gap-2">
+              <input
+                type="radio"
+                name="requestType"
+                value="first_time"
+                checked={selectedRequestType === 'first_time'}
+                onChange={(e) => setSelectedRequestType(e.target.value as any)}
+                className="text-blue-600"
+              />
+              <span className="text-sm text-blue-700">طلب أول مرة</span>
+            </label>
+            <label className="flex items-center gap-2">
+              <input
+                type="radio"
+                name="requestType"
+                value="renewal"
+                checked={selectedRequestType === 'renewal'}
+                onChange={(e) => setSelectedRequestType(e.target.value as any)}
+                className="text-blue-600"
+              />
+              <span className="text-sm text-blue-700">تجديد</span>
+            </label>
+            <label className="flex items-center gap-2">
+              <input
+                type="radio"
+                name="requestType"
+                value="replacement"
+                checked={selectedRequestType === 'replacement'}
+                onChange={(e) => setSelectedRequestType(e.target.value as any)}
+                className="text-blue-600"
+              />
+              <span className="text-sm text-blue-700">بدل ضائع أو مسروق</span>
+            </label>
+          </div>
+        </div>
+      )}
+
       <button
         onClick={() => setActiveService(activeService === service.id ? null : service.id)}
         className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold px-6 py-4 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 ease-out text-base flex items-center justify-center gap-2 mb-3"
@@ -661,13 +638,22 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, userType, onBack })
         <div className="mt-4 p-4 bg-gray-50 rounded-2xl animate-slide-up">
           <h4 className="font-semibold text-gray-800 mb-3">المتطلبات:</h4>
           <ul className="space-y-2 mb-4">
-            {service.requirements.map((req, i) => (
+            {(service.id === 'biometric_passport' ? getPassportRequirements(selectedRequestType) : service.requirements).map((req, i) => (
               <li key={i} className="flex items-center gap-2">
                 <div className="w-2 h-2 bg-blue-600 rounded-full"></div>
                 <span className="text-sm text-gray-700">{req}</span>
               </li>
             ))}
           </ul>
+
+          {service.specialNotes && (
+            <div className="mb-4 p-3 bg-yellow-50 rounded-xl border border-yellow-200">
+              <p className="text-sm font-semibold text-yellow-800 mb-2">ملاحظات مهمة:</p>
+              {service.specialNotes.map((note, i) => (
+                <p key={i} className="text-sm text-yellow-700 mb-1">• {note}</p>
+              ))}
+            </div>
+          )}
           
           <div className="grid grid-cols-2 gap-3">
             {service.hasDownload && (
