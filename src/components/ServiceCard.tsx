@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Clock, MapPin, Star, Users, Info } from 'lucide-react';
+import { Clock, MapPin, Users, Info } from 'lucide-react';
 import { Service } from '../types/sector';
 import PassportRequestType from './PassportRequestType';
 
@@ -59,10 +59,6 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
       </div>
 
       <div className="flex items-center gap-6 mb-4 p-3 bg-gray-50 rounded-xl">
-        <div className="flex items-center gap-2">
-          <Star className="w-4 h-4 text-yellow-500 fill-current" />
-          <span className="text-sm font-medium">{service.rating}</span>
-        </div>
         <div className="flex items-center gap-2">
           <Users className="w-4 h-4 text-blue-500" />
           <span className="text-sm text-gray-600">معدل الإنجاز {service.completionRate}%</span>

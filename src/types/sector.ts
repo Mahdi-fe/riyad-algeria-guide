@@ -6,7 +6,6 @@ export interface Service {
   requirements: string[];
   deadline: string;
   location: string;
-  rating: number;
   completionRate: number;
   isPaid?: boolean;
   hasDownload?: boolean;
