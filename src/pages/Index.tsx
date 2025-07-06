@@ -4,7 +4,6 @@ import { LanguageProvider, useLanguage } from '../hooks/useLanguage';
 import SplashScreen from '../components/SplashScreen';
 import LoginScreen from '../components/LoginScreen';
 import SignUpScreen from '../components/SignUpScreen';
-import UserTypeSelection from '../components/UserTypeSelection';
 import ServiceTypeSelection from '../components/ServiceTypeSelection';
 import Header from '../components/Header';
 import SectorGrid from '../components/SectorGrid';
@@ -20,7 +19,7 @@ import AdministrativeConsultation from '../components/AdministrativeConsultation
 import LegalConsultationBox from '../components/LegalConsultationBox';
 import ConsultationInterface from '../components/ConsultationInterface';
 
-type AppState = 'splash' | 'userType' | 'login' | 'signup' | 'main';
+type AppState = 'splash' | 'login' | 'signup' | 'main';
 
 const MainContent = ({
   appState,
@@ -38,7 +37,6 @@ const MainContent = ({
   selectedDocument,
   darkMode,
   handleSplashComplete,
-  handleUserTypeSelect,
   handleLogin,
   handleSignUpClick,
   handleSignUp,
@@ -64,10 +62,6 @@ const MainContent = ({
     <div className={`min-h-screen ${darkMode ? 'dark' : ''}`}>
       {appState === 'splash' && (
         <SplashScreen onComplete={handleSplashComplete} />
-      )}
-      
-      {appState === 'userType' && (
-        <UserTypeSelection onUserTypeSelect={handleUserTypeSelect} />
       )}
       
       {appState === 'login' && (
@@ -270,14 +264,8 @@ const Index = () => {
     if (isLoggedIn === 'true') {
       setAppState('main');
     } else {
-      setAppState('userType');
+      setAppState('login');
     }
-  };
-
-  const handleUserTypeSelect = (selectedUserType: string) => {
-    setUserType(selectedUserType);
-    localStorage.setItem('adminfiles_user_type', selectedUserType);
-    setAppState('login');
   };
 
   const handleLogin = () => {
@@ -345,7 +333,7 @@ const Index = () => {
     localStorage.removeItem('adminfiles_is_logged_in');
     
     // Reset app state
-    setAppState('userType');
+    setAppState('login');
     setUserType(null);
     setActiveTab('home');
     setActiveSector(null);
@@ -379,7 +367,6 @@ const Index = () => {
         selectedDocument={selectedDocument}
         darkMode={darkMode}
         handleSplashComplete={handleSplashComplete}
-        handleUserTypeSelect={handleUserTypeSelect}
         handleLogin={handleLogin}
         handleSignUpClick={handleSignUpClick}
         handleSignUp={handleSignUp}

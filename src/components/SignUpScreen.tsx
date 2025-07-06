@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Shield, Mail, Phone, Lock, Eye, EyeOff, ArrowRight, User, CheckCircle, ArrowLeft } from 'lucide-react';
+import { Shield, Mail, Phone, Lock, Eye, EyeOff, ArrowRight, User, CheckCircle, ArrowLeft, Scale } from 'lucide-react';
 import { useLanguage } from '../hooks/useLanguage';
 
 interface SignUpScreenProps {
@@ -31,9 +31,33 @@ const SignUpScreen: React.FC<SignUpScreenProps> = ({ onSignUp, onBack }) => {
   };
 
   const userTypes = [
-    { id: 'citizen', label: 'مواطن عادي', icon: '🧍' },
-    { id: 'lawyer', label: 'محامي', icon: '⚖️' },
-    { id: 'officer', label: 'موظف إداري', icon: '🧑‍💼' }
+    { 
+      id: 'citizen', 
+      label: 'مواطن عادي',
+      labelFr: 'Citoyen',
+      icon: <User className="w-6 h-6" />,
+      gradient: 'bg-gradient-to-br from-blue-500 to-blue-600',
+      bgColor: 'bg-blue-50',
+      borderColor: 'border-blue-200'
+    },
+    { 
+      id: 'lawyer', 
+      label: 'محامي',
+      labelFr: 'Avocat',
+      icon: <Scale className="w-6 h-6" />,
+      gradient: 'bg-gradient-to-br from-emerald-500 to-emerald-600',
+      bgColor: 'bg-emerald-50',
+      borderColor: 'border-emerald-200'
+    },
+    { 
+      id: 'officer', 
+      label: 'موظف إداري',
+      labelFr: 'Agent Administratif',
+      icon: <Shield className="w-6 h-6" />,
+      gradient: 'bg-gradient-to-br from-purple-500 to-purple-600',
+      bgColor: 'bg-purple-50',
+      borderColor: 'border-purple-200'
+    }
   ];
 
   return (
@@ -91,26 +115,56 @@ const SignUpScreen: React.FC<SignUpScreenProps> = ({ onSignUp, onBack }) => {
               </div>
             </div>
 
-            {/* User Type Selection */}
+            {/* User Type Selection with improved layout */}
             <div>
               <label className="text-gray-800 font-bold text-base block mb-4">نوع المستخدم</label>
-              <div className="grid grid-cols-2 gap-3">
-                {userTypes.map((type) => (
+              
+              {/* First row - Citizen and Lawyer */}
+              <div className="flex gap-4 mb-4">
+                {userTypes.slice(0, 2).map((type) => (
                   <button
                     key={type.id}
                     type="button"
                     onClick={() => setFormData({ ...formData, userType: type.id })}
-                    className={`p-4 rounded-2xl border-2 transition-all duration-300 ${
-                      formData.userType === type.id
-                        ? 'border-blue-500 bg-blue-50 text-blue-700'
-                        : 'border-gray-200 bg-white text-gray-700 hover:border-gray-300'
+                    className={`flex-1 ${type.bgColor} border-2 ${
+                      formData.userType === type.id ? type.borderColor : 'border-gray-200'
+                    } rounded-2xl p-4 transition-all duration-300 ${
+                      formData.userType === type.id ? 'shadow-lg' : 'hover:border-gray-300'
                     }`}
                   >
-                    <div className="text-2xl mb-2">{type.icon}</div>
-                    <div className="text-sm font-semibold">{type.label}</div>
+                    <div className="text-center space-y-3">
+                      <div className={`${type.gradient} text-white rounded-xl shadow-lg p-3 mx-auto w-fit`}>
+                        {type.icon}
+                      </div>
+                      <div>
+                        <div className="text-sm font-bold text-gray-900 mb-1">{type.label}</div>
+                        <div className="text-xs text-gray-500 font-medium">{type.labelFr}</div>
+                      </div>
+                    </div>
                   </button>
                 ))}
               </div>
+
+              {/* Second row - Administrative Officer */}
+              <button
+                type="button"
+                onClick={() => setFormData({ ...formData, userType: userTypes[2].id })}
+                className={`w-full ${userTypes[2].bgColor} border-2 ${
+                  formData.userType === userTypes[2].id ? userTypes[2].borderColor : 'border-gray-200'
+                } rounded-2xl p-4 transition-all duration-300 ${
+                  formData.userType === userTypes[2].id ? 'shadow-lg' : 'hover:border-gray-300'
+                }`}
+              >
+                <div className="flex items-center gap-4 text-center justify-center">
+                  <div className={`${userTypes[2].gradient} text-white rounded-xl shadow-lg p-3`}>
+                    {userTypes[2].icon}
+                  </div>
+                  <div>
+                    <div className="text-base font-bold text-gray-900 mb-1">{userTypes[2].label}</div>
+                    <div className="text-sm text-gray-500 font-medium">{userTypes[2].labelFr}</div>
+                  </div>
+                </div>
+              </button>
             </div>
 
             {/* Login method toggle */}
