@@ -12,41 +12,18 @@ const PassportRequestType: React.FC<PassportRequestTypeProps> = ({
 }) => {
   return (
     <div className="mb-4 p-4 bg-blue-50 rounded-xl">
-      <p className="text-sm font-semibold text-blue-800 mb-3">نوع الطلب:</p>
-      <div className="grid grid-cols-1 gap-2">
-        <label className="flex items-center gap-2">
-          <input
-            type="radio"
-            name="requestType"
-            value="first_time"
-            checked={selectedRequestType === 'first_time'}
-            onChange={(e) => onRequestTypeChange(e.target.value as any)}
-            className="text-blue-600"
-          />
-          <span className="text-sm text-blue-700">طلب أول مرة</span>
-        </label>
-        <label className="flex items-center gap-2">
-          <input
-            type="radio"
-            name="requestType"
-            value="renewal"
-            checked={selectedRequestType === 'renewal'}
-            onChange={(e) => onRequestTypeChange(e.target.value as any)}
-            className="text-blue-600"
-          />
-          <span className="text-sm text-blue-700">تجديد</span>
-        </label>
-        <label className="flex items-center gap-2">
-          <input
-            type="radio"
-            name="requestType"
-            value="replacement"
-            checked={selectedRequestType === 'replacement'}
-            onChange={(e) => onRequestTypeChange(e.target.value as any)}
-            className="text-blue-600"
-          />
-          <span className="text-sm text-blue-700">بدل ضائع أو مسروق</span>
-        </label>
+      <div className="text-center">
+        <div className="p-4 bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl text-white mb-4">
+          <h3 className="text-lg font-bold mb-2">جواز السفر البيومتري</h3>
+          <p className="text-sm opacity-90">
+            سيتم تحديد نوع الطلب تلقائياً حسب الوثائق المقدمة من طرف الإدارة
+          </p>
+        </div>
+        <div className="bg-amber-50 border border-amber-200 rounded-lg p-3">
+          <p className="text-amber-800 text-sm font-medium">
+            ملاحظة: نوع الطلب (أول مرة، تجديد، أو بدل ضائع) يحدده الموظف المختص تلقائياً بناءً على الوثائق والحالة المقدمة
+          </p>
+        </div>
       </div>
     </div>
   );

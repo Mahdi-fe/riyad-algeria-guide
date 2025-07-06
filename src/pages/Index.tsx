@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { LanguageProvider, useLanguage } from '../hooks/useLanguage';
 import SplashScreen from '../components/SplashScreen';
@@ -17,8 +18,9 @@ import DocumentTemplates from '../components/DocumentTemplates';
 import DocumentViewer from '../components/DocumentViewer';
 import AdministrativeConsultation from '../components/AdministrativeConsultation';
 import LegalConsultationBox from '../components/LegalConsultationBox';
+import ConsultationInterface from '../components/ConsultationInterface';
 
-type AppState = 'splash' | 'login' | 'signup' | 'userType' | 'main';
+type AppState = 'splash' | 'userType' | 'login' | 'signup' | 'main';
 
 const MainContent = ({
   appState,
@@ -32,14 +34,15 @@ const MainContent = ({
   isAdministrativeConsultationOpen,
   isLegalConsultationOpen,
   isLegalConsultationBoxOpen,
+  isConsultationInterfaceOpen,
   selectedDocument,
   darkMode,
   handleSplashComplete,
+  handleUserTypeSelect,
   handleLogin,
   handleSignUpClick,
   handleSignUp,
   handleBackToLogin,
-  handleUserTypeSelect,
   handleSectorClick,
   handleActionClick,
   handleTabChange,
@@ -51,6 +54,7 @@ const MainContent = ({
   setIsAdministrativeConsultationOpen,
   setIsLegalConsultationOpen,
   setIsLegalConsultationBoxOpen,
+  setIsConsultationInterfaceOpen,
   setActiveSector,
   handleLogout
 }: any) => {
@@ -62,16 +66,16 @@ const MainContent = ({
         <SplashScreen onComplete={handleSplashComplete} />
       )}
       
+      {appState === 'userType' && (
+        <UserTypeSelection onUserTypeSelect={handleUserTypeSelect} />
+      )}
+      
       {appState === 'login' && (
         <LoginScreen onLogin={handleLogin} onSignUp={handleSignUpClick} />
       )}
       
       {appState === 'signup' && (
         <SignUpScreen onSignUp={handleSignUp} onBack={handleBackToLogin} />
-      )}
-      
-      {appState === 'userType' && (
-        <UserTypeSelection onUserTypeSelect={handleUserTypeSelect} />
       )}
       
       {appState === 'main' && (
@@ -224,6 +228,11 @@ const MainContent = ({
         isOpen={isLegalConsultationBoxOpen}
         onClose={() => setIsLegalConsultationBoxOpen(false)}
       />
+
+      <ConsultationInterface
+        isOpen={isConsultationInterfaceOpen}
+        onClose={() => setIsConsultationInterfaceOpen(false)}
+      />
     </div>
   );
 };
@@ -240,6 +249,7 @@ const Index = () => {
   const [isAdministrativeConsultationOpen, setIsAdministrativeConsultationOpen] = useState(false);
   const [isLegalConsultationOpen, setIsLegalConsultationOpen] = useState(false);
   const [isLegalConsultationBoxOpen, setIsLegalConsultationBoxOpen] = useState(false);
+  const [isConsultationInterfaceOpen, setIsConsultationInterfaceOpen] = useState(false);
   const [selectedDocument, setSelectedDocument] = useState<string | null>(null);
   const [darkMode, setDarkMode] = useState(false);
 
@@ -260,20 +270,19 @@ const Index = () => {
     if (isLoggedIn === 'true') {
       setAppState('main');
     } else {
-      setAppState('login');
+      setAppState('userType');
     }
+  };
+
+  const handleUserTypeSelect = (selectedUserType: string) => {
+    setUserType(selectedUserType);
+    localStorage.setItem('adminfiles_user_type', selectedUserType);
+    setAppState('login');
   };
 
   const handleLogin = () => {
     localStorage.setItem('adminfiles_is_logged_in', 'true');
-    const savedUserType = localStorage.getItem('adminfiles_user_type');
-    
-    if (savedUserType) {
-      setUserType(savedUserType);
-      setAppState('main');
-    } else {
-      setAppState('userType');
-    }
+    setAppState('main');
   };
 
   const handleSignUpClick = () => {
@@ -291,12 +300,6 @@ const Index = () => {
     setAppState('login');
   };
 
-  const handleUserTypeSelect = (selectedUserType: string) => {
-    setUserType(selectedUserType);
-    localStorage.setItem('adminfiles_user_type', selectedUserType);
-    setAppState('main');
-  };
-
   const handleSectorClick = (sector: string) => {
     setActiveSector(sector);
   };
@@ -304,7 +307,7 @@ const Index = () => {
   const handleActionClick = (action: string) => {
     switch (action) {
       case 'consultation':
-        setIsAdministrativeConsultationOpen(true);
+        setIsConsultationInterfaceOpen(true);
         break;
       case 'templates':
         setIsDocumentTemplatesOpen(true);
@@ -337,7 +340,11 @@ const Index = () => {
   };
 
   const handleLogout = () => {
-    // Reset app state to user type selection
+    // Clear user session data
+    localStorage.removeItem('adminfiles_user_type');
+    localStorage.removeItem('adminfiles_is_logged_in');
+    
+    // Reset app state
     setAppState('userType');
     setUserType(null);
     setActiveTab('home');
@@ -351,6 +358,7 @@ const Index = () => {
     setIsAdministrativeConsultationOpen(false);
     setIsLegalConsultationOpen(false);
     setIsLegalConsultationBoxOpen(false);
+    setIsConsultationInterfaceOpen(false);
   };
 
   return (
@@ -367,14 +375,15 @@ const Index = () => {
         isAdministrativeConsultationOpen={isAdministrativeConsultationOpen}
         isLegalConsultationOpen={isLegalConsultationOpen}
         isLegalConsultationBoxOpen={isLegalConsultationBoxOpen}
+        isConsultationInterfaceOpen={isConsultationInterfaceOpen}
         selectedDocument={selectedDocument}
         darkMode={darkMode}
         handleSplashComplete={handleSplashComplete}
+        handleUserTypeSelect={handleUserTypeSelect}
         handleLogin={handleLogin}
         handleSignUpClick={handleSignUpClick}
         handleSignUp={handleSignUp}
         handleBackToLogin={handleBackToLogin}
-        handleUserTypeSelect={handleUserTypeSelect}
         handleSectorClick={handleSectorClick}
         handleActionClick={handleActionClick}
         handleTabChange={handleTabChange}
@@ -386,6 +395,7 @@ const Index = () => {
         setIsAdministrativeConsultationOpen={setIsAdministrativeConsultationOpen}
         setIsLegalConsultationOpen={setIsLegalConsultationOpen}
         setIsLegalConsultationBoxOpen={setIsLegalConsultationBoxOpen}
+        setIsConsultationInterfaceOpen={setIsConsultationInterfaceOpen}
         setActiveSector={setActiveSector}
         handleLogout={handleLogout}
       />
