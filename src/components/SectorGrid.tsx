@@ -14,10 +14,10 @@ const SectorGrid: React.FC<SectorGridProps> = ({ onSectorClick, userType }) => {
 
   const sectors = [
     { 
-      id: 'local_admin', // Updated to match sectorData key
+      id: 'local_admin',
       title: 'الإدارة المحلية والحالة المدنية', 
-      icon: <Landmark className="w-8 h-8" />, 
-      color: 'hover:shadow-lg', 
+      icon: <Landmark className="w-6 h-6" />, 
+      color: 'hover:shadow-md', 
       notifications: 5,
       subtitle: 'البلدية والدائرة وشهادات الحالة المدنية',
       bgColor: 'bg-blue-50',
@@ -27,8 +27,8 @@ const SectorGrid: React.FC<SectorGridProps> = ({ onSectorClick, userType }) => {
     { 
       id: 'justice', 
       title: 'قطاع العدالة', 
-      icon: <Gavel className="w-8 h-8" />, 
-      color: 'hover:shadow-lg', 
+      icon: <Gavel className="w-6 h-6" />, 
+      color: 'hover:shadow-md', 
       notifications: 1,
       subtitle: 'المحاكم والنيابة العامة والاستشارات القانونية',
       bgColor: 'bg-amber-50',
@@ -38,8 +38,8 @@ const SectorGrid: React.FC<SectorGridProps> = ({ onSectorClick, userType }) => {
     { 
       id: 'health', 
       title: 'قطاع الصحة', 
-      icon: <Hospital className="w-8 h-8" />, 
-      color: 'hover:shadow-lg',
+      icon: <Hospital className="w-6 h-6" />, 
+      color: 'hover:shadow-md',
       notifications: 2,
       subtitle: 'بطاقة الشفاء والمستشفيات',
       bgColor: 'bg-rose-50',
@@ -49,18 +49,18 @@ const SectorGrid: React.FC<SectorGridProps> = ({ onSectorClick, userType }) => {
     { 
       id: 'education', 
       title: 'قطاع التعليم', 
-      icon: <BookOpen className="w-8 h-8" />, 
-      color: 'hover:shadow-lg',
+      icon: <BookOpen className="w-6 h-6" />, 
+      color: 'hover:shadow-md',
       subtitle: 'المدارس والجامعات',
       bgColor: 'bg-violet-50',
       iconBg: 'bg-gradient-to-br from-violet-600 to-violet-700',
       borderColor: 'border-violet-200'
     },
     { 
-      id: 'consultations', // Added consultations sector
+      id: 'consultations',
       title: 'الاستشارات القانونية والإدارية', 
-      icon: <Briefcase className="w-8 h-8" />, 
-      color: 'hover:shadow-lg',
+      icon: <Briefcase className="w-6 h-6" />, 
+      color: 'hover:shadow-md',
       notifications: 1,
       subtitle: 'استشارات قانونية وإدارية متخصصة',
       bgColor: 'bg-emerald-50',
@@ -97,18 +97,18 @@ const SectorGrid: React.FC<SectorGridProps> = ({ onSectorClick, userType }) => {
   };
 
   return (
-    <div className="px-6 py-8 bg-gradient-to-b from-white to-gray-50">
-      <div className="mb-8">
-        <div className="flex items-center gap-4 mb-4">
-          <div className="w-2 h-12 bg-blue-600 rounded-full"></div>
+    <div className="px-4 py-5 bg-gradient-to-b from-white to-gray-50">
+      <div className="mb-6">
+        <div className="flex items-center gap-3 mb-3">
+          <div className="w-1.5 h-8 bg-blue-600 rounded-full"></div>
           <div>
-            <h2 className="text-2xl font-bold text-gray-900 mb-1">
+            <h2 className="text-xl font-bold text-gray-900 mb-0.5">
               {getUserTypeTitle()}
             </h2>
-            <p className="text-blue-600 font-semibold">{getUserTypeDescription()}</p>
+            <p className="text-blue-600 font-semibold text-sm">{getUserTypeDescription()}</p>
           </div>
         </div>
-        <p className="text-gray-600 text-base mb-4 leading-relaxed">
+        <p className="text-gray-600 text-sm mb-3 leading-relaxed">
           {userType === 'lawyer' 
             ? 'منصة متخصصة للمحامين لتقديم الاستشارات القانونية والخدمات القضائية'
             : 'اختر القطاع المناسب للحصول على الخدمات المطلوبة والوثائق الرسمية'
@@ -116,7 +116,7 @@ const SectorGrid: React.FC<SectorGridProps> = ({ onSectorClick, userType }) => {
         </p>
       </div>
       
-      <div className="grid grid-cols-1 gap-4 mb-8">
+      <div className="grid grid-cols-1 gap-3 mb-6">
         {sectors.map((sector, index) => (
           <div key={sector.id} className="animate-fade-in" style={{animationDelay: `${index * 0.1}s`}}>
             <SectorCard
@@ -134,15 +134,15 @@ const SectorGrid: React.FC<SectorGridProps> = ({ onSectorClick, userType }) => {
         ))}
       </div>
 
-      {/* Status footer */}
-      <div className="p-6 bg-green-50 rounded-2xl border border-green-200">
+      {/* Status footer - تم تقليل الحجم */}
+      <div className="p-4 bg-green-50 rounded-xl border border-green-200">
         <div className="text-center">
-          <div className="flex items-center justify-center gap-2 mb-3">
-            <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
-            <p className="text-green-800 font-bold text-base">جميع الخدمات متاحة ومحدثة</p>
-            <div className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></div>
+          <div className="flex items-center justify-center gap-2 mb-2">
+            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+            <p className="text-green-800 font-bold text-sm">جميع الخدمات متاحة ومحدثة</p>
+            <div className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
           </div>
-          <p className="text-green-700 text-sm leading-relaxed">
+          <p className="text-green-700 text-xs leading-relaxed">
             منصة AdminFiles تربطك مباشرة بالإدارات الحكومية لضمان الحصول على خدمات سريعة وموثوقة
           </p>
         </div>
