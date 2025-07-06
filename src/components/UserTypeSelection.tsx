@@ -17,7 +17,7 @@ const UserTypeSelection: React.FC<UserTypeSelectionProps> = ({ onUserTypeSelect 
       titleFr: 'Citoyen',
       description: 'للوصول إلى الخدمات الحكومية العامة والاستعلامات الشخصية',
       descriptionFr: 'Accès aux services gouvernementaux généraux',
-      icon: <User className="w-8 h-8" />,
+      icon: <User className="w-6 h-6" />,
       gradient: 'bg-gradient-to-br from-blue-500 to-blue-600',
       bgColor: 'bg-blue-50',
       borderColor: 'border-blue-200',
@@ -29,7 +29,7 @@ const UserTypeSelection: React.FC<UserTypeSelectionProps> = ({ onUserTypeSelect 
       titleFr: 'Avocat',
       description: 'للوصول إلى الخدمات القانونية المتخصصة والاستشارات القانونية المدفوعة',
       descriptionFr: 'Accès aux services juridiques spécialisés',
-      icon: <Scale className="w-8 h-8" />,
+      icon: <Scale className="w-6 h-6" />,
       gradient: 'bg-gradient-to-br from-emerald-500 to-emerald-600',
       bgColor: 'bg-emerald-50',
       borderColor: 'border-emerald-200',
@@ -41,7 +41,7 @@ const UserTypeSelection: React.FC<UserTypeSelectionProps> = ({ onUserTypeSelect 
       titleFr: 'Agent Administratif',
       description: 'للوصول إلى أدوات الإدارة والمتابعة والرد على الاستشارات الإدارية',
       descriptionFr: 'Accès aux outils d\'administration et de suivi',
-      icon: <Shield className="w-8 h-8" />,
+      icon: <Shield className="w-6 h-6" />,
       gradient: 'bg-gradient-to-br from-purple-500 to-purple-600',
       bgColor: 'bg-purple-50',
       borderColor: 'border-purple-200',
@@ -74,38 +74,69 @@ const UserTypeSelection: React.FC<UserTypeSelectionProps> = ({ onUserTypeSelect 
         </div>
 
         {/* User type selection cards */}
-        <div className="flex-1 px-6 py-8 space-y-4">
-          {userTypes.map((type, index) => (
-            <button
-              key={type.id}
-              onClick={() => onUserTypeSelect(type.id)}
-              className={`w-full ${type.bgColor} border-2 ${type.borderColor} hover:shadow-2xl active:scale-95 rounded-3xl p-6 transition-all duration-300 animate-fade-in group`}
-              style={{animationDelay: `${index * 0.15}s`}}
-            >
-              <div className="flex items-start gap-5 text-right">
-                <div className={`${type.gradient} text-white rounded-2xl shadow-xl p-4 group-hover:scale-105 transition-transform duration-300`}>
-                  {type.icon}
-                </div>
-                <div className="flex-1 space-y-3">
+        <div className="flex-1 px-6 py-8 space-y-6">
+          {/* First row - Citizen and Lawyer */}
+          <div className="flex gap-4">
+            {userTypes.slice(0, 2).map((type, index) => (
+              <button
+                key={type.id}
+                onClick={() => onUserTypeSelect(type.id)}
+                className={`flex-1 ${type.bgColor} border-2 ${type.borderColor} hover:shadow-xl active:scale-95 rounded-2xl p-4 transition-all duration-300 animate-fade-in group`}
+                style={{animationDelay: `${index * 0.15}s`}}
+              >
+                <div className="text-center space-y-3">
+                  <div className={`${type.gradient} text-white rounded-xl shadow-lg p-3 mx-auto w-fit group-hover:scale-105 transition-transform duration-300`}>
+                    {type.icon}
+                  </div>
                   <div>
-                    <h3 className="text-xl font-bold text-gray-900 mb-1">{type.title}</h3>
-                    <p className="text-sm text-gray-500 font-medium">{type.titleFr}</p>
+                    <h3 className="text-lg font-bold text-gray-900 mb-1">{type.title}</h3>
+                    <p className="text-xs text-gray-500 font-medium mb-2">{type.titleFr}</p>
+                    <p className="text-gray-700 text-xs leading-relaxed mb-3">{type.description}</p>
+                    <div className="flex flex-wrap gap-1 justify-center">
+                      {type.features.slice(0, 2).map((feature, idx) => (
+                        <span key={idx} className="px-2 py-1 bg-white/80 text-gray-700 rounded-full text-xs font-medium border border-gray-200">
+                          {feature}
+                        </span>
+                      ))}
+                    </div>
                   </div>
-                  <p className="text-gray-700 text-sm leading-relaxed">{type.description}</p>
-                  <div className="flex flex-wrap gap-2">
-                    {type.features.map((feature, idx) => (
-                      <span key={idx} className="px-3 py-1 bg-white/80 text-gray-700 rounded-full text-xs font-medium border border-gray-200">
-                        {feature}
-                      </span>
-                    ))}
+                  <div className="flex justify-center">
+                    <ArrowRight className="w-5 h-5 text-gray-400 group-hover:text-blue-600 transition-colors duration-300" />
                   </div>
                 </div>
-                <div className="p-2 group-hover:text-blue-600 transition-colors duration-300">
-                  <ArrowRight className="w-6 h-6 text-gray-400 group-hover:text-blue-600" />
+              </button>
+            ))}
+          </div>
+
+          {/* Second row - Administrative Officer */}
+          <button
+            onClick={() => onUserTypeSelect(userTypes[2].id)}
+            className={`w-full ${userTypes[2].bgColor} border-2 ${userTypes[2].borderColor} hover:shadow-xl active:scale-95 rounded-2xl p-6 transition-all duration-300 animate-fade-in group`}
+            style={{animationDelay: '0.3s'}}
+          >
+            <div className="flex items-center gap-5 text-right">
+              <div className={`${userTypes[2].gradient} text-white rounded-2xl shadow-xl p-4 group-hover:scale-105 transition-transform duration-300`}>
+                {userTypes[2].icon}
+              </div>
+              <div className="flex-1 space-y-3">
+                <div>
+                  <h3 className="text-xl font-bold text-gray-900 mb-1">{userTypes[2].title}</h3>
+                  <p className="text-sm text-gray-500 font-medium">{userTypes[2].titleFr}</p>
+                </div>
+                <p className="text-gray-700 text-sm leading-relaxed">{userTypes[2].description}</p>
+                <div className="flex flex-wrap gap-2">
+                  {userTypes[2].features.map((feature, idx) => (
+                    <span key={idx} className="px-3 py-1 bg-white/80 text-gray-700 rounded-full text-xs font-medium border border-gray-200">
+                      {feature}
+                    </span>
+                  ))}
                 </div>
               </div>
-            </button>
-          ))}
+              <div className="p-2 group-hover:text-blue-600 transition-colors duration-300">
+                <ArrowRight className="w-6 h-6 text-gray-400 group-hover:text-blue-600" />
+              </div>
+            </div>
+          </button>
         </div>
 
         {/* Enhanced security notice */}
