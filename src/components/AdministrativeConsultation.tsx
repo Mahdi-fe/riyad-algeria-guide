@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { X, Search, FileText, CreditCard, CheckCircle, MessageSquare, Send } from 'lucide-react';
 import { useLanguage } from '../hooks/useLanguage';
+import { toast } from 'sonner';
 
 interface AdministrativeConsultationProps {
   isOpen: boolean;
@@ -56,6 +57,7 @@ const AdministrativeConsultation: React.FC<AdministrativeConsultationProps> = ({
     // معالجة الدفع
     setTimeout(() => {
       setCurrentStep('success');
+      toast.success('تم إرسال استشارتك الإدارية بنجاح!');
     }, 1000);
   };
 
@@ -79,10 +81,16 @@ const AdministrativeConsultation: React.FC<AdministrativeConsultationProps> = ({
             أحتاج معرفة الوثائق المطلوبة لاستخراج شهادة إقامة جديدة...
           </p>
           <div className="flex gap-2">
-            <button className="bg-blue-600 text-white px-4 py-2 rounded-xl text-sm font-medium">
+            <button 
+              onClick={() => toast.success('تم إرسال الرد على الاستشارة')}
+              className="bg-blue-600 text-white px-4 py-2 rounded-xl text-sm font-medium"
+            >
               الرد على الاستشارة
             </button>
-            <button className="border border-gray-300 text-gray-700 px-4 py-2 rounded-xl text-sm font-medium">
+            <button 
+              onClick={() => toast.info('تم طلب توضيح إضافي')}
+              className="border border-gray-300 text-gray-700 px-4 py-2 rounded-xl text-sm font-medium"
+            >
               طلب توضيح
             </button>
           </div>
@@ -99,7 +107,10 @@ const AdministrativeConsultation: React.FC<AdministrativeConsultationProps> = ({
           <p className="text-gray-700 text-sm mb-4">
             كيف يمكنني تقديم طلب للحصول على رخصة تجارية...
           </p>
-          <button className="text-blue-600 text-sm font-medium">
+          <button 
+            onClick={() => toast.info('عرض تفاصيل الرد')}
+            className="text-blue-600 text-sm font-medium"
+          >
             عرض التفاصيل والرد
           </button>
         </div>
@@ -130,8 +141,8 @@ const AdministrativeConsultation: React.FC<AdministrativeConsultationProps> = ({
           {/* Header */}
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-3">
-              <div className="p-3 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-2xl shadow-lg">
-                <MessageSquare className="w-6 h-6 text-white" />
+              <div className="p-3 bg-gradient-to-r from-green-500 to-emerald-500 rounded-2xl shadow-lg">
+                <FileText className="w-6 h-6 text-white" />
               </div>
               <div>
                 <h2 className="text-xl font-bold text-gray-800">الاستشارات الإدارية</h2>
@@ -154,7 +165,7 @@ const AdministrativeConsultation: React.FC<AdministrativeConsultationProps> = ({
                     placeholder="ابحث عن موضوع الاستشارة..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full pl-10 pr-12 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    className="w-full pl-10 pr-12 py-3 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent"
                   />
                 </div>
               </div>
@@ -166,7 +177,7 @@ const AdministrativeConsultation: React.FC<AdministrativeConsultationProps> = ({
                     onClick={() => setSelectedTopic(topic.id)}
                     className={`w-full text-right p-4 rounded-xl border-2 transition-all ${
                       selectedTopic === topic.id
-                        ? 'border-blue-500 bg-blue-50'
+                        ? 'border-green-500 bg-green-50'
                         : 'border-gray-200 hover:bg-gray-50'
                     }`}
                   >
@@ -179,7 +190,7 @@ const AdministrativeConsultation: React.FC<AdministrativeConsultationProps> = ({
               <button
                 onClick={() => setCurrentStep('content')}
                 disabled={!selectedTopic}
-                className="w-full bg-gradient-to-r from-blue-500 to-indigo-500 text-white font-semibold py-3 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full bg-gradient-to-r from-green-500 to-emerald-500 text-white font-semibold py-3 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 متابعة
               </button>
@@ -190,12 +201,12 @@ const AdministrativeConsultation: React.FC<AdministrativeConsultationProps> = ({
           {currentStep === 'content' && (
             <div>
               <div className="mb-6">
-                <h3 className="font-bold text-gray-800 mb-4">اكتب استشارتك</h3>
+                <h3 className="font-bold text-gray-800 mb-4">اكتب استشارتك الإدارية</h3>
                 <textarea
                   value={consultationText}
                   onChange={(e) => setConsultationText(e.target.value)}
-                  placeholder="اكتب تفاصيل استشارتك هنا... كن مفصلاً قدر الإمكان للحصول على أفضل إجابة."
-                  className="w-full h-32 p-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
+                  placeholder="اكتب تفاصيل استشارتك الإدارية هنا... كن مفصلاً قدر الإمكان للحصول على أفضل إجابة من الموظف المختص."
+                  className="w-full h-32 p-4 border border-gray-200 rounded-xl focus:ring-2 focus:ring-green-500 focus:border-transparent resize-none"
                 />
               </div>
 
@@ -209,7 +220,7 @@ const AdministrativeConsultation: React.FC<AdministrativeConsultationProps> = ({
                 <button
                   onClick={() => setCurrentStep('payment')}
                   disabled={!consultationText.trim()}
-                  className="flex-1 bg-gradient-to-r from-blue-500 to-indigo-500 text-white font-semibold py-3 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="flex-1 bg-gradient-to-r from-green-500 to-emerald-500 text-white font-semibold py-3 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   متابعة
                 </button>
@@ -221,7 +232,7 @@ const AdministrativeConsultation: React.FC<AdministrativeConsultationProps> = ({
           {currentStep === 'payment' && (
             <div>
               <div className="mb-6">
-                <h3 className="font-bold text-gray-800 mb-4">اختر خطة الاستشارة</h3>
+                <h3 className="font-bold text-gray-800 mb-4">اختر خطة الاستشارة الإدارية</h3>
                 <div className="space-y-3">
                   {paymentPlans.map((plan) => (
                     <div
@@ -229,7 +240,7 @@ const AdministrativeConsultation: React.FC<AdministrativeConsultationProps> = ({
                       onClick={() => setPaymentPlan(plan.id)}
                       className={`relative cursor-pointer border-2 rounded-xl p-4 transition-all ${
                         paymentPlan === plan.id
-                          ? 'border-blue-500 bg-blue-50'
+                          ? 'border-green-500 bg-green-50'
                           : 'border-gray-200 hover:bg-gray-50'
                       }`}
                     >
@@ -247,7 +258,7 @@ const AdministrativeConsultation: React.FC<AdministrativeConsultationProps> = ({
                           </div>
                         </div>
                         <div className={`w-5 h-5 border-2 rounded-full ${
-                          paymentPlan === plan.id ? 'border-blue-500 bg-blue-500' : 'border-gray-300'
+                          paymentPlan === plan.id ? 'border-green-500 bg-green-500' : 'border-gray-300'
                         }`}>
                           {paymentPlan === plan.id && (
                             <CheckCircle className="w-3 h-3 text-white m-0.5" />
@@ -263,6 +274,17 @@ const AdministrativeConsultation: React.FC<AdministrativeConsultationProps> = ({
                         ))}
                       </ul>
                     </div>
+                  ))}
+                </div>
+              </div>
+
+              <div className="p-4 bg-green-50 rounded-xl mb-6">
+                <h4 className="font-bold text-green-800 mb-2">وسائل الدفع المتاحة:</h4>
+                <div className="flex flex-wrap gap-2">
+                  {['BaridiMob', 'Edahabia', 'CIB'].map((method) => (
+                    <span key={method} className="px-3 py-1 bg-green-100 text-green-700 text-sm rounded-full font-medium">
+                      {method}
+                    </span>
                   ))}
                 </div>
               </div>
@@ -291,13 +313,21 @@ const AdministrativeConsultation: React.FC<AdministrativeConsultationProps> = ({
               <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
                 <CheckCircle className="w-12 h-12 text-green-600" />
               </div>
-              <h3 className="text-xl font-bold text-gray-800 mb-4">تم إرسال استشارتك!</h3>
-              <p className="text-gray-600 mb-6">
-                سيقوم فريق الخبراء الإداريين بمراجعة استشارتك والرد عليها خلال المدة المحددة.
+              <h3 className="text-xl font-bold text-gray-800 mb-4">تم إرسال استشارتك الإدارية!</h3>
+              <p className="text-gray-600 mb-4">
+                سيقوم الموظف الإداري المختص بمراجعة استشارتك والرد عليها خلال المدة المحددة.
               </p>
+              <div className="bg-green-50 p-4 rounded-xl mb-6">
+                <p className="text-green-800 text-sm">
+                  <strong>رقم الاستشارة:</strong> #{Math.random().toString(36).substr(2, 9).toUpperCase()}
+                </p>
+                <p className="text-green-800 text-sm mt-1">
+                  <strong>وقت الرد المتوقع:</strong> 6-24 ساعة
+                </p>
+              </div>
               <button
                 onClick={onClose}
-                className="w-full bg-gradient-to-r from-blue-500 to-indigo-500 text-white font-semibold py-3 rounded-xl"
+                className="w-full bg-gradient-to-r from-green-500 to-emerald-500 text-white font-semibold py-3 rounded-xl"
               >
                 إغلاق
               </button>
