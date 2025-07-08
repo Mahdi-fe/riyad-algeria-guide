@@ -15,55 +15,55 @@ const QuickActions: React.FC<QuickActionsProps> = ({ onActionClick, userType }) 
     { 
       id: 'consultation', 
       title: 'الاستشارات الإدارية', 
-      icon: <MessageSquare className="w-5 h-5" />, 
+      icon: <MessageSquare className="w-4 h-4" />, 
       gradient: 'from-green-500 to-green-600 hover:from-green-600 hover:to-green-700',
       shadowColor: 'shadow-green-500/25 hover:shadow-green-500/40'
     },
     { 
       id: 'templates', 
       title: 'تحميل النماذج', 
-      icon: <Download className="w-5 h-5" />, 
+      icon: <Download className="w-4 h-4" />, 
       gradient: 'from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700',
       shadowColor: 'shadow-blue-500/25 hover:shadow-blue-500/40'
     },
     { 
       id: 'location', 
       title: 'البحث عن أقرب إدارة', 
-      icon: <MapPin className="w-5 h-5" />, 
+      icon: <MapPin className="w-4 h-4" />, 
       gradient: 'from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700',
       shadowColor: 'shadow-purple-500/25 hover:shadow-purple-500/40'
     },
   ];
 
   return (
-    <div className="px-4 py-5 bg-white">
+    <div className="px-3 py-4 bg-white">
       {/* Section header */}
-      <div className="mb-5">
+      <div className="mb-4">
         <div className="flex items-center gap-2 mb-2">
-          <div className="p-1.5 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-lg shadow-md">
-            <Zap className="w-4 h-4 text-white" />
+          <div className="p-1 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-lg shadow-md">
+            <Zap className="w-3 h-3 text-white" />
           </div>
-          <h2 className={`text-lg font-bold text-gray-800 ${isRTL ? 'text-right' : 'text-left'}`}>
+          <h2 className={`text-base font-bold text-gray-800 ${isRTL ? 'text-right' : 'text-left'}`}>
             الإجراءات السريعة
           </h2>
         </div>
-        <div className="w-12 h-0.5 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full"></div>
+        <div className="w-10 h-0.5 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full"></div>
       </div>
       
       {/* Action grid */}
-      <div className="grid grid-cols-1 gap-3">
+      <div className="grid grid-cols-1 gap-2">
         {actions.map((action, index) => (
           <div
             key={action.id}
             onClick={() => onActionClick(action.id)}
-            className={`bg-gradient-to-r ${action.gradient} text-white rounded-xl p-4 cursor-pointer hover-lift group relative overflow-hidden shadow-md ${action.shadowColor} transition-all duration-300 animate-slide-up`}
+            className={`bg-gradient-to-r ${action.gradient} text-white rounded-xl p-3 cursor-pointer hover-lift group relative overflow-hidden shadow-md ${action.shadowColor} transition-all duration-300 animate-slide-up`}
             style={{animationDelay: `${index * 0.1}s`}}
           >
             {/* Background decoration */}
-            <div className="absolute top-0 right-0 w-12 h-12 bg-white/10 rounded-full -translate-y-4 translate-x-4 group-hover:scale-150 transition-transform duration-500"></div>
+            <div className="absolute top-0 right-0 w-8 h-8 bg-white/10 rounded-full -translate-y-2 translate-x-2 group-hover:scale-150 transition-transform duration-500"></div>
             
-            <div className="relative z-10 flex items-center gap-3">
-              <div className="p-2 bg-white/20 rounded-lg backdrop-blur-sm group-hover:bg-white/30 transition-colors duration-300 group-hover:scale-110 transform transition-transform duration-300">
+            <div className="relative z-10 flex items-center gap-2">
+              <div className="p-1.5 bg-white/20 rounded-lg backdrop-blur-sm group-hover:bg-white/30 transition-colors duration-300 group-hover:scale-110 transform transition-transform duration-300">
                 {action.icon}
               </div>
               <div className="flex-1">
