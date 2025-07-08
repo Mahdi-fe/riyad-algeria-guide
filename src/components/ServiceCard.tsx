@@ -1,5 +1,6 @@
+
 import React from 'react';
-import { Clock, MapPin, Users, Info } from 'lucide-react';
+import { Clock, MapPin, Info } from 'lucide-react';
 import { Service } from '../types/sector';
 import PassportRequestType from './PassportRequestType';
 
@@ -59,23 +60,16 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
           </div>
         </div>
 
-        <div className="flex items-center gap-6 mb-4 p-3 bg-gray-50 rounded-xl">
-          <div className="flex items-center gap-2">
-            <Users className="w-4 h-4 text-blue-500" />
-            <span className="text-sm text-gray-600">معدل الرضا {service.completionRate}%</span>
-          </div>
-        </div>
-
         <button
           onClick={onConsultation}
-          className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold px-6 py-4 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 ease-out text-base flex items-center justify-center gap-2"
+          className="w-full bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white font-semibold px-6 py-4 rounded-xl shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-200 ease-out text-base flex items-center justify-center gap-2 mb-4"
         >
           <Info className="w-5 h-5" />
           طلب استشارة
         </button>
 
         {service.paymentMethods && service.paymentMethods.length > 0 && (
-          <div className="mt-4 p-3 bg-blue-50 rounded-xl">
+          <div className="p-3 bg-blue-50 rounded-xl">
             <p className="text-sm text-blue-800 font-semibold mb-2">وسائل الدفع المتاحة:</p>
             <div className="flex flex-wrap gap-2">
               {service.paymentMethods.map((method, i) => (
@@ -116,13 +110,6 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
         <div className="flex items-center gap-2">
           <MapPin className="w-4 h-4 text-red-600" />
           <span className="text-sm text-gray-600">{service.location}</span>
-        </div>
-      </div>
-
-      <div className="flex items-center gap-6 mb-4 p-3 bg-gray-50 rounded-xl">
-        <div className="flex items-center gap-2">
-          <Users className="w-4 h-4 text-blue-500" />
-          <span className="text-sm text-gray-600">معدل الإنجاز {service.completionRate}%</span>
         </div>
       </div>
 

@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Download, FileText, Search, Filter, Star } from 'lucide-react';
+import { Download, FileText, Search, Filter } from 'lucide-react';
 import { useLanguage } from '../hooks/useLanguage';
 
 interface DocumentTemplate {
@@ -10,7 +10,6 @@ interface DocumentTemplate {
   description: string;
   fileSize: string;
   downloads: number;
-  rating: number;
   type: 'pdf' | 'doc' | 'form';
 }
 
@@ -26,33 +25,12 @@ const DocumentTemplates: React.FC<DocumentTemplatesProps> = ({ isOpen, onClose }
 
   const mockTemplates: DocumentTemplate[] = [
     {
-      id: '1',
-      name: 'طلب شهادة الميلاد',
-      category: 'الحالة المدنية',
-      description: 'نموذج رسمي لطلب نسخة من شهادة الميلاد',
-      fileSize: '245 KB',
-      downloads: 1250,
-      rating: 4.8,
-      type: 'pdf'
-    },
-    {
-      id: '2',
-      name: 'طلب شهادة الإقامة',
-      category: 'الحالة المدنية',
-      description: 'نموذج لطلب شهادة إثبات الإقامة من البلدية',
-      fileSize: '198 KB',
-      downloads: 980,
-      rating: 4.6,
-      type: 'pdf'
-    },
-    {
       id: '3',
       name: 'طلب رخصة البناء',
       category: 'التعمير',
       description: 'ملف كامل لطلب رخصة البناء مع المرفقات المطلوبة',
       fileSize: '1.2 MB',
       downloads: 450,
-      rating: 4.5,
       type: 'form'
     },
     {
@@ -62,7 +40,6 @@ const DocumentTemplates: React.FC<DocumentTemplatesProps> = ({ isOpen, onClose }
       description: 'نموذج طلب المعاش التقاعدي للموظفين',
       fileSize: '320 KB',
       downloads: 750,
-      rating: 4.7,
       type: 'doc'
     },
     {
@@ -72,14 +49,12 @@ const DocumentTemplates: React.FC<DocumentTemplatesProps> = ({ isOpen, onClose }
       description: 'نموذج موحد لتقديم الشكاوى الإدارية',
       fileSize: '180 KB',
       downloads: 650,
-      rating: 4.3,
       type: 'pdf'
     }
   ];
 
   const categories = [
     { id: 'all', name: 'جميع الفئات' },
-    { id: 'civil', name: 'الحالة المدنية' },
     { id: 'social', name: 'الضمان الاجتماعي' },
     { id: 'urban', name: 'التعمير' },
     { id: 'complaints', name: 'الشكاوى' }
@@ -92,7 +67,6 @@ const DocumentTemplates: React.FC<DocumentTemplatesProps> = ({ isOpen, onClose }
   const filteredTemplates = mockTemplates.filter(template => {
     const matchesSearch = template.name.includes(searchQuery) || template.description.includes(searchQuery);
     const matchesCategory = selectedCategory === 'all' || 
-      (selectedCategory === 'civil' && template.category === 'الحالة المدنية') ||
       (selectedCategory === 'social' && template.category === 'الضمان الاجتماعي') ||
       (selectedCategory === 'urban' && template.category === 'التعمير') ||
       (selectedCategory === 'complaints' && template.category === 'شكاوى');
@@ -173,10 +147,6 @@ const DocumentTemplates: React.FC<DocumentTemplatesProps> = ({ isOpen, onClose }
                         <p className="text-sm text-blue-600 mb-2">{template.category}</p>
                       </div>
                       <div className="text-left">
-                        <div className="flex items-center gap-1 mb-1">
-                          <Star className="w-4 h-4 text-yellow-500 fill-current" />
-                          <span className="text-sm font-medium">{template.rating}</span>
-                        </div>
                         <span className="text-xs text-gray-500">{template.fileSize}</span>
                       </div>
                     </div>
