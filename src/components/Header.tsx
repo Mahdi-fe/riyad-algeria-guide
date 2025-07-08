@@ -1,6 +1,6 @@
 
 import React, { useState } from 'react';
-import { Search, Settings, Bell, Menu, LogOut } from 'lucide-react';
+import { LogOut } from 'lucide-react';
 import { useLanguage } from '../hooks/useLanguage';
 import SearchBar from './SearchBar';
 import LogoutConfirmDialog from './LogoutConfirmDialog';
@@ -13,7 +13,6 @@ interface HeaderProps {
 
 const Header: React.FC<HeaderProps> = ({ userType, onLogout, onServiceSelect }) => {
   const { t, isRTL } = useLanguage();
-  const [isSearchExpanded, setIsSearchExpanded] = useState(false);
   const [showLogoutDialog, setShowLogoutDialog] = useState(false);
 
   const getUserTypeTitle = () => {
@@ -64,7 +63,7 @@ const Header: React.FC<HeaderProps> = ({ userType, onLogout, onServiceSelect }) 
           </div>
 
           {/* Search bar */}
-          <SearchBar onServiceSelect={onServiceSelect} />
+          <SearchBar />
         </div>
       </header>
 

@@ -4,7 +4,6 @@ import { useLanguage } from '../hooks/useLanguage';
 import DocumentViewer from './DocumentViewer';
 import SectorHeader from './SectorHeader';
 import ServiceCard from './ServiceCard';
-import EmergencyContact from './EmergencyContact';
 import ConsultationInterface from './ConsultationInterface';
 import { Service, SectorDetailProps } from '../types/sector';
 import { sectorData } from '../data/sectorData';
@@ -86,8 +85,6 @@ const SectorDetail: React.FC<SectorDetailProps> = ({ sector, userType, onBack })
             />
           ))}
         </div>
-
-        <EmergencyContact />
       </div>
 
       <ConsultationInterface
