@@ -3,17 +3,21 @@ import { Search, Bell, Menu, X, Settings, LogOut, Globe, Info, HelpCircle } from
 import { useLanguage } from '../hooks/useLanguage';
 import LogoutConfirmDialog from './LogoutConfirmDialog';
 import { useToast } from '../hooks/use-toast';
+import { sectorData } from '../data/sectorData';
 
 interface HeaderProps {
   userType?: string;
   onSearch?: (query: string) => void;
   onLogout?: () => void;
+  onServiceSelect?: (serviceId: string, sectorId: string) => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ userType, onSearch, onLogout }) => {
+const Header: React.FC<HeaderProps> = ({ userType, onSearch, onLogout, onServiceSelect }) => {
   const { isRTL } = useLanguage();
   const { toast } = useToast();
   const [searchQuery, setSearchQuery] = useState('');
+  const [searchResults, setSearchResults] = useState<any[]>([]);
+  const [showSearchResults, setShowSearchResults] = useState(false);
   const [showNotifications, setShowNotifications] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   const [showLogoutDialog, setShowLogoutDialog] = useState(false);
@@ -42,24 +46,65 @@ const Header: React.FC<HeaderProps> = ({ userType, onSearch, onLogout }) => {
     }
   ];
 
+  const performSearch = (query: string) => {
+    if (!query.trim()) {
+      setSearchResults([]);
+      setShowSearchResults(false);
+      return;
+    }
+
+    const results: any[] = [];
+    const searchTerm = query.toLowerCase();
+
+    // البحث في جميع القطاعات والخدمات
+    Object.entries(sectorData).forEach(([sectorId, sector]) => {
+      sector.services.forEach(service => {
+        if (
+          service.name.toLowerCase().includes(searchTerm) ||
+          service.description.toLowerCase().includes(searchTerm) ||
+          searchTerm.includes('جواز') && service.id === 'biometric_passport' ||
+          searchTerm.includes('بطاقة') && service.id === 'biometric_id' ||
+          searchTerm.includes('شهادة') && (service.id === 'birth_certificate' || service.id === 'residence_certificate') ||
+          searchTerm.includes('منحة') && service.id === 'social_housing'
+        ) {
+          results.push({
+            id: service.id,
+            name: service.name,
+            description: service.description,
+            sector: sector.title,
+            sectorId: sectorId,
+            location: service.location,
+            deadline: service.deadline
+          });
+        }
+      });
+    });
+
+    setSearchResults(results);
+    setShowSearchResults(results.length > 0);
+  };
+
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (searchQuery.trim()) {
-      console.log('البحث عن:', searchQuery);
+      performSearch(searchQuery);
       if (onSearch) {
         onSearch(searchQuery);
       }
-      
-      // Enhanced search functionality
-      const searchResults = [
-        'نتائج البحث عن "' + searchQuery + '"',
-        '• شهادة الميلاد - بلدية الجزائر الوسطى',
-        '• شهادة الإقامة - البلدية المحلية',
-        '• جواز السفر البيومتري - مصلحة الجوازات',
-        '• صحيفة السوابق - المحكمة الابتدائية'
-      ].join('\n');
-      
-      alert(searchResults);
+    }
+  };
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchQuery(value);
+    performSearch(value);
+  };
+
+  const handleSearchResultClick = (result: any) => {
+    setShowSearchResults(false);
+    setSearchQuery('');
+    if (onServiceSelect) {
+      onServiceSelect(result.id, result.sectorId);
     }
   };
 
@@ -150,11 +195,40 @@ const Header: React.FC<HeaderProps> = ({ userType, onSearch, onLogout }) => {
               <input
                 type="text"
                 value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
+                onChange={handleSearchChange}
                 placeholder="ابحث عن الخدمات، الوثائق، أو الإجراءات..."
                 className="w-full pr-10 pl-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm"
               />
             </div>
+
+            {/* Search Results Dropdown */}
+            {showSearchResults && (
+              <div className="absolute top-full left-0 right-0 mt-2 bg-white rounded-xl shadow-xl border border-gray-200 z-50 max-h-80 overflow-y-auto">
+                <div className="p-3 border-b border-gray-100">
+                  <h3 className="font-semibold text-gray-800 text-sm">نتائج البحث ({searchResults.length})</h3>
+                </div>
+                {searchResults.map((result, index) => (
+                  <button
+                    key={result.id + index}
+                    onClick={() => handleSearchResultClick(result)}
+                    className="w-full p-4 border-b border-gray-50 hover:bg-gray-50 transition-colors text-right"
+                  >
+                    <div className="flex items-start gap-3">
+                      <div className="w-2 h-2 rounded-full bg-blue-500 mt-2"></div>
+                      <div className="flex-1">
+                        <h4 className="font-semibold text-gray-800 text-sm">{result.name}</h4>
+                        <p className="text-gray-600 text-xs mt-1">{result.description}</p>
+                        <div className="flex items-center gap-4 text-xs text-gray-500 mt-2">
+                          <span>🏛️ {result.sector}</span>
+                          <span>📍 {result.location}</span>
+                          <span>⏱️ {result.deadline}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            )}
           </form>
 
           {/* Notifications Dropdown */}
@@ -242,12 +316,13 @@ const Header: React.FC<HeaderProps> = ({ userType, onSearch, onLogout }) => {
         </div>
 
         {/* Click outside to close dropdowns */}
-        {(showNotifications || showMenu) && (
+        {(showNotifications || showMenu || showSearchResults) && (
           <div 
             className="fixed inset-0 z-40" 
             onClick={() => {
               setShowNotifications(false);
               setShowMenu(false);
+              setShowSearchResults(false);
             }}
           />
         )}

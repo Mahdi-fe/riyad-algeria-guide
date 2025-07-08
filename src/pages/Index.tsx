@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { LanguageProvider, useLanguage } from '../hooks/useLanguage';
 import { Toaster } from '@/components/ui/toaster';
@@ -18,6 +19,7 @@ import DocumentViewer from '../components/DocumentViewer';
 import AdministrativeConsultation from '../components/AdministrativeConsultation';
 import LegalConsultationBox from '../components/LegalConsultationBox';
 import ConsultationInterface from '../components/ConsultationInterface';
+import BiometricTracking from '../components/BiometricTracking';
 
 type AppState = 'splash' | 'login' | 'signup' | 'main';
 
@@ -34,6 +36,8 @@ const MainContent = ({
   isLegalConsultationOpen,
   isLegalConsultationBoxOpen,
   isConsultationInterfaceOpen,
+  isBiometricTrackingOpen,
+  biometricTrackingType,
   selectedDocument,
   darkMode,
   handleSplashComplete,
@@ -53,8 +57,10 @@ const MainContent = ({
   setIsLegalConsultationOpen,
   setIsLegalConsultationBoxOpen,
   setIsConsultationInterfaceOpen,
+  setIsBiometricTrackingOpen,
   setActiveSector,
-  handleLogout
+  handleLogout,
+  handleServiceSelect
 }: any) => {
   const { t } = useLanguage();
 
@@ -75,7 +81,12 @@ const MainContent = ({
         
         {appState === 'main' && (
           <>
-            {activeSector ? (
+            {isBiometricTrackingOpen ? (
+              <BiometricTracking 
+                serviceType={biometricTrackingType}
+                onBack={() => setIsBiometricTrackingOpen(false)}
+              />
+            ) : activeSector ? (
               <SectorDetail 
                 sector={activeSector} 
                 userType={userType}
@@ -83,7 +94,11 @@ const MainContent = ({
               />
             ) : (
               <div className="w-full glass-card min-h-screen flex flex-col shadow-2xl bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/20 safe-area-padding">
-                <Header userType={userType} onLogout={handleLogout} />
+                <Header 
+                  userType={userType} 
+                  onLogout={handleLogout}
+                  onServiceSelect={handleServiceSelect}
+                />
                 
                 <div className="flex-1 overflow-y-auto mobile-scroll scrollbar-professional">
                   {activeTab === 'home' && (
@@ -249,6 +264,8 @@ const Index = () => {
   const [isLegalConsultationOpen, setIsLegalConsultationOpen] = useState(false);
   const [isLegalConsultationBoxOpen, setIsLegalConsultationBoxOpen] = useState(false);
   const [isConsultationInterfaceOpen, setIsConsultationInterfaceOpen] = useState(false);
+  const [isBiometricTrackingOpen, setIsBiometricTrackingOpen] = useState(false);
+  const [biometricTrackingType, setBiometricTrackingType] = useState<'passport' | 'id'>('passport');
   const [selectedDocument, setSelectedDocument] = useState<string | null>(null);
   const [darkMode, setDarkMode] = useState(false);
 
@@ -295,6 +312,18 @@ const Index = () => {
 
   const handleSectorClick = (sector: string) => {
     setActiveSector(sector);
+  };
+
+  const handleServiceSelect = (serviceId: string, sectorId: string) => {
+    if (serviceId === 'biometric_passport') {
+      setBiometricTrackingType('passport');
+      setIsBiometricTrackingOpen(true);
+    } else if (serviceId === 'biometric_id') {
+      setBiometricTrackingType('id');
+      setIsBiometricTrackingOpen(true);
+    } else {
+      setActiveSector(sectorId);
+    }
   };
 
   const handleActionClick = (action: string) => {
@@ -352,6 +381,7 @@ const Index = () => {
     setIsLegalConsultationOpen(false);
     setIsLegalConsultationBoxOpen(false);
     setIsConsultationInterfaceOpen(false);
+    setIsBiometricTrackingOpen(false);
   };
 
   return (
@@ -369,6 +399,8 @@ const Index = () => {
         isLegalConsultationOpen={isLegalConsultationOpen}
         isLegalConsultationBoxOpen={isLegalConsultationBoxOpen}
         isConsultationInterfaceOpen={isConsultationInterfaceOpen}
+        isBiometricTrackingOpen={isBiometricTrackingOpen}
+        biometricTrackingType={biometricTrackingType}
         selectedDocument={selectedDocument}
         darkMode={darkMode}
         handleSplashComplete={handleSplashComplete}
@@ -388,8 +420,10 @@ const Index = () => {
         setIsLegalConsultationOpen={setIsLegalConsultationOpen}
         setIsLegalConsultationBoxOpen={setIsLegalConsultationBoxOpen}
         setIsConsultationInterfaceOpen={setIsConsultationInterfaceOpen}
+        setIsBiometricTrackingOpen={setIsBiometricTrackingOpen}
         setActiveSector={setActiveSector}
         handleLogout={handleLogout}
+        handleServiceSelect={handleServiceSelect}
       />
     </LanguageProvider>
   );

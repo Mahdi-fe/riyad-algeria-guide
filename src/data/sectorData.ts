@@ -203,14 +203,7 @@ export const sectorData: Record<string, SectorData> = {
         completionRate: 91,
         hasDownload: true,
         hasTracking: true
-      }
-    ]
-  },
-  "consultations": {
-    title: "الاستشارات",
-    titleFr: "Consultations",
-    icon: "💼",
-    services: [
+      },
       {
         id: "legal_consultation",
         name: "الاستشارة القانونية",
@@ -222,20 +215,6 @@ export const sectorData: Record<string, SectorData> = {
         deadline: "24-48 ساعة",
         location: "عبر التطبيق",
         completionRate: 88,
-        isPaid: true,
-        paymentMethods: ["BaridiMob", "Edahabia", "CIB"]
-      },
-      {
-        id: "administrative_consultation",
-        name: "الاستشارة الإدارية",
-        description: "استشارة إدارية مع موظف مختص",
-        requirements: [
-          "وصف المشكلة الإدارية",
-          "تحديد نوع الإجراء المطلوب"
-        ],
-        deadline: "6-24 ساعة",
-        location: "عبر التطبيق",
-        completionRate: 92,
         isPaid: true,
         paymentMethods: ["BaridiMob", "Edahabia", "CIB"]
       }

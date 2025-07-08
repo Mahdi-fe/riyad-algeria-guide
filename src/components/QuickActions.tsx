@@ -1,6 +1,6 @@
 
 import React from 'react';
-import { Download, Zap, MapPin, MessageSquare, Scale } from 'lucide-react';
+import { Download, Zap, MapPin, MessageSquare } from 'lucide-react';
 import { useLanguage } from '../hooks/useLanguage';
 
 interface QuickActionsProps {
@@ -11,7 +11,7 @@ interface QuickActionsProps {
 const QuickActions: React.FC<QuickActionsProps> = ({ onActionClick, userType }) => {
   const { t, isRTL } = useLanguage();
 
-  const commonActions = [
+  const actions = [
     { 
       id: 'consultation', 
       title: 'الاستشارات الإدارية', 
@@ -35,22 +35,9 @@ const QuickActions: React.FC<QuickActionsProps> = ({ onActionClick, userType }) 
     },
   ];
 
-  const lawyerActions = [
-    { 
-      id: 'legal-consultation-box', 
-      title: 'صندوق الاستشارات القانونية', 
-      icon: <Scale className="w-5 h-5" />, 
-      gradient: 'from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700',
-      shadowColor: 'shadow-amber-500/25 hover:shadow-amber-500/40'
-    },
-    ...commonActions
-  ];
-
-  const actions = userType === 'lawyer' ? lawyerActions : commonActions;
-
   return (
     <div className="px-4 py-5 bg-white">
-      {/* Section header - تم تقليل الحجم */}
+      {/* Section header */}
       <div className="mb-5">
         <div className="flex items-center gap-2 mb-2">
           <div className="p-1.5 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-lg shadow-md">
@@ -63,7 +50,7 @@ const QuickActions: React.FC<QuickActionsProps> = ({ onActionClick, userType }) 
         <div className="w-12 h-0.5 bg-gradient-to-r from-yellow-400 to-orange-500 rounded-full"></div>
       </div>
       
-      {/* Action grid - تم تقليل الأحجام */}
+      {/* Action grid */}
       <div className="grid grid-cols-1 gap-3">
         {actions.map((action, index) => (
           <div
@@ -84,11 +71,6 @@ const QuickActions: React.FC<QuickActionsProps> = ({ onActionClick, userType }) 
                   {action.title}
                 </span>
               </div>
-              {action.id === 'legal-consultation-box' && (
-                <div className="bg-red-500 text-white text-xs px-1.5 py-0.5 rounded-full">
-                  3 جديد
-                </div>
-              )}
             </div>
             
             {/* Shimmer effect on hover */}
