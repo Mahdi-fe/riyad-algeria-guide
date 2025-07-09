@@ -1,6 +1,5 @@
-
 import React from 'react';
-import { Download, Zap, MapPin, MessageSquare, Bell, Settings } from 'lucide-react';
+import { Download, Zap, MapPin, MessageSquare } from 'lucide-react';
 import { useLanguage } from '../hooks/useLanguage';
 
 interface QuickActionsProps {
@@ -40,30 +39,10 @@ const QuickActions: React.FC<QuickActionsProps> = ({
       gradient: 'from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700',
       shadowColor: 'shadow-purple-500/25 hover:shadow-purple-500/40'
     },
-    { 
-      id: 'settings', 
-      title: 'الإعدادات', 
-      icon: <Settings className="w-4 h-4" />, 
-      gradient: 'from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700',
-      shadowColor: 'shadow-gray-500/25 hover:shadow-gray-500/40'
-    },
-    { 
-      id: 'notifications', 
-      title: 'الإشعارات', 
-      icon: <Bell className="w-4 h-4" />, 
-      gradient: 'from-red-500 to-red-600 hover:from-red-600 hover:to-red-700',
-      shadowColor: 'shadow-red-500/25 hover:shadow-red-500/40'
-    },
   ];
 
   const handleActionClick = (actionId: string) => {
-    if (actionId === 'settings') {
-      onSettingsClick();
-    } else if (actionId === 'notifications') {
-      onNotificationsClick();
-    } else {
-      onActionClick(actionId);
-    }
+    onActionClick(actionId);
   };
 
   return (
