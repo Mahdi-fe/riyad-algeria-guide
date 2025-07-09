@@ -130,7 +130,7 @@ const Header: React.FC<HeaderProps> = ({ userType, onLogout, onServiceSelect }) 
       <LogoutConfirmDialog
         isOpen={showLogoutDialog}
         onConfirm={handleLogoutConfirm}
-        onCancel={handleLogoutCancel}
+        onClose={handleLogoutCancel}
       />
     </>
   );
