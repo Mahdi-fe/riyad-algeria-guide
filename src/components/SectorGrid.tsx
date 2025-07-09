@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Building2, Scale, GraduationCap, Heart, Mail, Shield, Briefcase, Users, MapPin, FileText, Hospital, Stethoscope, Landmark, University, Car, CreditCard, BookOpen, Gavel, UserCheck } from 'lucide-react';
 import SectorCard from './SectorCard';
@@ -55,17 +54,6 @@ const SectorGrid: React.FC<SectorGridProps> = ({ onSectorClick, userType }) => {
       bgColor: 'bg-violet-50',
       iconBg: 'bg-gradient-to-br from-violet-600 to-violet-700',
       borderColor: 'border-violet-200'
-    },
-    { 
-      id: 'consultations',
-      title: 'الاستشارات القانونية والإدارية', 
-      icon: <Briefcase className="w-6 h-6" />, 
-      color: 'hover:shadow-md',
-      notifications: 1,
-      subtitle: 'استشارات قانونية وإدارية متخصصة',
-      bgColor: 'bg-emerald-50',
-      iconBg: 'bg-gradient-to-br from-emerald-600 to-emerald-700',
-      borderColor: 'border-emerald-200'
     }
   ];
 
