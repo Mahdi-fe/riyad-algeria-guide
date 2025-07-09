@@ -1,19 +1,26 @@
 
 import React from 'react';
-import { Download, Zap, MapPin, MessageSquare } from 'lucide-react';
+import { Download, Zap, MapPin, MessageSquare, Bell, Settings } from 'lucide-react';
 import { useLanguage } from '../hooks/useLanguage';
 
 interface QuickActionsProps {
   onActionClick: (action: string) => void;
   userType?: string;
+  onSettingsClick: () => void;
+  onNotificationsClick: () => void;
 }
 
-const QuickActions: React.FC<QuickActionsProps> = ({ onActionClick, userType }) => {
+const QuickActions: React.FC<QuickActionsProps> = ({ 
+  onActionClick, 
+  userType, 
+  onSettingsClick, 
+  onNotificationsClick 
+}) => {
   const { t, isRTL } = useLanguage();
 
   const actions = [
     { 
-      id: 'consultation', 
+      id: 'administrative_consultation', 
       title: 'الاستشارات الإدارية', 
       icon: <MessageSquare className="w-4 h-4" />, 
       gradient: 'from-green-500 to-green-600 hover:from-green-600 hover:to-green-700',
@@ -33,7 +40,31 @@ const QuickActions: React.FC<QuickActionsProps> = ({ onActionClick, userType }) 
       gradient: 'from-purple-500 to-purple-600 hover:from-purple-600 hover:to-purple-700',
       shadowColor: 'shadow-purple-500/25 hover:shadow-purple-500/40'
     },
+    { 
+      id: 'settings', 
+      title: 'الإعدادات', 
+      icon: <Settings className="w-4 h-4" />, 
+      gradient: 'from-gray-500 to-gray-600 hover:from-gray-600 hover:to-gray-700',
+      shadowColor: 'shadow-gray-500/25 hover:shadow-gray-500/40'
+    },
+    { 
+      id: 'notifications', 
+      title: 'الإشعارات', 
+      icon: <Bell className="w-4 h-4" />, 
+      gradient: 'from-red-500 to-red-600 hover:from-red-600 hover:to-red-700',
+      shadowColor: 'shadow-red-500/25 hover:shadow-red-500/40'
+    },
   ];
+
+  const handleActionClick = (actionId: string) => {
+    if (actionId === 'settings') {
+      onSettingsClick();
+    } else if (actionId === 'notifications') {
+      onNotificationsClick();
+    } else {
+      onActionClick(actionId);
+    }
+  };
 
   return (
     <div className="px-3 py-4 bg-white">
@@ -55,7 +86,7 @@ const QuickActions: React.FC<QuickActionsProps> = ({ onActionClick, userType }) 
         {actions.map((action, index) => (
           <div
             key={action.id}
-            onClick={() => onActionClick(action.id)}
+            onClick={() => handleActionClick(action.id)}
             className={`bg-gradient-to-r ${action.gradient} text-white rounded-xl p-3 cursor-pointer hover-lift group relative overflow-hidden shadow-md ${action.shadowColor} transition-all duration-300 animate-slide-up`}
             style={{animationDelay: `${index * 0.1}s`}}
           >

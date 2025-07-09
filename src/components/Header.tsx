@@ -9,9 +9,17 @@ interface HeaderProps {
   userType?: string;
   onLogout: () => void;
   onServiceSelect: (serviceId: string, sectorId: string) => void;
+  onSettingsClick: () => void;
+  onNotificationsClick: () => void;
 }
 
-const Header: React.FC<HeaderProps> = ({ userType, onLogout, onServiceSelect }) => {
+const Header: React.FC<HeaderProps> = ({ 
+  userType, 
+  onLogout, 
+  onServiceSelect, 
+  onSettingsClick, 
+  onNotificationsClick 
+}) => {
   const { t, isRTL } = useLanguage();
   const [showLogoutDialog, setShowLogoutDialog] = useState(false);
 
@@ -87,14 +95,20 @@ const Header: React.FC<HeaderProps> = ({ userType, onLogout, onServiceSelect }) 
             </div>
 
             <div className="flex items-center gap-2">
-              <button className="relative p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all duration-200">
+              <button 
+                onClick={onNotificationsClick}
+                className="relative p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all duration-200"
+              >
                 <Bell className="w-5 h-5" />
                 <div className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 text-white text-xs rounded-full flex items-center justify-center animate-pulse">
                   3
                 </div>
               </button>
               
-              <button className="p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all duration-200">
+              <button 
+                onClick={onSettingsClick}
+                className="p-2 text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-xl transition-all duration-200"
+              >
                 <Settings className="w-5 h-5" />
               </button>
               

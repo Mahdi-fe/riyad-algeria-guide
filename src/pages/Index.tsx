@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { LanguageProvider, useLanguage } from '../hooks/useLanguage';
 import { Toaster } from '@/components/ui/toaster';
@@ -10,6 +11,7 @@ import SectorGrid from '../components/SectorGrid';
 import QuickActions from '../components/QuickActions';
 import BottomNavigation from '../components/BottomNavigation';
 import SettingsModal from '../components/SettingsModal';
+import NotificationsModal from '../components/NotificationsModal';
 import SectorDetail from '../components/SectorDetail';
 import LegalConsultationPayment from '../components/LegalConsultationPayment';
 import LocationSearch from '../components/LocationSearch';
@@ -36,6 +38,7 @@ const MainContent = ({
   isLegalConsultationBoxOpen,
   isConsultationInterfaceOpen,
   isBiometricTrackingOpen,
+  isNotificationsModalOpen,
   biometricTrackingType,
   selectedDocument,
   darkMode,
@@ -57,6 +60,7 @@ const MainContent = ({
   setIsLegalConsultationBoxOpen,
   setIsConsultationInterfaceOpen,
   setIsBiometricTrackingOpen,
+  setIsNotificationsModalOpen,
   setActiveSector,
   handleLogout,
   handleServiceSelect
@@ -97,13 +101,20 @@ const MainContent = ({
                   userType={userType} 
                   onLogout={handleLogout}
                   onServiceSelect={handleServiceSelect}
+                  onSettingsClick={() => setIsSettingsModalOpen(true)}
+                  onNotificationsClick={() => setIsNotificationsModalOpen(true)}
                 />
                 
                 <div className="flex-1 overflow-y-auto mobile-scroll scrollbar-professional">
                   {activeTab === 'home' && (
                     <>
                       <SectorGrid onSectorClick={handleSectorClick} userType={userType} />
-                      <QuickActions onActionClick={handleActionClick} userType={userType} />
+                      <QuickActions 
+                        onActionClick={handleActionClick} 
+                        userType={userType}
+                        onSettingsClick={() => setIsSettingsModalOpen(true)}
+                        onNotificationsClick={() => setIsNotificationsModalOpen(true)}
+                      />
                     </>
                   )}
                   
@@ -205,6 +216,11 @@ const MainContent = ({
           onDarkModeToggle={toggleDarkMode}
         />
 
+        <NotificationsModal
+          isOpen={isNotificationsModalOpen}
+          onClose={() => setIsNotificationsModalOpen(false)}
+        />
+
         <LocationSearch
           isOpen={isLocationSearchOpen}
           onClose={() => setIsLocationSearchOpen(false)}
@@ -267,6 +283,7 @@ const Index = () => {
   const [biometricTrackingType, setBiometricTrackingType] = useState<'passport' | 'id'>('passport');
   const [selectedDocument, setSelectedDocument] = useState<string | null>(null);
   const [darkMode, setDarkMode] = useState(false);
+  const [isNotificationsModalOpen, setIsNotificationsModalOpen] = useState(false);
 
   // Check for saved user data on app load
   useEffect(() => {
@@ -327,8 +344,8 @@ const Index = () => {
 
   const handleActionClick = (action: string) => {
     switch (action) {
-      case 'consultation':
-        setIsConsultationInterfaceOpen(true);
+      case 'administrative_consultation':
+        setIsAdministrativeConsultationOpen(true);
         break;
       case 'templates':
         setIsDocumentTemplatesOpen(true);
@@ -399,6 +416,7 @@ const Index = () => {
         isLegalConsultationBoxOpen={isLegalConsultationBoxOpen}
         isConsultationInterfaceOpen={isConsultationInterfaceOpen}
         isBiometricTrackingOpen={isBiometricTrackingOpen}
+        isNotificationsModalOpen={isNotificationsModalOpen}
         biometricTrackingType={biometricTrackingType}
         selectedDocument={selectedDocument}
         darkMode={darkMode}
@@ -420,6 +438,7 @@ const Index = () => {
         setIsLegalConsultationBoxOpen={setIsLegalConsultationBoxOpen}
         setIsConsultationInterfaceOpen={setIsConsultationInterfaceOpen}
         setIsBiometricTrackingOpen={setIsBiometricTrackingOpen}
+        setIsNotificationsModalOpen={setIsNotificationsModalOpen}
         setActiveSector={setActiveSector}
         handleLogout={handleLogout}
         handleServiceSelect={handleServiceSelect}
